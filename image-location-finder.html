@@ -87,43 +87,45 @@
 <div id="header-placeholder"></div>
 
 <!-- Main Content -->
-<main class="flex-grow pt-8 pb-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col md:flex-row gap-gutter">
-<div class="w-full md:w-1/3 flex flex-col gap-6">
-<div>
-<h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">Image Location Finder</h1>
-<p class="text-on-surface-variant font-body-md text-body-md">Extract GPS metadata from your photos instantly to reveal their exact locations on interactive maps.</p>
-</div>
-<div class="glass-panel rounded-2xl p-8 border-2 border-dashed border-outline-variant hover:border-secondary transition-colors duration-400 ease-out-expo flex flex-col items-center justify-center text-center cursor-pointer min-h-[250px] relative overflow-hidden group" id="drop-zone" onclick="document.getElementById('file-input').click()">
-<input accept="image/*" class="hidden" id="file-input" type="file"/>
-<div class="bg-surface-container rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-4xl text-secondary">cloud_upload</span>
-</div>
-<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Upload Photo</h3>
-<p class="text-on-surface-variant font-body-md text-body-md mb-4">Drag and drop your image here, or click to browse.</p>
-<p class="text-outline font-label-md text-label-md text-xs uppercase tracking-wider">Supports JPG, PNG, WEBP, HEIC</p>
-</div>
-<div class="glass-panel rounded-xl p-6 flex flex-col gap-4">
-<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary flex items-center gap-2">
-<span class="material-symbols-outlined text-secondary">info</span> EXIF Data
+<main class="flex-grow pt-8 pb-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+    <div class="flex flex-col md:flex-row gap-gutter">
+        <div class="w-full md:w-1/3 flex flex-col gap-6">
+            <div>
+                <h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">Image Location Finder</h1>
+                <p class="text-on-surface-variant font-body-md text-body-md">Extract GPS metadata from your photos instantly to reveal their exact locations on interactive maps.</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-8 border-2 border-dashed border-outline-variant hover:border-secondary transition-colors duration-400 ease-out-expo flex flex-col items-center justify-center text-center cursor-pointer min-h-[250px] relative overflow-hidden group" id="drop-zone" onclick="document.getElementById('file-input').click()">
+                <input accept="image/*" class="hidden" id="file-input" type="file"/>
+                <div class="bg-surface-container rounded-full p-4 mb-4 group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-4xl text-secondary">cloud_upload</span>
+                </div>
+                <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Upload Photo</h3>
+                <p class="text-on-surface-variant font-body-md text-body-md mb-4">Drag and drop your image here, or click to browse.</p>
+                <p class="text-outline font-label-md text-label-md text-xs uppercase tracking-wider">Supports JPG, PNG, WEBP, HEIC</p>
+            </div>
+            <div class="glass-panel rounded-xl p-6 flex flex-col gap-4">
+                <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary flex items-center gap-2">
+                    <span class="material-symbols-outlined text-secondary">info</span> EXIF Data
                 </h3>
-<div class="grid grid-cols-2 gap-4">
-<div class="flex flex-col">
-<label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Latitude</label>
-<div id="finder-lat" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
-</div>
-<div class="flex flex-col">
-<label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Longitude</label>
-<div id="finder-lng" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
-</div>
-</div>
-<div id="finder-status" class="text-xs text-on-surface-variant italic hidden"></div>
-</div>
-</div>
-<div class="w-full md:w-2/3 flex flex-col min-h-[500px] relative">
-<div class="glass-panel rounded-2xl overflow-hidden shadow-glass flex-grow relative bg-surface-container-lowest border border-outline-variant/20">
-<div id="finder-map" class="w-full h-full min-h-[500px]"></div>
-</div>
-</div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Latitude</label>
+                        <div id="finder-lat" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Longitude</label>
+                        <div id="finder-lng" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
+                    </div>
+                </div>
+                <div id="finder-status" class="text-xs text-on-surface-variant italic hidden"></div>
+            </div>
+        </div>
+        <div class="w-full md:w-2/3 flex flex-col min-h-[500px] relative">
+            <div class="glass-panel rounded-2xl overflow-hidden shadow-glass flex-grow relative bg-surface-container-lowest border border-outline-variant/20">
+                <div id="finder-map" class="w-full h-full min-h-[500px]"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Comprehensive SEO Content Section (500+ Words) -->
     <article class="mt-16 border-t border-outline-variant/30 pt-16 space-y-16 w-full">
