@@ -77,7 +77,11 @@
         .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05); }
         .gradient-btn { background: linear-gradient(135deg, #2563EB, #1D4ED8); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="/components.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+<script src="/exif-parser.js"></script>
 </head>
 <body class="font-body-lg text-body-lg text-on-surface bg-background min-h-screen flex flex-col pt-16">
 <div id="header-placeholder"></div>
@@ -105,18 +109,19 @@
 <div class="grid grid-cols-2 gap-4">
 <div class="flex flex-col">
 <label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Latitude</label>
-<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary">37.7749° N</div>
+<div id="finder-lat" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
 </div>
 <div class="flex flex-col">
 <label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Longitude</label>
-<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary">122.4194° W</div>
+<div id="finder-lng" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
 </div>
 </div>
+<div id="finder-status" class="text-xs text-on-surface-variant italic hidden"></div>
 </div>
 </div>
 <div class="w-full md:w-2/3 flex flex-col min-h-[500px] relative">
 <div class="glass-panel rounded-2xl overflow-hidden shadow-glass flex-grow relative bg-surface-container-lowest border border-outline-variant/20">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3lTmwdiV2E8aYJFkakO0wOfjXOY22QKWcMm6mkyf-wGypKE6o-KYRrqAf-VVpGgyDkQlQ7ep7zGjdilumox0vXN1hGBiez1Ywdop_Z9h28bzAWJrfzEuhrM5YfdsOmkx070odWvt1InBli2DmybicB7zQcAfmu7L83sWEmB6kJ7WBAsFQpPe4q3mKvJIrDJDC3Y428qD-Zfdz2qujpjXtlBRp-7KmEDI4eKz0pxvvwI1xkkNMyWUs"/>
+<div id="finder-map" class="w-full h-full min-h-[500px]"></div>
 </div>
 </div>
 
@@ -202,52 +207,111 @@
 
 <div id="footer-placeholder"></div>
 <script>
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
+    let finderMap = null;
+    let finderMarker = null;
 
-    if (dropZone && fileInput) {
-        dropZone.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
-                fileInput.click();
-            }
-        });
+    document.addEventListener("DOMContentLoaded", () => {
+        initFinderMap();
+        initFinderTool();
+    });
 
-        fileInput.addEventListener('change', (e) => {
-            if (fileInput.files && fileInput.files[0]) {
-                handleLocationFile(fileInput.files[0]);
-            }
-        });
+    function initFinderMap() {
+        finderMap = L.map('finder-map').setView([20.0, 0.0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(finderMap);
+    }
 
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+    function initFinderTool() {
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        if (dropZone && fileInput) {
+            dropZone.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+                    fileInput.click();
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (fileInput.files && fileInput.files[0]) {
+                    handleLocationFile(fileInput.files[0]);
+                }
+            });
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                let files = e.dataTransfer.files;
+                if (files && files[0]) {
+                    handleLocationFile(files[0]);
+                }
             }, false);
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            let files = e.dataTransfer.files;
-            if (files && files[0]) {
-                handleLocationFile(files[0]);
-            }
-        }, false);
-
-        function handleLocationFile(file) {
-            const imageUrl = URL.createObjectURL(file);
-            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-
-            dropZone.innerHTML = `
-                <div class="relative w-full h-full flex flex-col items-center justify-center p-2">
-                    <img src="${imageUrl}" alt="${file.name}" class="max-h-[160px] w-auto object-contain rounded-xl shadow-md mb-2" />
-                    <span class="font-bold text-sm text-primary truncate max-w-full">${file.name}</span>
-                    <span class="text-xs font-mono-data text-on-surface-variant">${fileSizeMB} MB</span>
-                    <button type="button" onclick="location.reload()" class="mt-2 text-xs text-secondary hover:underline font-semibold flex items-center gap-1">
-                        <span class="material-symbols-outlined text-xs">refresh</span> Change Image
-                    </button>
-                </div>
-            `;
         }
     }
+
+    function handleLocationFile(file) {
+        const imageUrl = URL.createObjectURL(file);
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        const dropZone = document.getElementById('drop-zone');
+
+        dropZone.innerHTML = `
+            <div class="relative w-full h-full flex flex-col items-center justify-center p-2">
+                <img src="${imageUrl}" alt="${file.name}" class="max-h-[160px] w-auto object-contain rounded-xl shadow-md mb-2" />
+                <span class="font-bold text-sm text-primary truncate max-w-full">${file.name}</span>
+                <span class="text-xs font-mono-data text-on-surface-variant">${fileSizeMB} MB</span>
+                <button type="button" onclick="location.reload()" class="mt-2 text-xs text-secondary hover:underline font-semibold flex items-center gap-1">
+                    <span class="material-symbols-outlined text-xs">refresh</span> Change Image
+                </button>
+            </div>
+        `;
+
+        parsePhotoExifData(file, (data, err) => {
+            const statusBox = document.getElementById('finder-status');
+
+            if (err || !data || !data.hasGps) {
+                document.getElementById('finder-lat').innerText = 'Not Found';
+                document.getElementById('finder-lng').innerText = 'Not Found';
+                if (statusBox) {
+                    statusBox.innerText = '⚠️ No GPS location metadata found in this photo. Use our Add Geotag tool to set a location.';
+                    statusBox.classList.remove('hidden');
+                }
+                return;
+            }
+
+            document.getElementById('finder-lat').innerText = data.latFormatted;
+            document.getElementById('finder-lng').innerText = data.lngFormatted;
+
+            if (statusBox) {
+                statusBox.innerText = '✓ Embedded GPS coordinates detected!';
+                statusBox.classList.remove('hidden');
+            }
+
+            if (finderMap) {
+                if (finderMarker) finderMap.removeLayer(finderMarker);
+                const blueIcon = L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+
+                finderMarker = L.marker([data.latitude, data.longitude], { icon: blueIcon }).addTo(finderMap);
+                finderMap.setView([data.latitude, data.longitude], 14);
+                finderMarker.bindPopup(`<b>Photo Capture Location</b><br>Lat: ${data.latitude.toFixed(6)}<br>Lng: ${data.longitude.toFixed(6)}`).openPopup();
+            }
+        });
+    }
 </script>
+</body>
+</html>
 </body>
 </html>

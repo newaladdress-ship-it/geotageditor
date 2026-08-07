@@ -76,6 +76,8 @@
         .gradient-btn { background: linear-gradient(135deg, #2563EB, #1D4ED8); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
     </style>
 <script src="/components.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+<script src="/exif-parser.js"></script>
 </head>
 <body class="font-body-lg text-body-lg text-on-surface bg-background min-h-screen flex flex-col pt-16">
 <div id="header-placeholder"></div>
@@ -106,15 +108,15 @@
 <div class="flex flex-col gap-2">
 <div class="flex justify-between items-center py-2 border-b border-outline-variant/20">
 <span class="text-on-surface-variant font-label-md text-sm">Latitude</span>
-<span class="font-mono-data text-primary">37.774929° N</span>
+<span id="exif-lat" class="font-mono-data text-primary font-bold">Select a photo</span>
 </div>
 <div class="flex justify-between items-center py-2 border-b border-outline-variant/20">
 <span class="text-on-surface-variant font-label-md text-sm">Longitude</span>
-<span class="font-mono-data text-primary">122.419416° W</span>
+<span id="exif-lng" class="font-mono-data text-primary font-bold">Select a photo</span>
 </div>
 <div class="flex justify-between items-center py-2">
 <span class="text-on-surface-variant font-label-md text-sm">Altitude</span>
-<span class="font-mono-data text-primary">15.4m</span>
+<span id="exif-alt" class="font-mono-data text-primary">--</span>
 </div>
 </div>
 </div>
@@ -125,35 +127,35 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Camera Make</p>
-<p class="font-headline-lg-mobile text-primary text-lg">Sony</p>
+<p id="exif-make" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Camera Model</p>
-<p class="font-headline-lg-mobile text-primary text-lg">ILCE-7RM4</p>
+<p id="exif-model" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Lens</p>
-<p class="font-headline-lg-mobile text-primary text-lg">FE 24-70mm F2.8 GM</p>
+<p id="exif-lens" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Focal Length</p>
-<p class="font-headline-lg-mobile text-primary text-lg">35.0 mm</p>
+<p id="exif-focal" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Aperture</p>
-<p class="font-headline-lg-mobile text-primary text-lg">f/2.8</p>
+<p id="exif-aperture" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Shutter Speed</p>
-<p class="font-headline-lg-mobile text-primary text-lg">1/500 sec</p>
+<p id="exif-shutter" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">ISO Speed</p>
-<p class="font-headline-lg-mobile text-primary text-lg">100</p>
+<p id="exif-iso" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-4">
 <p class="text-on-surface-variant text-xs uppercase font-label-md">Date Taken</p>
-<p class="font-headline-lg-mobile text-primary text-lg">2026:01:15 14:22:08</p>
+<p id="exif-date" class="font-headline-lg-mobile text-primary text-lg">--</p>
 </div>
 </div>
 </div>
@@ -291,8 +293,33 @@
                     </button>
                 </div>
             `;
+
+            parsePhotoExifData(file, (data, err) => {
+                if (err || !data) {
+                    console.warn("Could not parse EXIF:", err);
+                    document.getElementById('exif-lat').innerText = 'Not Found';
+                    document.getElementById('exif-lng').innerText = 'Not Found';
+                    document.getElementById('exif-alt').innerText = 'N/A';
+                    return;
+                }
+
+                document.getElementById('exif-lat').innerText = data.latFormatted;
+                document.getElementById('exif-lng').innerText = data.lngFormatted;
+                document.getElementById('exif-alt').innerText = data.altitude;
+
+                document.getElementById('exif-make').innerText = data.make;
+                document.getElementById('exif-model').innerText = data.model;
+                document.getElementById('exif-lens').innerText = data.lens;
+                document.getElementById('exif-focal').innerText = data.focalLength;
+                document.getElementById('exif-aperture').innerText = data.aperture;
+                document.getElementById('exif-shutter').innerText = data.shutter;
+                document.getElementById('exif-iso').innerText = data.iso;
+                document.getElementById('exif-date').innerText = data.dateTaken;
+            });
         }
     }
 </script>
+</body>
+</html>
 </body>
 </html>
