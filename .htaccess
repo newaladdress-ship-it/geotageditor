@@ -1,0 +1,19 @@
+# Apache / LiteSpeed Rewrite Rules for Clean URLs
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. Redirect direct requests for index.html to /
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+    RewriteRule ^index\.html$ / [R=301,L]
+
+    # 2. Redirect direct requests for *.html to clean URLs (301 Permanent Redirect)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+)\.html\ HTTP/
+    RewriteRule ^([^/]+)\.html$ /%1 [R=301,L]
+
+    # 3. Rewrite extensionless URLs to .html files internally
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}\.html -f
+    RewriteRule ^([^/]+)/?$ %{REQUEST_FILENAME}.html [L]
+</IfModule>
