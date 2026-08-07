@@ -137,7 +137,7 @@
 
             <!-- Coordinate Controls Panel -->
             <div class="glass-card rounded-2xl p-6 space-y-4 border border-outline-variant/30 shadow-sm">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between flex-wrap gap-2">
                     <h3 class="font-bold text-primary text-base flex items-center gap-2">
                         <span class="material-symbols-outlined text-secondary">pin_drop</span>
                         GPS Location Coordinates
@@ -163,9 +163,35 @@
                     </div>
                 </div>
 
+                <!-- 9. Quick Metadata Actions Bar -->
+                <div class="flex flex-wrap gap-2 pt-1 border-t border-outline-variant/20">
+                    <button type="button" onclick="copyCoordinates()" class="text-xs font-medium text-on-surface-variant bg-surface hover:bg-surface-container-high px-2.5 py-1.5 rounded-lg border border-outline-variant/30 flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-sm text-secondary">content_copy</span>
+                        Copy Coordinates
+                    </button>
+                    <button type="button" onclick="pasteCoordinates()" class="text-xs font-medium text-on-surface-variant bg-surface hover:bg-surface-container-high px-2.5 py-1.5 rounded-lg border border-outline-variant/30 flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-sm text-secondary">content_paste</span>
+                        Paste Coordinates
+                    </button>
+                    <button type="button" onclick="clearMetadataFields()" class="text-xs font-medium text-on-surface-variant bg-surface hover:bg-surface-container-high px-2.5 py-1.5 rounded-lg border border-outline-variant/30 flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-sm text-amber-600">cleaning_services</span>
+                        Clear Metadata
+                    </button>
+                    <button type="button" onclick="removeGpsData()" class="text-xs font-medium text-error bg-error/5 hover:bg-error/10 px-2.5 py-1.5 rounded-lg border border-error/20 flex items-center gap-1 transition-colors">
+                        <span class="material-symbols-outlined text-sm">location_off</span>
+                        Remove GPS Data
+                    </button>
+                </div>
+
                 <div id="geo-status" class="text-xs text-emerald-600 font-medium hidden flex items-center gap-1">
                     <span class="material-symbols-outlined text-sm">check_circle</span>
                     <span>Location updated successfully</span>
+                </div>
+
+                <!-- 12. Privacy Badge -->
+                <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 text-xs font-medium">
+                    <span class="material-symbols-outlined text-sm">lock</span>
+                    <span>🔒 Processed entirely in your browser. Your photos never leave your device.</span>
                 </div>
 
                 <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-3">
@@ -181,6 +207,218 @@
                         <span class="material-symbols-outlined text-lg">refresh</span>
                         Reset
                     </button>
+                </div>
+            </div>
+
+            <!-- EXPANDABLE ADVANCED METADATA CARD (OPTIONAL) -->
+            <div class="glass-card rounded-2xl border border-outline-variant/30 overflow-hidden shadow-sm transition-all duration-300">
+                <button type="button" onclick="toggleAdvancedMetadata()" class="w-full p-5 flex items-center justify-between bg-surface-container-lowest hover:bg-surface-container-low transition-colors text-left border-b border-outline-variant/20">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 rounded-xl bg-secondary/10 text-secondary">
+                            <span class="material-symbols-outlined text-xl">tune</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-primary text-base">Advanced Metadata (Optional)</h4>
+                            <p class="text-xs text-on-surface-variant">Rename file, photo title, SEO keywords, copyright, address &amp; EXIF details</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold text-secondary bg-secondary/10 px-2.5 py-1 rounded-full">Optional</span>
+                        <span id="advanced-toggle-icon" class="material-symbols-outlined text-primary transition-transform duration-300">expand_more</span>
+                    </div>
+                </button>
+
+                <div id="advanced-metadata-panel" class="hidden p-6 space-y-6 bg-surface">
+                    <!-- 1. Image Rename -->
+                    <div class="space-y-3 pb-4 border-b border-outline-variant/20">
+                        <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-base">edit_note</span>
+                            1. Image Rename
+                        </h5>
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">New File Name</label>
+                            <input type="text" id="meta-filename" oninput="updateDownloadPreview()" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="beach-sunset-miami-2026.jpg" />
+                            <p class="text-[11px] text-on-surface-variant mt-1">Allow users to rename the downloaded image before exporting.</p>
+                        </div>
+                        <label class="flex items-center gap-2 text-xs text-on-surface cursor-pointer">
+                            <input type="checkbox" id="meta-keep-name" onchange="toggleKeepFilename()" class="rounded text-secondary focus:ring-secondary" />
+                            <span>Keep original file name</span>
+                        </label>
+                    </div>
+
+                    <!-- 2. Photo Title & 3. Description -->
+                    <div class="grid grid-cols-1 gap-4 pb-4 border-b border-outline-variant/20">
+                        <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-base">title</span>
+                            2. Title &amp; Description
+                        </h5>
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Photo Title</label>
+                            <input type="text" id="meta-title" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="Luxury Apartment Exterior" />
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Image Description</label>
+                            <textarea id="meta-description" rows="3" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="Beautiful sunset view captured from the rooftop in Miami Beach."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 4. SEO Keywords / Tags -->
+                    <div class="space-y-3 pb-4 border-b border-outline-variant/20">
+                        <div class="flex items-center justify-between">
+                            <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary text-base">label</span>
+                                4. SEO Keywords / Tags
+                            </h5>
+                            <span id="meta-keywords-count" class="text-xs text-on-surface-variant font-mono">0 keywords</span>
+                        </div>
+                        <div>
+                            <input type="text" id="meta-keywords-input" onkeydown="handleKeywordKeydown(event)" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="real estate, miami, apartment, beach, florida (Press Enter to add)" />
+                            <p class="text-[11px] text-on-surface-variant mt-1">Press Enter or comma to create keyword tags.</p>
+                        </div>
+                        <div id="meta-keywords-container" class="flex flex-wrap gap-1.5 pt-1"></div>
+                    </div>
+
+                    <!-- 5. Author Information -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-outline-variant/20">
+                        <h5 class="sm:col-span-2 text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-base">person</span>
+                            5. Author &amp; Copyright Information
+                        </h5>
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Photographer / Author Name</label>
+                            <input type="text" id="meta-author" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="John Smith" />
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Copyright</label>
+                            <input type="text" id="meta-copyright" class="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="© 2026 John Smith" />
+                        </div>
+                    </div>
+
+                    <!-- 6. Location Details -->
+                    <div class="space-y-3 pb-4 border-b border-outline-variant/20">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary text-base">location_city</span>
+                                6. Location Details
+                            </h5>
+                            <button type="button" onclick="autoFillLocationDetails()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1 rounded-lg flex items-center gap-1 transition-colors">
+                                <span class="material-symbols-outlined text-sm">auto_fix_high</span>
+                                Auto Fill from Coordinates
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Country</label>
+                                <input type="text" id="meta-country" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="United States" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">State / Province</label>
+                                <input type="text" id="meta-state" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="Florida" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">City</label>
+                                <input type="text" id="meta-city" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="Miami" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Street Address</label>
+                                <input type="text" id="meta-address" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="Ocean Drive 100" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. GPS Advanced Settings -->
+                    <div class="space-y-3 pb-4 border-b border-outline-variant/20">
+                        <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-base">explore</span>
+                            7. GPS Advanced Settings
+                        </h5>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Altitude (m)</label>
+                                <input type="text" id="meta-altitude" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm font-mono focus:outline-none focus:border-secondary" placeholder="15.4" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Heading (°)</label>
+                                <input type="text" id="meta-heading" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm font-mono focus:outline-none focus:border-secondary" placeholder="180" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Accuracy (m)</label>
+                                <input type="text" id="meta-accuracy" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm font-mono focus:outline-none focus:border-secondary" placeholder="5" />
+                            </div>
+                            <div class="col-span-2 sm:col-span-2">
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Capture Time</label>
+                                <input type="datetime-local" id="meta-capture-time" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" />
+                            </div>
+                            <div>
+                                <label class="block text-[11px] uppercase font-semibold text-on-surface-variant mb-1">Time Zone</label>
+                                <input type="text" id="meta-timezone" class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest border border-outline-variant/40 text-sm focus:outline-none focus:border-secondary" placeholder="UTC-5" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 8. EXIF Inspector -->
+                    <div id="meta-exif-inspector" class="space-y-3 pb-4 border-b border-outline-variant/20">
+                        <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-base">photo_camera</span>
+                            8. Extracted Photo EXIF Inspector
+                        </h5>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
+                            <div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/30">
+                                <span class="text-on-surface-variant/70 block text-[10px]">Camera</span>
+                                <span id="inspect-camera" class="font-bold text-primary truncate block">--</span>
+                            </div>
+                            <div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/30">
+                                <span class="text-on-surface-variant/70 block text-[10px]">Lens</span>
+                                <span id="inspect-lens" class="font-bold text-primary truncate block">--</span>
+                            </div>
+                            <div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/30">
+                                <span class="text-on-surface-variant/70 block text-[10px]">ISO / Aperture</span>
+                                <span id="inspect-exposure" class="font-bold text-primary truncate block">--</span>
+                            </div>
+                            <div class="bg-surface-container-lowest p-2 rounded-lg border border-outline-variant/30">
+                                <span class="text-on-surface-variant/70 block text-[10px]">Resolution</span>
+                                <span id="inspect-resolution" class="font-bold text-primary truncate block">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10. Bulk Mode Settings (Visible when > 1 uploaded) -->
+                    <div id="meta-bulk-settings" class="space-y-3 pb-4 border-b border-outline-variant/20 hidden">
+                        <h5 class="text-sm font-bold text-primary flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-base">library_add_check</span>
+                            10. Bulk Mode Settings
+                        </h5>
+                        <div class="p-3 bg-secondary/5 border border-secondary/20 rounded-xl space-y-2 text-xs text-on-surface">
+                            <div class="font-semibold text-secondary flex items-center gap-1 mb-1">
+                                <span class="material-symbols-outlined text-sm">info</span>
+                                <span>Coordinates will be applied to all uploaded images.</span>
+                            </div>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="bulk-apply-all" checked class="rounded text-secondary" />
+                                <span>Apply metadata to all images</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="bulk-auto-rename" class="rounded text-secondary" />
+                                <span>Rename files automatically (photo_1.jpg, photo_2.jpg)</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="bulk-keep-timestamps" checked class="rounded text-secondary" />
+                                <span>Keep original timestamps</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 11. Export & Download Preview Section -->
+                    <div class="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl space-y-2 text-xs">
+                        <h5 class="font-bold text-primary text-xs flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-secondary text-sm">preview</span>
+                            11. Export File Preview
+                        </h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-on-surface-variant font-mono">
+                            <div><span class="font-semibold text-primary">Filename:</span> <span id="preview-filename-text">photo_geotagged.jpg</span></div>
+                            <div><span class="font-semibold text-primary">GPS Preview:</span> <span id="preview-gps-text">No GPS Set</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -740,19 +978,226 @@
             return;
         }
 
-        const activeImg = uploadedImages[activeImageIndex];
-        activeImg.lat = latNum.toFixed(6);
-        activeImg.lng = lngNum.toFixed(6);
-        activeImg.saved = true;
+    let metaKeywordsArray = [];
 
-        if (blueMarker && leafletMap) {
-            blueMarker.setLatLng([latNum, lngNum]);
-            leafletMap.setView([latNum, lngNum], 15);
-            blueMarker.setPopupContent("<b>Confirmed Geotag Coordinates</b><br>Lat: " + activeImg.lat + "<br>Lng: " + activeImg.lng).openPopup();
+    function toggleAdvancedMetadata() {
+        const panel = document.getElementById('advanced-metadata-panel');
+        const icon = document.getElementById('advanced-toggle-icon');
+        if (panel) {
+            panel.classList.toggle('hidden');
+            if (icon) {
+                icon.style.transform = panel.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+    }
+
+    function copyCoordinates() {
+        const lat = document.getElementById('latitude')?.value;
+        const lng = document.getElementById('longitude')?.value;
+        if (!lat || !lng) {
+            alert("No coordinates to copy. Please select or enter latitude and longitude first.");
+            return;
+        }
+        const text = `${lat}, ${lng}`;
+        navigator.clipboard.writeText(text).then(() => {
+            showGeoStatus("✓ Coordinates copied to clipboard: " + text);
+        }).catch(() => {
+            alert("Coordinates: " + text);
+        });
+    }
+
+    async function pasteCoordinates() {
+        try {
+            const text = await navigator.clipboard.readText();
+            const parts = text.split(/[\s,]+/);
+            if (parts.length >= 2) {
+                const lat = parseFloat(parts[0]);
+                const lng = parseFloat(parts[1]);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    updateActiveCoordinates(lat.toFixed(6), lng.toFixed(6));
+                    if (blueMarker && leafletMap) {
+                        blueMarker.setLatLng([lat, lng]);
+                        leafletMap.setView([lat, lng], 15);
+                    }
+                    showGeoStatus("✓ Pasted coordinates: " + lat.toFixed(6) + ", " + lng.toFixed(6));
+                } else {
+                    alert("Clipboard text is not a valid coordinate format (e.g. 37.774929, -122.419416)");
+                }
+            }
+        } catch (err) {
+            alert("Clipboard permission denied. Please paste coordinates manually.");
+        }
+    }
+
+    function clearMetadataFields() {
+        ['meta-filename', 'meta-title', 'meta-description', 'meta-author', 'meta-copyright', 'meta-country', 'meta-state', 'meta-city', 'meta-address', 'meta-altitude', 'meta-heading', 'meta-accuracy', 'meta-capture-time', 'meta-timezone'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        metaKeywordsArray = [];
+        renderKeywordsTags();
+        showGeoStatus("✓ Advanced metadata fields cleared");
+    }
+
+    function removeGpsData() {
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+        if (latInput) latInput.value = '';
+        if (lngInput) lngInput.value = '';
+        if (uploadedImages && uploadedImages[activeImageIndex]) {
+            uploadedImages[activeImageIndex].lat = '';
+            uploadedImages[activeImageIndex].lng = '';
+            renderImageGalleryQuiet();
+        }
+        updateDownloadPreview();
+        showGeoStatus("✓ GPS data removed");
+    }
+
+    function handleKeywordKeydown(e) {
+        if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            const val = e.target.value.replace(/,/g, '').trim();
+            if (val && !metaKeywordsArray.includes(val)) {
+                metaKeywordsArray.push(val);
+                e.target.value = '';
+                renderKeywordsTags();
+            }
+        }
+    }
+
+    function removeKeywordTag(idx) {
+        metaKeywordsArray.splice(idx, 1);
+        renderKeywordsTags();
+    }
+
+    function renderKeywordsTags() {
+        const container = document.getElementById('meta-keywords-container');
+        const countSpan = document.getElementById('meta-keywords-count');
+        if (countSpan) countSpan.innerText = `${metaKeywordsArray.length} keyword(s)`;
+
+        if (container) {
+            container.innerHTML = metaKeywordsArray.map((kw, idx) => `
+                <span class="inline-flex items-center gap-1 bg-secondary/10 text-secondary text-xs font-semibold px-2.5 py-1 rounded-full border border-secondary/20">
+                    <span>${kw}</span>
+                    <button type="button" onclick="removeKeywordTag(${idx})" class="hover:text-error transition-colors">×</button>
+                </span>
+            `).join('');
+        }
+    }
+
+    async function autoFillLocationDetails() {
+        const lat = document.getElementById('latitude')?.value;
+        const lng = document.getElementById('longitude')?.value;
+
+        if (!lat || !lng) {
+            alert("Please enter or select Latitude and Longitude first before auto-filling location details.");
+            return;
         }
 
-        renderImageGalleryQuiet();
-        showGeoStatus(`✓ Coordinates (${activeImg.lat}, ${activeImg.lng}) completely added to "${activeImg.name}"!`);
+        try {
+            showGeoStatus("⏳ Fetching location details from coordinates...");
+            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+            if (!res.ok) throw new Error("Reverse geocoding failed");
+            const data = await res.json();
+            if (data && data.address) {
+                const addr = data.address;
+                if (document.getElementById('meta-country')) document.getElementById('meta-country').value = addr.country || '';
+                if (document.getElementById('meta-state')) document.getElementById('meta-state').value = addr.state || addr.region || '';
+                if (document.getElementById('meta-city')) document.getElementById('meta-city').value = addr.city || addr.town || addr.village || addr.suburb || '';
+                if (document.getElementById('meta-address')) document.getElementById('meta-address').value = [addr.road, addr.house_number].filter(Boolean).join(' ') || (data.display_name ? data.display_name.split(',')[0] : '');
+
+                showGeoStatus(`✓ Location details auto-filled: ${addr.city || addr.town || ''}, ${addr.country || ''}`);
+            }
+        } catch (err) {
+            console.warn("Reverse geocoding error:", err);
+            alert("Unable to auto-fetch address for these coordinates. You can fill the fields manually.");
+        }
+    }
+
+    function toggleKeepFilename() {
+        const keepCheckbox = document.getElementById('meta-keep-name');
+        const filenameInput = document.getElementById('meta-filename');
+        if (keepCheckbox && filenameInput) {
+            filenameInput.disabled = keepCheckbox.checked;
+            if (keepCheckbox.checked) {
+                filenameInput.classList.add('opacity-50');
+            } else {
+                filenameInput.classList.remove('opacity-50');
+            }
+            updateDownloadPreview();
+        }
+    }
+
+    function updateDownloadPreview() {
+        const previewText = document.getElementById('preview-filename-text');
+        const gpsText = document.getElementById('preview-gps-text');
+        const keepCheckbox = document.getElementById('meta-keep-name');
+        const filenameInput = document.getElementById('meta-filename');
+
+        const lat = document.getElementById('latitude')?.value;
+        const lng = document.getElementById('longitude')?.value;
+
+        if (gpsText) {
+            gpsText.innerText = (lat && lng) ? `${lat}, ${lng}` : 'No GPS Set';
+        }
+
+        if (previewText) {
+            let activeName = 'photo.jpg';
+            if (uploadedImages && uploadedImages[activeImageIndex]) {
+                activeName = uploadedImages[activeImageIndex].name;
+            }
+
+            if (keepCheckbox && keepCheckbox.checked) {
+                previewText.innerText = activeName;
+            } else if (filenameInput && filenameInput.value.trim() !== '') {
+                previewText.innerText = filenameInput.value.trim();
+            } else {
+                const nameParts = activeName.split('.');
+                const ext = nameParts.pop();
+                previewText.innerText = `${nameParts.join('.')}_geotagged.${ext}`;
+            }
+        }
+    }
+
+    function updateActiveCoordinates(latVal, lngVal) {
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+        if (latInput) latInput.value = latVal;
+        if (lngInput) lngInput.value = lngVal;
+
+        if (uploadedImages && uploadedImages[activeImageIndex]) {
+            uploadedImages[activeImageIndex].lat = latVal;
+            uploadedImages[activeImageIndex].lng = lngVal;
+            uploadedImages[activeImageIndex].saved = true;
+            renderImageGalleryQuiet();
+        }
+
+        updateDownloadPreview();
+    }
+
+    function updateExifInspector(file) {
+        if (typeof EXIF !== 'undefined' && file) {
+            EXIF.getData(file, function () {
+                const make = EXIF.getTag(this, "Make") || "";
+                const model = EXIF.getTag(this, "Model") || "";
+                const lens = EXIF.getTag(this, "LensModel") || EXIF.getTag(this, "Undefined") || "Standard Lens";
+                const iso = EXIF.getTag(this, "ISOSpeedRatings") || EXIF.getTag(this, "ISO") || "N/A";
+                let fNum = EXIF.getTag(this, "FNumber");
+                if (fNum && fNum.numerator) fNum = (fNum.numerator / fNum.denominator).toFixed(1);
+
+                const cameraEl = document.getElementById('inspect-camera');
+                const lensEl = document.getElementById('inspect-lens');
+                const expEl = document.getElementById('inspect-exposure');
+                const resEl = document.getElementById('inspect-resolution');
+
+                if (cameraEl) cameraEl.innerText = (make || model) ? `${make} ${model}`.trim() : 'Standard Camera';
+                if (lensEl) lensEl.innerText = lens;
+                if (expEl) expEl.innerText = `ISO ${iso} / f/${fNum || '2.8'}`;
+                if (resEl && uploadedImages[activeImageIndex]) {
+                    resEl.innerText = `${uploadedImages[activeImageIndex].width} x ${uploadedImages[activeImageIndex].height}`;
+                }
+            });
+        }
     }
 
     function downloadGeotaggedImage() {
@@ -770,7 +1215,22 @@
             return;
         }
 
-        geotagImageAndDownload(activeImg.url, activeImg.name, lat, lng);
+        // Determine custom export filename
+        let exportName = activeImg.name;
+        const keepCheckbox = document.getElementById('meta-keep-name');
+        const filenameInput = document.getElementById('meta-filename');
+
+        if (keepCheckbox && keepCheckbox.checked) {
+            exportName = activeImg.name;
+        } else if (filenameInput && filenameInput.value.trim() !== '') {
+            exportName = filenameInput.value.trim();
+        } else {
+            const nameParts = activeImg.name.split('.');
+            const ext = nameParts.pop();
+            exportName = `${nameParts.join('.')}_geotagged.${ext}`;
+        }
+
+        geotagImageAndDownload(activeImg.url, exportName, lat, lng);
     }
 </script>
 </body>
