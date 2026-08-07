@@ -7,9 +7,9 @@ function loadHeader(targetId = "header-placeholder") {
     const target = document.getElementById(targetId);
     if (!target) return;
 
-    fetch("header.html")
+    fetch("/header.html")
         .then(response => {
-            if (!response.ok) throw new Error("Failed to fetch header.html");
+            if (!response.ok) throw new Error("Failed to fetch /header.html");
             return response.text();
         })
         .then(html => {
@@ -27,9 +27,9 @@ function loadFooter(targetId = "footer-placeholder") {
     const target = document.getElementById(targetId);
     if (!target) return;
 
-    fetch("footer.html")
+    fetch("/footer.html")
         .then(response => {
-            if (!response.ok) throw new Error("Failed to fetch footer.html");
+            if (!response.ok) throw new Error("Failed to fetch /footer.html");
             return response.text();
         })
         .then(html => {

@@ -92,7 +92,7 @@
         .drop-zone.dragover { background: rgba(37, 99, 235, 0.05); border-color: #2563EB; }
         #map { z-index: 1; min-height: 420px; }
     </style>
-<script src="components.js"></script>
+<script src="/components.js"></script>
 </head>
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pt-16">
 <div id="header-placeholder"></div>
@@ -150,13 +150,13 @@
                     <div>
                         <label class="block text-xs uppercase font-bold text-on-surface-variant mb-1">Latitude</label>
                         <div class="relative">
-                            <input type="text" id="latitude" value="40.712776" class="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data text-primary focus:outline-none focus:border-secondary shadow-sm" placeholder="40.712776" />
+                            <input type="text" id="latitude" value="" class="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data text-primary focus:outline-none focus:border-secondary shadow-sm" placeholder="e.g. 37.774929" />
                         </div>
                     </div>
                     <div>
                         <label class="block text-xs uppercase font-bold text-on-surface-variant mb-1">Longitude</label>
                         <div class="relative">
-                            <input type="text" id="longitude" value="-74.005974" class="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data text-primary focus:outline-none focus:border-secondary shadow-sm" placeholder="-74.005974" />
+                            <input type="text" id="longitude" value="" class="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data text-primary focus:outline-none focus:border-secondary shadow-sm" placeholder="e.g. -122.419416" />
                         </div>
                     </div>
                 </div>
@@ -460,7 +460,7 @@
                 </div>
             `;
 
-            detectAndApplyCurrentLocation();
+            showGeoStatus("✓ Image uploaded. Click 'Use Current Location', pick a pin on the map, or enter coordinates.");
         };
         img.src = uploadedImageUrl;
     }
@@ -469,27 +469,35 @@
         const latInput = document.getElementById('latitude');
         const lngInput = document.getElementById('longitude');
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    if (latInput) latInput.value = lat.toFixed(6);
-                    if (lngInput) lngInput.value = lng.toFixed(6);
-
-                    if (blueMarker && leafletMap) {
-                        blueMarker.setLatLng([lat, lng]);
-                        leafletMap.panTo([lat, lng]);
-                        blueMarker.setPopupContent("<b>Current Location</b><br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
-                    }
-                    showGeoStatus("✓ Detected & applied current location");
-                },
-                (error) => {
-                    console.warn("Geolocation fallback:", error.message);
-                },
-                { enableHighAccuracy: true, timeout: 5000 }
-            );
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser.");
+            return;
         }
+
+        showGeoStatus("⏳ Fetching device GPS location...");
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                if (latInput) latInput.value = lat.toFixed(6);
+                if (lngInput) lngInput.value = lng.toFixed(6);
+
+                if (blueMarker && leafletMap) {
+                    blueMarker.setLatLng([lat, lng]);
+                    leafletMap.setView([lat, lng], 15);
+                    blueMarker.setPopupContent("<b>Current Device Location</b><br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
+                }
+                showGeoStatus("✓ Device location applied: " + lat.toFixed(6) + ", " + lng.toFixed(6));
+            },
+            (error) => {
+                console.warn("Geolocation error:", error.message);
+                alert("Unable to get current location (" + error.message + "). Please enable location permissions in your browser or select a point on the map.");
+                const statusMsg = document.getElementById('geo-status');
+                if (statusMsg) statusMsg.classList.add('hidden');
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
     }
 
     function showGeoStatus(msg) {
@@ -501,11 +509,16 @@
     }
 
     function downloadGeotaggedImage() {
-        const lat = document.getElementById('latitude')?.value || '40.712776';
-        const lng = document.getElementById('longitude')?.value || '-74.005974';
-
         if (!uploadedImageUrl) {
             alert('Please upload an image first to geotag and download!');
+            return;
+        }
+
+        const lat = document.getElementById('latitude')?.value;
+        const lng = document.getElementById('longitude')?.value;
+
+        if (!lat || !lng) {
+            alert('Please enter or select latitude and longitude coordinates before downloading!');
             return;
         }
 

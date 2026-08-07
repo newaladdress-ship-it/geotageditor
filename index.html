@@ -178,7 +178,7 @@
 <span class="material-symbols-outlined text-[18px]">upload_file</span>
                 Select Photos
             </button>
-<button onclick="if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>alert('Current Location: Lat '+p.coords.latitude+', Lng '+p.coords.longitude))}else{alert('Geolocation not supported')}" class="px-6 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-high font-semibold text-primary flex items-center justify-center gap-2 transition-colors shadow-sm">
+<button onclick="detectAndApplyCurrentLocation()" class="px-6 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-high font-semibold text-primary flex items-center justify-center gap-2 transition-colors shadow-sm">
 <span class="material-symbols-outlined text-secondary text-[18px]">my_location</span>
                 Use Current Location
             </button>
@@ -902,7 +902,7 @@
 </section>
 </main>
 <div id="footer-placeholder"></div>
-<script src="components.js"></script>
+<script src="/components.js"></script>
 <script>
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
@@ -991,11 +991,11 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                                     <div>
                                         <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Latitude</label>
-                                        <input type="text" id="preview-lat" value="40.712776" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
+                                        <input type="text" id="preview-lat" value="" placeholder="e.g. 37.774929" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
                                     </div>
                                     <div>
                                         <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Longitude</label>
-                                        <input type="text" id="preview-lng" value="-74.005974" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
+                                        <input type="text" id="preview-lng" value="" placeholder="e.g. -122.419416" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
                                     </div>
                                 </div>
                                 <div id="geo-status" class="text-xs text-emerald-600 font-medium mb-3 hidden"></div>
@@ -1012,7 +1012,6 @@
                             </div>
                         </div>
                     `;
-                    detectAndApplyCurrentLocation();
                 };
                 img.src = imageUrl;
             }
@@ -1022,23 +1021,33 @@
             const latInput = document.getElementById('preview-lat') || document.getElementById('latitude');
             const lngInput = document.getElementById('preview-lng') || document.getElementById('longitude');
             const statusMsg = document.getElementById('geo-status');
-            
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        if (latInput) latInput.value = position.coords.latitude.toFixed(6);
-                        if (lngInput) lngInput.value = position.coords.longitude.toFixed(6);
-                        if (statusMsg) {
-                            statusMsg.innerText = "✓ Detected current location automatically";
-                            statusMsg.classList.remove('hidden');
-                        }
-                    },
-                    (error) => {
-                        console.warn("Geolocation fallback used:", error.message);
-                    },
-                    { enableHighAccuracy: true, timeout: 5000 }
-                );
+
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser.");
+                return;
             }
+
+            if (statusMsg) {
+                statusMsg.innerText = "⏳ Fetching device GPS location...";
+                statusMsg.classList.remove('hidden');
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    if (latInput) latInput.value = lat.toFixed(6);
+                    if (lngInput) lngInput.value = lng.toFixed(6);
+                    if (statusMsg) {
+                        statusMsg.innerText = "✓ Applied device location: " + lat.toFixed(6) + ", " + lng.toFixed(6);
+                        statusMsg.classList.remove('hidden');
+                    }
+                },
+                (error) => {
+                    alert("Unable to get location (" + error.message + "). Please allow location access in your browser.");
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
         }
 
         function downloadGeotaggedImage(fileName, imageUrl) {

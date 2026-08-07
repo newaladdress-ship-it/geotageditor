@@ -115,7 +115,7 @@
             box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
             transform: scale(1.02);
         }
-    <script src="components.js"></script>
+    <script src="/components.js"></script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-16">
 <div id="header-placeholder"></div>
@@ -185,20 +185,30 @@
 </div>
 <div class="lg:col-span-4 flex flex-col gap-gutter">
 <div class="glass-panel rounded-xl p-6">
-<h3 class="font-headline-lg-mobile text-headline-lg-mobile mb-4 flex items-center gap-2 text-primary">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile flex items-center gap-2 text-primary">
 <span class="material-symbols-outlined text-secondary">public</span>
                         Preset Coordinates
                     </h3>
+<button type="button" onclick="applyBulkCurrentLocation()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-2.5 py-1 rounded-lg flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-sm">my_location</span>
+                        Current Location
+                    </button>
+</div>
 <p class="text-on-surface-variant text-sm mb-6">Apply these coordinates to all uploaded files instantly.</p>
 <div class="space-y-4 mb-6">
 <div>
 <label class="block font-label-md text-label-md text-on-surface-variant mb-1">Latitude</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-md px-3 py-2 font-mono-data text-mono-data focus:border-secondary outline-none" type="text" value="37.7749"/>
+<input id="bulk-latitude" class="w-full bg-surface-container-lowest border border-outline-variant rounded-md px-3 py-2 font-mono-data text-mono-data focus:border-secondary outline-none" type="text" value="" placeholder="e.g. 37.774929"/>
 </div>
 <div>
 <label class="block font-label-md text-label-md text-on-surface-variant mb-1">Longitude</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-md px-3 py-2 font-mono-data text-mono-data focus:border-secondary outline-none" type="text" value="-122.4194"/>
+<input id="bulk-longitude" class="w-full bg-surface-container-lowest border border-outline-variant rounded-md px-3 py-2 font-mono-data text-mono-data focus:border-secondary outline-none" type="text" value="" placeholder="e.g. -122.419416"/>
 </div>
+</div>
+<div id="bulk-geo-status" class="text-xs text-emerald-600 font-medium hidden mb-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span id="bulk-geo-status-text">Location updated</span>
 </div>
 <button class="w-full gradient-btn text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 shadow-md">
 <span class="material-symbols-outlined">bolt</span>
@@ -323,6 +333,42 @@
         function handleBulkFiles(files) {
             alert(`Loaded ${files.length} image(s) into the bulk geotagging queue.`);
         }
+    }
+
+    function applyBulkCurrentLocation() {
+        const latInput = document.getElementById('bulk-latitude');
+        const lngInput = document.getElementById('bulk-longitude');
+        const statusBox = document.getElementById('bulk-geo-status');
+        const statusText = document.getElementById('bulk-geo-status-text');
+
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser.");
+            return;
+        }
+
+        if (statusBox && statusText) {
+            statusText.innerText = "Fetching current GPS location...";
+            statusBox.classList.remove('hidden');
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                if (latInput) latInput.value = lat.toFixed(6);
+                if (lngInput) lngInput.value = lng.toFixed(6);
+
+                if (statusBox && statusText) {
+                    statusText.innerText = "✓ Applied current device location: " + lat.toFixed(6) + ", " + lng.toFixed(6);
+                    statusBox.classList.remove('hidden');
+                }
+            },
+            (error) => {
+                alert("Unable to get current location (" + error.message + "). Please enable location permissions in your browser.");
+                if (statusBox) statusBox.classList.add('hidden');
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
     }
 </script>
 </body>
