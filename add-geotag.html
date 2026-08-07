@@ -166,10 +166,14 @@
                     <span>Location updated successfully</span>
                 </div>
 
-                <div class="pt-2 flex flex-col sm:flex-row gap-3">
-                    <button type="button" id="download-btn" onclick="downloadGeotaggedImage()" class="gradient-btn flex-1 py-3 px-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md">
+                <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-3">
+                    <button type="button" onclick="applyCoordinatesToPhoto()" class="bg-secondary text-white font-semibold text-sm py-3 px-5 rounded-xl flex items-center justify-center gap-2 shadow-md hover:bg-secondary/90 transition-all flex-1 min-w-[200px]">
+                        <span class="material-symbols-outlined text-lg">add_location_alt</span>
+                        Add Coordinates to Photo
+                    </button>
+                    <button type="button" id="download-btn" onclick="downloadGeotaggedImage()" class="gradient-btn py-3 px-5 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-md flex-1 min-w-[200px]">
                         <span class="material-symbols-outlined text-lg">download</span>
-                        Save &amp; Download Geotagged Photo
+                        Download Photo
                     </button>
                     <button type="button" onclick="location.reload()" class="px-4 py-3 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors font-semibold text-sm flex items-center justify-center gap-1">
                         <span class="material-symbols-outlined text-lg">refresh</span>
@@ -702,6 +706,51 @@
             statusMsg.innerHTML = `<span class="material-symbols-outlined text-sm">check_circle</span><span>${msg}</span>`;
             statusMsg.classList.remove('hidden');
         }
+    }
+
+    function applyCoordinatesToPhoto() {
+        if (uploadedImages.length === 0) {
+            alert("Please upload at least one photo first!");
+            return;
+        }
+
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+
+        const latVal = latInput ? latInput.value.trim() : '';
+        const lngVal = lngInput ? lngInput.value.trim() : '';
+
+        if (!latVal || !lngVal) {
+            alert("Please enter or select Latitude and Longitude before adding coordinates.");
+            return;
+        }
+
+        const latNum = parseFloat(latVal);
+        const lngNum = parseFloat(lngVal);
+
+        if (isNaN(latNum) || latNum < -90 || latNum > 90) {
+            alert("Please enter a valid Latitude between -90 and 90.");
+            return;
+        }
+
+        if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
+            alert("Please enter a valid Longitude between -180 and 180.");
+            return;
+        }
+
+        const activeImg = uploadedImages[activeImageIndex];
+        activeImg.lat = latNum.toFixed(6);
+        activeImg.lng = lngNum.toFixed(6);
+        activeImg.saved = true;
+
+        if (blueMarker && leafletMap) {
+            blueMarker.setLatLng([latNum, lngNum]);
+            leafletMap.setView([latNum, lngNum], 15);
+            blueMarker.setPopupContent("<b>Confirmed Geotag Coordinates</b><br>Lat: " + activeImg.lat + "<br>Lng: " + activeImg.lng).openPopup();
+        }
+
+        renderImageGalleryQuiet();
+        showGeoStatus(`✓ Coordinates (${activeImg.lat}, ${activeImg.lng}) completely added to "${activeImg.name}"!`);
     }
 
     function downloadGeotaggedImage() {

@@ -1113,10 +1113,14 @@
                             </div>
                         </div>
                         <div id="geo-status" class="text-xs text-emerald-600 font-medium mb-3 hidden"></div>
-                        <div class="flex flex-col sm:flex-row gap-3 mt-4">
-                            <button onclick="downloadActiveIndexImage()" class="gradient-btn flex-1 py-3 px-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
+                        <div class="flex flex-col sm:flex-row flex-wrap gap-3 mt-4">
+                            <button type="button" onclick="applyIndexCoordinates()" class="bg-secondary text-white font-semibold text-sm py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-sm hover:bg-secondary/90 transition-all flex-1 min-w-[180px]">
+                                <span class="material-symbols-outlined text-lg">add_location_alt</span>
+                                Add Coordinates to Photo
+                            </button>
+                            <button onclick="downloadActiveIndexImage()" class="gradient-btn flex-1 min-w-[180px] py-3 px-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
                                 <span class="material-symbols-outlined text-lg">download</span>
-                                Download Geotagged Photo
+                                Download Photo
                             </button>
                             <button onclick="clearIndexImages()" class="px-4 py-3 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors font-semibold text-sm flex items-center justify-center gap-1">
                                 <span class="material-symbols-outlined text-lg">refresh</span>
@@ -1136,6 +1140,47 @@
             if (indexUploadedImages.length > 0 && indexUploadedImages[indexActiveIndex]) {
                 indexUploadedImages[indexActiveIndex].lat = lat;
                 indexUploadedImages[indexActiveIndex].lng = lng;
+            }
+        }
+
+        function applyIndexCoordinates() {
+            if (indexUploadedImages.length === 0) {
+                alert("Please upload an image first!");
+                return;
+            }
+
+            const latVal = document.getElementById('preview-lat')?.value.trim() || '';
+            const lngVal = document.getElementById('preview-lng')?.value.trim() || '';
+
+            if (!latVal || !lngVal) {
+                alert("Please enter or select both Latitude and Longitude before adding coordinates.");
+                return;
+            }
+
+            const latNum = parseFloat(latVal);
+            const lngNum = parseFloat(lngVal);
+
+            if (isNaN(latNum) || latNum < -90 || latNum > 90) {
+                alert("Please enter a valid Latitude between -90 and 90.");
+                return;
+            }
+
+            if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
+                alert("Please enter a valid Longitude between -180 and 180.");
+                return;
+            }
+
+            const activeImg = indexUploadedImages[indexActiveIndex];
+            activeImg.lat = latNum.toFixed(6);
+            activeImg.lng = lngNum.toFixed(6);
+            activeImg.saved = true;
+
+            renderIndexQueueListQuiet();
+
+            const statusMsg = document.getElementById('geo-status');
+            if (statusMsg) {
+                statusMsg.innerText = `✓ Coordinates (${activeImg.lat}, ${activeImg.lng}) completely added to "${activeImg.name}"!`;
+                statusMsg.classList.remove('hidden');
             }
         }
 
