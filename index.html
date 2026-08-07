@@ -904,32 +904,24 @@
 <div id="footer-placeholder"></div>
 <script src="/components.js"></script>
 <script>
-        const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file-input');
+        let indexUploadedImages = [];
+        let indexActiveIndex = 0;
+        const INDEX_MAX_IMAGES = 20;
 
-        if (dropZone && fileInput) {
-            dropZone.addEventListener('click', (e) => {
-                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
-                    fileInput.click();
-                }
-            });
+        document.addEventListener("DOMContentLoaded", () => {
+            initIndexUploaderTool();
+        });
 
-            const browseBtn = dropZone.querySelector('button');
-            if (browseBtn) {
-                browseBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    fileInput.click();
-                });
-            }
+        function initIndexUploaderTool() {
+            const dropZone = document.getElementById('drop-zone');
+            if (!dropZone) return;
 
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, preventDefaults, false);
+                dropZone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
             });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
 
             ['dragenter', 'dragover'].forEach(eventName => {
                 dropZone.addEventListener(eventName, () => dropZone.classList.add('border-secondary', 'bg-secondary/5'), false);
@@ -939,87 +931,217 @@
                 dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-secondary', 'bg-secondary/5'), false);
             });
 
-            fileInput.addEventListener('change', (e) => {
-                if (fileInput.files && fileInput.files[0]) {
-                    handleUploadedFile(fileInput.files[0]);
-                }
-            });
-
             dropZone.addEventListener('drop', (e) => {
                 let dt = e.dataTransfer;
                 let files = dt.files;
-                if (files && files[0]) {
-                    handleUploadedFile(files[0]);
+                if (files && files.length > 0) {
+                    handleIndexUploadedFiles(files);
                 }
             }, false);
 
-            function handleUploadedFile(file) {
-                const imageUrl = URL.createObjectURL(file);
-                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                
-                // Read image resolution
+            bindIndexFileInput();
+        }
+
+        function bindIndexFileInput() {
+            const fileInput = document.getElementById('file-input');
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    if (fileInput.files && fileInput.files.length > 0) {
+                        handleIndexUploadedFiles(fileInput.files);
+                    }
+                });
+            }
+        }
+
+        function triggerIndexFilePicker() {
+            const fileInput = document.getElementById('file-input');
+            if (fileInput) fileInput.click();
+        }
+
+        function handleIndexUploadedFiles(filesList) {
+            const remainingSlots = INDEX_MAX_IMAGES - indexUploadedImages.length;
+            if (remainingSlots <= 0) {
+                alert(`Maximum limit of ${INDEX_MAX_IMAGES} images reached.`);
+                return;
+            }
+
+            const filesToProcess = Array.from(filesList).slice(0, remainingSlots);
+            let pendingCount = filesToProcess.length;
+
+            filesToProcess.forEach(file => {
+                const url = URL.createObjectURL(file);
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+
                 const img = new Image();
                 img.onload = function() {
-                    const width = img.naturalWidth;
-                    const height = img.naturalHeight;
-                    
-                    dropZone.innerHTML = `
-                        <div class="w-full flex flex-col items-center gap-6 p-4">
-                            <div class="relative max-w-lg w-full rounded-2xl overflow-hidden shadow-lg border border-outline-variant/40 group">
-                                <img src="${imageUrl}" alt="${file.name}" class="w-full max-h-[320px] object-contain bg-black/5" />
-                                <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-xs font-mono px-3 py-1.5 rounded-full">
-                                    ${width} × ${height} px
-                                </div>
-                            </div>
+                    indexUploadedImages.push({
+                        id: Date.now() + Math.random().toString(36).substr(2, 9),
+                        file: file,
+                        url: url,
+                        name: file.name,
+                        sizeMB: sizeMB,
+                        width: img.naturalWidth,
+                        height: img.naturalHeight,
+                        lat: '',
+                        lng: ''
+                    });
 
-                            <div class="text-center">
-                                <h3 class="font-headline-lg-mobile text-lg font-bold text-primary">${file.name}</h3>
-                                <p class="text-sm text-on-surface-variant font-mono-data mt-1">${fileSizeMB} MB • ${file.type || 'image/jpeg'}</p>
-                            </div>
+                    pendingCount--;
+                    if (pendingCount === 0) {
+                        indexActiveIndex = indexUploadedImages.length - filesToProcess.length;
+                        if (indexActiveIndex < 0) indexActiveIndex = 0;
+                        renderIndexImageGallery();
+                    }
+                };
+                img.src = url;
+            });
+        }
 
-                            <div class="w-full max-w-xl bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-6 shadow-sm text-left">
-                                <div class="flex items-center justify-between gap-2 mb-4">
-                                    <div class="flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-secondary">location_on</span>
-                                        <h4 class="font-bold text-primary">GPS Geotag Coordinates</h4>
-                                    </div>
-                                    <button type="button" onclick="detectAndApplyCurrentLocation()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
-                                        <span class="material-symbols-outlined text-sm">my_location</span>
-                                        Use Current Location
-                                    </button>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                                    <div>
-                                        <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Latitude</label>
-                                        <input type="text" id="preview-lat" value="" placeholder="e.g. 37.774929" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Longitude</label>
-                                        <input type="text" id="preview-lng" value="" placeholder="e.g. -122.419416" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
-                                    </div>
-                                </div>
-                                <div id="geo-status" class="text-xs text-emerald-600 font-medium mb-3 hidden"></div>
-                                <div class="flex flex-col sm:flex-row gap-3 mt-4">
-                                    <button onclick="downloadGeotaggedImage('${file.name}', '${imageUrl}')" class="gradient-btn flex-1 py-3 px-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
-                                        <span class="material-symbols-outlined text-lg">download</span>
-                                        Download Geotagged Photo
-                                    </button>
-                                    <button onclick="location.reload()" class="px-4 py-3 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors font-semibold text-sm flex items-center justify-center gap-1">
-                                        <span class="material-symbols-outlined text-lg">refresh</span>
-                                        Upload Another
-                                    </button>
-                                </div>
+        function selectIndexActiveImage(idx) {
+            if (idx >= 0 && idx < indexUploadedImages.length) {
+                indexActiveIndex = idx;
+                renderIndexImageGallery();
+            }
+        }
+
+        function removeIndexImage(e, idx) {
+            e.stopPropagation();
+            if (idx >= 0 && idx < indexUploadedImages.length) {
+                indexUploadedImages.splice(idx, 1);
+                if (indexActiveIndex >= indexUploadedImages.length) {
+                    indexActiveIndex = Math.max(0, indexUploadedImages.length - 1);
+                }
+                renderIndexImageGallery();
+            }
+        }
+
+        function clearIndexImages() {
+            indexUploadedImages = [];
+            indexActiveIndex = 0;
+            renderIndexImageGallery();
+        }
+
+        function renderIndexImageGallery() {
+            const dropZone = document.getElementById('drop-zone');
+            if (!dropZone) return;
+
+            if (indexUploadedImages.length === 0) {
+                dropZone.innerHTML = `
+                    <div class="bg-surface p-4 rounded-full shadow-sm mb-4 inline-flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">add_location</span>
+                    </div>
+                    <h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Drag &amp; Drop Photos Here</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6">Upload 1 to 20 photos (JPG, PNG, WebP)</p>
+                    <button type="button" onclick="triggerIndexFilePicker()" class="gradient-btn font-label-md text-label-md px-6 py-3 rounded-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                        Browse Files
+                    </button>
+                    <input accept=".jpg,.jpeg,.png,.webp" class="hidden" id="file-input" multiple type="file">
+                `;
+                bindIndexFileInput();
+                return;
+            }
+
+            const activeImg = indexUploadedImages[indexActiveIndex];
+
+            const cardsHtml = indexUploadedImages.map((imgItem, idx) => {
+                const isActive = idx === indexActiveIndex;
+                const coordsText = (imgItem.lat && imgItem.lng) 
+                    ? `${parseFloat(imgItem.lat).toFixed(4)}, ${parseFloat(imgItem.lng).toFixed(4)}`
+                    : 'No GPS Set';
+
+                return `
+                    <div onclick="selectIndexActiveImage(${idx})" class="relative group p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${isActive ? 'bg-secondary/5 border-secondary ring-2 ring-secondary/30 shadow-sm' : 'bg-surface border-outline-variant/30 hover:border-secondary/50'}">
+                        <div class="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-black/5 relative border border-outline-variant/20">
+                            <img src="${imgItem.url}" alt="${imgItem.name}" class="w-full h-full object-cover" />
+                            ${isActive ? '<span class="absolute top-1 left-1 bg-secondary text-white text-[9px] font-bold px-1 py-0.5 rounded shadow">Editing</span>' : ''}
+                        </div>
+                        <div class="flex-grow min-w-0 pr-6 text-left">
+                            <h5 class="font-bold text-xs text-primary truncate">${imgItem.name}</h5>
+                            <p class="text-[11px] text-on-surface-variant font-mono mt-0.5">${imgItem.sizeMB} MB • ${imgItem.width}×${imgItem.height}px</p>
+                            <div class="mt-1 inline-flex items-center gap-1 text-[11px] ${imgItem.lat && imgItem.lng ? 'text-emerald-600 font-semibold' : 'text-on-surface-variant/70'} font-mono">
+                                <span class="material-symbols-outlined text-xs">${imgItem.lat && imgItem.lng ? 'pin_drop' : 'location_off'}</span>
+                                <span>${coordsText}</span>
                             </div>
                         </div>
-                    `;
-                };
-                img.src = imageUrl;
+                        <button type="button" onclick="removeIndexImage(event, ${idx})" class="absolute top-2 right-2 text-on-surface-variant hover:text-error p-1 rounded-md hover:bg-black/5 transition-colors" title="Remove image">
+                            <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            dropZone.innerHTML = `
+                <div class="w-full max-w-2xl mx-auto flex flex-col gap-6 p-2">
+                    <div class="flex items-center justify-between px-1">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary">photo_library</span>
+                            <h4 class="font-bold text-primary text-base">Uploaded Photos (${indexUploadedImages.length} / ${INDEX_MAX_IMAGES})</h4>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="triggerIndexFilePicker()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
+                                <span class="material-symbols-outlined text-sm">add_photo_alternate</span>
+                                + Add Another Image
+                            </button>
+                            <button type="button" onclick="clearIndexImages()" class="text-xs text-error hover:underline">Clear All</button>
+                        </div>
+                    </div>
+
+                    <div id="index-queue-list" class="max-h-[220px] overflow-y-auto space-y-2 pr-1 text-left">
+                        ${cardsHtml}
+                    </div>
+
+                    <div class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-6 shadow-sm text-left">
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary">location_on</span>
+                                <h4 class="font-bold text-primary">GPS Geotag Coordinates</h4>
+                            </div>
+                            <button type="button" onclick="detectAndApplyCurrentLocation()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
+                                <span class="material-symbols-outlined text-sm">my_location</span>
+                                Use Current Location
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                            <div>
+                                <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Latitude</label>
+                                <input type="text" id="preview-lat" value="${activeImg ? activeImg.lat : ''}" placeholder="e.g. 37.774929" oninput="onIndexCoordsInput()" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Longitude</label>
+                                <input type="text" id="preview-lng" value="${activeImg ? activeImg.lng : ''}" placeholder="e.g. -122.419416" oninput="onIndexCoordsInput()" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
+                            </div>
+                        </div>
+                        <div id="geo-status" class="text-xs text-emerald-600 font-medium mb-3 hidden"></div>
+                        <div class="flex flex-col sm:flex-row gap-3 mt-4">
+                            <button onclick="downloadActiveIndexImage()" class="gradient-btn flex-1 py-3 px-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
+                                <span class="material-symbols-outlined text-lg">download</span>
+                                Download Geotagged Photo
+                            </button>
+                            <button onclick="clearIndexImages()" class="px-4 py-3 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors font-semibold text-sm flex items-center justify-center gap-1">
+                                <span class="material-symbols-outlined text-lg">refresh</span>
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <input accept=".jpg,.jpeg,.png,.webp" class="hidden" id="file-input" multiple type="file">
+            `;
+            bindIndexFileInput();
+        }
+
+        function onIndexCoordsInput() {
+            const lat = document.getElementById('preview-lat')?.value || '';
+            const lng = document.getElementById('preview-lng')?.value || '';
+            if (indexUploadedImages.length > 0 && indexUploadedImages[indexActiveIndex]) {
+                indexUploadedImages[indexActiveIndex].lat = lat;
+                indexUploadedImages[indexActiveIndex].lng = lng;
             }
         }
 
         function detectAndApplyCurrentLocation() {
-            const latInput = document.getElementById('preview-lat') || document.getElementById('latitude');
-            const lngInput = document.getElementById('preview-lng') || document.getElementById('longitude');
+            const latInput = document.getElementById('preview-lat');
+            const lngInput = document.getElementById('preview-lng');
             const statusMsg = document.getElementById('geo-status');
 
             if (!navigator.geolocation) {
@@ -1034,14 +1156,21 @@
 
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    if (latInput) latInput.value = lat.toFixed(6);
-                    if (lngInput) lngInput.value = lng.toFixed(6);
+                    const lat = position.coords.latitude.toFixed(6);
+                    const lng = position.coords.longitude.toFixed(6);
+                    if (latInput) latInput.value = lat;
+                    if (lngInput) lngInput.value = lng;
+                    
+                    if (indexUploadedImages.length > 0 && indexUploadedImages[indexActiveIndex]) {
+                        indexUploadedImages[indexActiveIndex].lat = lat;
+                        indexUploadedImages[indexActiveIndex].lng = lng;
+                    }
+
                     if (statusMsg) {
-                        statusMsg.innerText = "✓ Applied device location: " + lat.toFixed(6) + ", " + lng.toFixed(6);
+                        statusMsg.innerText = "✓ Applied device location: " + lat + ", " + lng;
                         statusMsg.classList.remove('hidden');
                     }
+                    renderIndexQueueListQuiet();
                 },
                 (error) => {
                     alert("Unable to get location (" + error.message + "). Please allow location access in your browser.");
@@ -1050,14 +1179,58 @@
             );
         }
 
-        function downloadGeotaggedImage(fileName, imageUrl) {
-            const lat = document.getElementById('preview-lat')?.value || '40.712776';
-            const lng = document.getElementById('preview-lng')?.value || '-74.005974';
-            const a = document.createElement('a');
-            a.href = imageUrl;
-            const nameParts = fileName.split('.');
+        function renderIndexQueueListQuiet() {
+            const queueList = document.getElementById('index-queue-list');
+            if (!queueList) return;
+            queueList.innerHTML = indexUploadedImages.map((imgItem, idx) => {
+                const isActive = idx === indexActiveIndex;
+                const coordsText = (imgItem.lat && imgItem.lng) 
+                    ? `${parseFloat(imgItem.lat).toFixed(4)}, ${parseFloat(imgItem.lng).toFixed(4)}`
+                    : 'No GPS Set';
+
+                return `
+                    <div onclick="selectIndexActiveImage(${idx})" class="relative group p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${isActive ? 'bg-secondary/5 border-secondary ring-2 ring-secondary/30 shadow-sm' : 'bg-surface border-outline-variant/30 hover:border-secondary/50'}">
+                        <div class="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-black/5 relative border border-outline-variant/20">
+                            <img src="${imgItem.url}" alt="${imgItem.name}" class="w-full h-full object-cover" />
+                            ${isActive ? '<span class="absolute top-1 left-1 bg-secondary text-white text-[9px] font-bold px-1 py-0.5 rounded shadow">Editing</span>' : ''}
+                        </div>
+                        <div class="flex-grow min-w-0 pr-6 text-left">
+                            <h5 class="font-bold text-xs text-primary truncate">${imgItem.name}</h5>
+                            <p class="text-[11px] text-on-surface-variant font-mono mt-0.5">${imgItem.sizeMB} MB • ${imgItem.width}×${imgItem.height}px</p>
+                            <div class="mt-1 inline-flex items-center gap-1 text-[11px] ${imgItem.lat && imgItem.lng ? 'text-emerald-600 font-semibold' : 'text-on-surface-variant/70'} font-mono">
+                                <span class="material-symbols-outlined text-xs">${imgItem.lat && imgItem.lng ? 'pin_drop' : 'location_off'}</span>
+                                <span>${coordsText}</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="removeIndexImage(event, ${idx})" class="absolute top-2 right-2 text-on-surface-variant hover:text-error p-1 rounded-md hover:bg-black/5 transition-colors" title="Remove image">
+                            <span class="material-symbols-outlined text-sm">delete</span>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function downloadActiveIndexImage() {
+            if (indexUploadedImages.length === 0) {
+                alert('Please upload an image first!');
+                return;
+            }
+            const activeImg = indexUploadedImages[indexActiveIndex];
+            const lat = document.getElementById('preview-lat')?.value || activeImg.lat;
+            const lng = document.getElementById('preview-lng')?.value || activeImg.lng;
+
+            if (!lat || !lng) {
+                alert('Please enter or select latitude and longitude coordinates before downloading!');
+                return;
+            }
+
+            const nameParts = activeImg.name.split('.');
             const ext = nameParts.pop();
-            a.download = `${nameParts.join('.')}_geotagged_${lat}_${lng}.${ext}`;
+            const geotaggedName = `${nameParts.join('.')}_geotagged_${lat}_${lng}.${ext}`;
+
+            const a = document.createElement('a');
+            a.href = activeImg.url;
+            a.download = geotaggedName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

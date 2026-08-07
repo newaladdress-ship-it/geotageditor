@@ -125,11 +125,11 @@
                     </div>
                     <h3 class="font-headline-lg-mobile text-lg font-bold text-primary mb-1">Drag &amp; Drop Photo Here</h3>
                     <p class="font-body-md text-sm text-on-surface-variant mb-5">Supports JPG, JPEG, PNG, WebP (Max 50MB)</p>
-                    <button type="button" class="gradient-btn font-label-md text-sm px-5 py-2.5 rounded-lg text-white font-semibold flex items-center gap-2">
+                    <button type="button" onclick="triggerFilePicker()" class="gradient-btn font-label-md text-sm px-5 py-2.5 rounded-lg text-white font-semibold flex items-center gap-2">
                         <span class="material-symbols-outlined text-[18px]">upload_file</span>
                         Browse Files
                     </button>
-                    <input accept=".jpg,.jpeg,.png,.webp,.tiff" class="hidden" id="file-input" type="file"/>
+                    <input accept=".jpg,.jpeg,.png,.webp,.tiff" class="hidden" id="file-input" multiple type="file"/>
                 </div>
             </div>
 
@@ -307,12 +307,12 @@
 <div id="footer-placeholder"></div>
 
 <script>
-    let uploadedFileObj = null;
-    let uploadedImageUrl = null;
+    let uploadedImages = []; // Array of { id, file, url, name, sizeMB, width, height, lat, lng }
+    let activeImageIndex = 0;
+    const MAX_IMAGES = 20;
     let leafletMap = null;
     let blueMarker = null;
 
-    // Initialize Map and Tools after DOM loads
     document.addEventListener("DOMContentLoaded", () => {
         initLeafletMap();
         initUploaderTool();
@@ -329,7 +329,6 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(leafletMap);
 
-        // Custom Blue Marker Icon
         const blueIcon = L.icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -340,69 +339,65 @@
         });
 
         blueMarker = L.marker([initialLat, initialLng], { icon: blueIcon, draggable: true }).addTo(leafletMap);
-        blueMarker.bindPopup("<b>Selected Geotag Location</b><br>Lat: " + initialLat + "<br>Lng: " + initialLng).openPopup();
+        blueMarker.bindPopup("<b>Geotag Location Pin</b><br>Lat: " + initialLat + "<br>Lng: " + initialLng).openPopup();
 
-        // Marker drag listener
         blueMarker.on('dragend', function (e) {
             const position = blueMarker.getLatLng();
-            updateCoordinateInputs(position.lat, position.lng);
+            updateActiveCoordinates(position.lat.toFixed(6), position.lng.toFixed(6));
         });
 
-        // Map click listener
         leafletMap.on('click', function (e) {
-            const lat = e.latlng.lat;
-            const lng = e.latlng.lng;
-            blueMarker.setLatLng([lat, lng]);
-            blueMarker.setPopupContent("<b>Selected Geotag Location</b><br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6));
-            updateCoordinateInputs(lat, lng);
+            const lat = e.latlng.lat.toFixed(6);
+            const lng = e.latlng.lng.toFixed(6);
+            blueMarker.setLatLng([e.latlng.lat, e.latlng.lng]);
+            blueMarker.setPopupContent("<b>Geotag Location Pin</b><br>Lat: " + lat + "<br>Lng: " + lng);
+            updateActiveCoordinates(lat, lng);
         });
 
-        // Input listeners for typed Lat/Lng
         const latInput = document.getElementById('latitude');
         const lngInput = document.getElementById('longitude');
 
         if (latInput && lngInput) {
             [latInput, lngInput].forEach(input => {
                 input.addEventListener('input', () => {
-                    const lat = parseFloat(latInput.value);
-                    const lng = parseFloat(lngInput.value);
-                    if (!isNaN(lat) && !isNaN(lng)) {
-                        blueMarker.setLatLng([lat, lng]);
-                        leafletMap.panTo([lat, lng]);
-                        blueMarker.setPopupContent("<b>Selected Geotag Location</b><br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6));
+                    const latVal = latInput.value.trim();
+                    const lngVal = lngInput.value.trim();
+                    const latNum = parseFloat(latVal);
+                    const lngNum = parseFloat(lngVal);
+
+                    if (uploadedImages.length > 0 && uploadedImages[activeImageIndex]) {
+                        uploadedImages[activeImageIndex].lat = latVal;
+                        uploadedImages[activeImageIndex].lng = lngVal;
+                        renderImageGalleryQuiet();
+                    }
+
+                    if (!isNaN(latNum) && !isNaN(lngNum)) {
+                        blueMarker.setLatLng([latNum, lngNum]);
+                        leafletMap.panTo([latNum, lngNum]);
+                        blueMarker.setPopupContent("<b>Geotag Location Pin</b><br>Lat: " + latNum.toFixed(6) + "<br>Lng: " + lngNum.toFixed(6));
                     }
                 });
             });
         }
     }
 
-    function updateCoordinateInputs(lat, lng) {
+    function updateActiveCoordinates(lat, lng) {
         const latInput = document.getElementById('latitude');
         const lngInput = document.getElementById('longitude');
-        if (latInput) latInput.value = lat.toFixed(6);
-        if (lngInput) lngInput.value = lng.toFixed(6);
-        showGeoStatus("✓ Updated coordinates from map placement");
+        if (latInput) latInput.value = lat;
+        if (lngInput) lngInput.value = lng;
+
+        if (uploadedImages.length > 0 && uploadedImages[activeImageIndex]) {
+            uploadedImages[activeImageIndex].lat = lat;
+            uploadedImages[activeImageIndex].lng = lng;
+            renderImageGalleryQuiet();
+        }
+        showGeoStatus("✓ Coordinates updated for active photo");
     }
 
     function initUploaderTool() {
         const dropZone = document.getElementById('drop-zone');
-        const fileInput = document.getElementById('file-input');
-
-        if (!dropZone || !fileInput) return;
-
-        dropZone.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
-                fileInput.click();
-            }
-        });
-
-        const browseBtn = dropZone.querySelector('button');
-        if (browseBtn) {
-            browseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                fileInput.click();
-            });
-        }
+        if (!dropZone) return;
 
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, (e) => {
@@ -419,50 +414,249 @@
             dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
         });
 
-        fileInput.addEventListener('change', (e) => {
-            if (fileInput.files && fileInput.files[0]) {
-                handleUploadedFile(fileInput.files[0]);
-            }
-        });
-
         dropZone.addEventListener('drop', (e) => {
             let files = e.dataTransfer.files;
-            if (files && files[0]) {
-                handleUploadedFile(files[0]);
+            if (files && files.length > 0) {
+                handleUploadedFiles(files);
             }
         }, false);
+
+        bindFileInput();
     }
 
-    function handleUploadedFile(file) {
-        uploadedFileObj = file;
-        uploadedImageUrl = URL.createObjectURL(file);
-        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+    function bindFileInput() {
+        const fileInput = document.getElementById('file-input');
+        if (fileInput) {
+            fileInput.addEventListener('change', (e) => {
+                if (fileInput.files && fileInput.files.length > 0) {
+                    handleUploadedFiles(fileInput.files);
+                }
+            });
+        }
+    }
 
-        const img = new Image();
-        img.onload = function () {
-            const width = img.naturalWidth;
-            const height = img.naturalHeight;
+    function triggerFilePicker() {
+        let fileInput = document.getElementById('file-input');
+        if (fileInput) {
+            fileInput.click();
+        }
+    }
 
-            const dropZone = document.getElementById('drop-zone');
-            dropZone.innerHTML = `
-                <div class="w-full flex flex-col items-center gap-4 p-2">
-                    <div class="relative max-w-md w-full rounded-xl overflow-hidden shadow-md border border-outline-variant/40 group">
-                        <img src="${uploadedImageUrl}" alt="${file.name}" class="w-full max-h-[240px] object-contain bg-black/5" />
-                        <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-white text-xs font-mono px-2.5 py-1 rounded-full">
-                            ${width} × ${height} px
+    function handleUploadedFiles(filesList) {
+        const remainingSlots = MAX_IMAGES - uploadedImages.length;
+        if (remainingSlots <= 0) {
+            alert(`You have reached the maximum limit of ${MAX_IMAGES} images in batch.`);
+            return;
+        }
+
+        const filesToProcess = Array.from(filesList).slice(0, remainingSlots);
+        if (filesList.length > remainingSlots) {
+            alert(`Only ${remainingSlots} more image(s) can be added (Max ${MAX_IMAGES} total).`);
+        }
+
+        let pendingCount = filesToProcess.length;
+
+        filesToProcess.forEach(file => {
+            const url = URL.createObjectURL(file);
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+
+            const img = new Image();
+            img.onload = function () {
+                uploadedImages.push({
+                    id: Date.now() + Math.random().toString(36).substr(2, 9),
+                    file: file,
+                    url: url,
+                    name: file.name,
+                    sizeMB: sizeMB,
+                    width: img.naturalWidth,
+                    height: img.naturalHeight,
+                    lat: '',
+                    lng: ''
+                });
+
+                pendingCount--;
+                if (pendingCount === 0) {
+                    activeImageIndex = uploadedImages.length - filesToProcess.length;
+                    if (activeImageIndex < 0) activeImageIndex = 0;
+                    renderImageGallery();
+                    showGeoStatus(`✓ ${filesToProcess.length} image(s) added to queue.`);
+                }
+            };
+            img.src = url;
+        });
+    }
+
+    function selectActiveImage(idx) {
+        if (idx >= 0 && idx < uploadedImages.length) {
+            activeImageIndex = idx;
+            renderImageGallery();
+        }
+    }
+
+    function syncActiveImageToInputs() {
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+        
+        if (uploadedImages.length > 0 && uploadedImages[activeImageIndex]) {
+            const activeImg = uploadedImages[activeImageIndex];
+            if (latInput) latInput.value = activeImg.lat || '';
+            if (lngInput) lngInput.value = activeImg.lng || '';
+
+            if (activeImg.lat && activeImg.lng && blueMarker && leafletMap) {
+                const latNum = parseFloat(activeImg.lat);
+                const lngNum = parseFloat(activeImg.lng);
+                if (!isNaN(latNum) && !isNaN(lngNum)) {
+                    blueMarker.setLatLng([latNum, lngNum]);
+                    leafletMap.setView([latNum, lngNum], 15);
+                    blueMarker.setPopupContent("<b>Geotag Location Pin</b><br>Lat: " + latNum.toFixed(6) + "<br>Lng: " + lngNum.toFixed(6));
+                }
+            }
+        }
+    }
+
+    function removeImage(e, idx) {
+        e.stopPropagation();
+        if (idx >= 0 && idx < uploadedImages.length) {
+            uploadedImages.splice(idx, 1);
+            if (activeImageIndex >= uploadedImages.length) {
+                activeImageIndex = Math.max(0, uploadedImages.length - 1);
+            }
+            renderImageGallery();
+            if (uploadedImages.length === 0) {
+                const latInput = document.getElementById('latitude');
+                const lngInput = document.getElementById('longitude');
+                if (latInput) latInput.value = '';
+                if (lngInput) lngInput.value = '';
+                const statusMsg = document.getElementById('geo-status');
+                if (statusMsg) statusMsg.classList.add('hidden');
+            }
+        }
+    }
+
+    function clearAllImages() {
+        uploadedImages = [];
+        activeImageIndex = 0;
+        const latInput = document.getElementById('latitude');
+        const lngInput = document.getElementById('longitude');
+        if (latInput) latInput.value = '';
+        if (lngInput) lngInput.value = '';
+        renderImageGallery();
+        const statusMsg = document.getElementById('geo-status');
+        if (statusMsg) statusMsg.classList.add('hidden');
+    }
+
+    function renderImageGalleryQuiet() {
+        const queueContainer = document.getElementById('queue-items-list');
+        if (!queueContainer) return;
+        
+        queueContainer.innerHTML = uploadedImages.map((imgItem, idx) => {
+            const isActive = idx === activeImageIndex;
+            const coordsText = (imgItem.lat && imgItem.lng) 
+                ? `${parseFloat(imgItem.lat).toFixed(4)}, ${parseFloat(imgItem.lng).toFixed(4)}`
+                : 'No GPS Set';
+
+            return `
+                <div onclick="selectActiveImage(${idx})" class="relative group p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${isActive ? 'bg-secondary/5 border-secondary ring-2 ring-secondary/30 shadow-sm' : 'bg-surface border-outline-variant/30 hover:border-secondary/50'}">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-black/5 relative border border-outline-variant/20">
+                        <img src="${imgItem.url}" alt="${imgItem.name}" class="w-full h-full object-cover" />
+                        ${isActive ? '<span class="absolute top-1 left-1 bg-secondary text-white text-[9px] font-bold px-1 py-0.5 rounded shadow">Editing</span>' : ''}
+                    </div>
+                    <div class="flex-grow min-w-0 pr-6">
+                        <h5 class="font-bold text-xs text-primary truncate">${imgItem.name}</h5>
+                        <p class="text-[11px] text-on-surface-variant font-mono mt-0.5">${imgItem.sizeMB} MB • ${imgItem.width}×${imgItem.height}px</p>
+                        <div class="mt-1 inline-flex items-center gap-1 text-[11px] ${imgItem.lat && imgItem.lng ? 'text-emerald-600 font-semibold' : 'text-on-surface-variant/70'} font-mono">
+                            <span class="material-symbols-outlined text-xs">${imgItem.lat && imgItem.lng ? 'pin_drop' : 'location_off'}</span>
+                            <span>${coordsText}</span>
                         </div>
                     </div>
-
-                    <div class="text-center">
-                        <h4 class="font-bold text-primary text-base truncate max-w-xs mx-auto">${file.name}</h4>
-                        <p class="text-xs text-on-surface-variant font-mono-data mt-0.5">${fileSizeMB} MB • ${file.type || 'image/jpeg'}</p>
-                    </div>
+                    <button type="button" onclick="removeImage(event, ${idx})" class="absolute top-2 right-2 text-on-surface-variant hover:text-error p-1 rounded-md hover:bg-black/5 transition-colors" title="Remove image">
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                    </button>
                 </div>
             `;
+        }).join('');
+    }
 
-            showGeoStatus("✓ Image uploaded. Click 'Use Current Location', pick a pin on the map, or enter coordinates.");
-        };
-        img.src = uploadedImageUrl;
+    function renderImageGallery() {
+        const dropZone = document.getElementById('drop-zone');
+        if (!dropZone) return;
+
+        if (uploadedImages.length === 0) {
+            dropZone.innerHTML = `
+                <div class="bg-surface p-4 rounded-full shadow-sm mb-4 inline-flex items-center justify-center">
+                    <span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">add_location</span>
+                </div>
+                <h3 class="font-headline-lg-mobile text-lg font-bold text-primary mb-1">Drag &amp; Drop Photos Here</h3>
+                <p class="font-body-md text-sm text-on-surface-variant mb-5">Upload 1 to 20 photos (JPG, PNG, WebP, TIFF)</p>
+                <button type="button" onclick="triggerFilePicker()" class="gradient-btn font-label-md text-sm px-5 py-2.5 rounded-lg text-white font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">upload_file</span>
+                    Browse Files
+                </button>
+                <input accept=".jpg,.jpeg,.png,.webp,.tiff" class="hidden" id="file-input" multiple type="file"/>
+            `;
+            bindFileInput();
+            return;
+        }
+
+        const cardsHtml = uploadedImages.map((imgItem, idx) => {
+            const isActive = idx === activeImageIndex;
+            const coordsText = (imgItem.lat && imgItem.lng) 
+                ? `${parseFloat(imgItem.lat).toFixed(4)}, ${parseFloat(imgItem.lng).toFixed(4)}`
+                : 'No GPS Set';
+
+            return `
+                <div onclick="selectActiveImage(${idx})" class="relative group p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-3 ${isActive ? 'bg-secondary/5 border-secondary ring-2 ring-secondary/30 shadow-sm' : 'bg-surface border-outline-variant/30 hover:border-secondary/50'}">
+                    <div class="w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-black/5 relative border border-outline-variant/20">
+                        <img src="${imgItem.url}" alt="${imgItem.name}" class="w-full h-full object-cover" />
+                        ${isActive ? '<span class="absolute top-1 left-1 bg-secondary text-white text-[9px] font-bold px-1 py-0.5 rounded shadow">Editing</span>' : ''}
+                    </div>
+                    <div class="flex-grow min-w-0 pr-6">
+                        <h5 class="font-bold text-xs text-primary truncate">${imgItem.name}</h5>
+                        <p class="text-[11px] text-on-surface-variant font-mono mt-0.5">${imgItem.sizeMB} MB • ${imgItem.width}×${imgItem.height}px</p>
+                        <div class="mt-1 inline-flex items-center gap-1 text-[11px] ${imgItem.lat && imgItem.lng ? 'text-emerald-600 font-semibold' : 'text-on-surface-variant/70'} font-mono">
+                            <span class="material-symbols-outlined text-xs">${imgItem.lat && imgItem.lng ? 'pin_drop' : 'location_off'}</span>
+                            <span>${coordsText}</span>
+                        </div>
+                    </div>
+                    <button type="button" onclick="removeImage(event, ${idx})" class="absolute top-2 right-2 text-on-surface-variant hover:text-error p-1 rounded-md hover:bg-black/5 transition-colors" title="Remove image">
+                        <span class="material-symbols-outlined text-sm">delete</span>
+                    </button>
+                </div>
+            `;
+        }).join('');
+
+        dropZone.innerHTML = `
+            <div class="w-full space-y-3 text-left">
+                <div class="flex items-center justify-between px-1">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary text-base">photo_library</span>
+                        <h4 class="font-bold text-primary text-sm">Uploaded Photos (${uploadedImages.length} / ${MAX_IMAGES})</h4>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button type="button" onclick="triggerFilePicker()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
+                            <span class="material-symbols-outlined text-sm">add_photo_alternate</span>
+                            + Add Another Image
+                        </button>
+                        <button type="button" onclick="clearAllImages()" class="text-xs text-error hover:underline">Clear All</button>
+                    </div>
+                </div>
+
+                <div id="queue-items-list" class="max-h-[300px] overflow-y-auto space-y-2 pr-1">
+                    ${cardsHtml}
+                </div>
+
+                ${uploadedImages.length < MAX_IMAGES ? `
+                    <div onclick="triggerFilePicker()" class="p-3 border-2 border-dashed border-outline-variant/40 hover:border-secondary rounded-xl text-center text-xs text-on-surface-variant cursor-pointer transition-colors flex items-center justify-center gap-2 bg-surface/40">
+                        <span class="material-symbols-outlined text-sm text-secondary">cloud_upload</span>
+                        <span>Click to add more images (Up to 20 total)</span>
+                    </div>
+                ` : ''}
+                <input accept=".jpg,.jpeg,.png,.webp,.tiff" class="hidden" id="file-input" multiple type="file"/>
+            </div>
+        `;
+
+        bindFileInput();
+        syncActiveImageToInputs();
     }
 
     function detectAndApplyCurrentLocation() {
@@ -478,21 +672,23 @@
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-                if (latInput) latInput.value = lat.toFixed(6);
-                if (lngInput) lngInput.value = lng.toFixed(6);
+                const lat = position.coords.latitude.toFixed(6);
+                const lng = position.coords.longitude.toFixed(6);
+                if (latInput) latInput.value = lat;
+                if (lngInput) lngInput.value = lng;
+
+                updateActiveCoordinates(lat, lng);
 
                 if (blueMarker && leafletMap) {
-                    blueMarker.setLatLng([lat, lng]);
-                    leafletMap.setView([lat, lng], 15);
-                    blueMarker.setPopupContent("<b>Current Device Location</b><br>Lat: " + lat.toFixed(6) + "<br>Lng: " + lng.toFixed(6)).openPopup();
+                    blueMarker.setLatLng([parseFloat(lat), parseFloat(lng)]);
+                    leafletMap.setView([parseFloat(lat), parseFloat(lng)], 15);
+                    blueMarker.setPopupContent("<b>Current Device Location</b><br>Lat: " + lat + "<br>Lng: " + lng).openPopup();
                 }
-                showGeoStatus("✓ Device location applied: " + lat.toFixed(6) + ", " + lng.toFixed(6));
+                showGeoStatus("✓ Device location applied: " + lat + ", " + lng);
             },
             (error) => {
                 console.warn("Geolocation error:", error.message);
-                alert("Unable to get current location (" + error.message + "). Please enable location permissions in your browser or select a point on the map.");
+                alert("Unable to get current location (" + error.message + "). Please enable location permissions in your browser.");
                 const statusMsg = document.getElementById('geo-status');
                 if (statusMsg) statusMsg.classList.add('hidden');
             },
@@ -509,26 +705,26 @@
     }
 
     function downloadGeotaggedImage() {
-        if (!uploadedImageUrl) {
-            alert('Please upload an image first to geotag and download!');
+        if (uploadedImages.length === 0) {
+            alert('Please upload at least one image first!');
             return;
         }
 
-        const lat = document.getElementById('latitude')?.value;
-        const lng = document.getElementById('longitude')?.value;
+        const activeImg = uploadedImages[activeImageIndex];
+        const lat = document.getElementById('latitude')?.value || activeImg.lat;
+        const lng = document.getElementById('longitude')?.value || activeImg.lng;
 
         if (!lat || !lng) {
             alert('Please enter or select latitude and longitude coordinates before downloading!');
             return;
         }
 
-        const fileName = uploadedFileObj ? uploadedFileObj.name : 'photo.jpg';
-        const nameParts = fileName.split('.');
+        const nameParts = activeImg.name.split('.');
         const ext = nameParts.pop();
         const geotaggedName = `${nameParts.join('.')}_geotagged_${lat}_${lng}.${ext}`;
 
         const a = document.createElement('a');
-        a.href = uploadedImageUrl;
+        a.href = activeImg.url;
         a.download = geotaggedName;
         document.body.appendChild(a);
         a.click();
