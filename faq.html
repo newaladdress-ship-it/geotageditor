@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>FAQ &amp; Help Center | GeotaggingPhotos.com</title>
-<meta content="Frequently asked questions about adding GPS coordinates, EXIF metadata editing, privacy protection, and bulk geotagging tools." name="description"/>
+<title>Frequently Asked Questions | GeotaggingPhotos</title>
+<meta content="Find answers to common questions about photo geotagging, GPS coordinates, EXIF metadata, privacy protection, and our image location tools." name="description"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -27,9 +27,9 @@
                         "surface-container-low": "#f2f4f6",
                         "surface-container-lowest": "#ffffff"
                     },
-                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
                     spacing: { "gutter": "24px", "margin-mobile": "16px", "margin-desktop": "40px", "container-max": "1280px", "unit": "8px" },
-                    fontFamily: { "body-lg": ["Inter"], "headline-lg": ["Geist"], "display": ["Geist"], "label-md": ["Geist"], "body-md": ["Inter"] }
+                    fontFamily: { "body-lg": ["Inter", "sans-serif"], "headline-lg": ["Geist", "sans-serif"], "display": ["Geist", "sans-serif"], "label-md": ["Geist", "sans-serif"], "body-md": ["Inter", "sans-serif"] }
                 }
             }
         }
@@ -38,38 +38,355 @@
         .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05); }
         .gradient-btn { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); transition: all 0.4s ease; }
     </style>
-<script src="components.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are my photos uploaded to remote servers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. GeotaggingPhotos prioritizes your privacy and security. Image processing and EXIF metadata editing are performed directly in your browser whenever possible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What image formats are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our tools support JPG, JPEG, PNG, WebP, TIFF, and HEIC formats."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does photo geotagging work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Photo geotagging embeds GPS metadata (latitude, longitude, altitude) directly into your image file EXIF headers."
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col pt-16">
+<body class="bg-background text-on-background font-body-lg antialiased min-h-screen flex flex-col pt-16">
 <div id="header-placeholder"></div>
 
-<main class="flex-grow pt-8 pb-16 px-margin-mobile md:px-margin-desktop max-w-3xl mx-auto w-full">
-<div class="space-y-8">
-<div class="text-center space-y-4">
-<h1 class="font-display text-display text-primary">Frequently Asked Questions</h1>
-<p class="font-body-lg text-on-surface-variant">Find answers to common questions about photo geotagging, privacy, and metadata tools.</p>
-</div>
-<div class="space-y-4">
-<div class="glass-panel p-6 rounded-xl space-y-2">
-<h3 class="font-headline-lg-mobile text-xl font-bold text-primary">Are my photos uploaded to a remote server?</h3>
-<p class="text-on-surface-variant">No! All EXIF metadata processing happens locally in your web browser using WebAssembly. Your original photos never leave your device.</p>
-</div>
-<div class="glass-panel p-6 rounded-xl space-y-2">
-<h3 class="font-headline-lg-mobile text-xl font-bold text-primary">What image formats are supported?</h3>
-<p class="text-on-surface-variant">We support JPG, JPEG, PNG, TIFF, and WebP image formats for geotagging and EXIF viewing.</p>
-</div>
-<div class="glass-panel p-6 rounded-xl space-y-2">
-<h3 class="font-headline-lg-mobile text-xl font-bold text-primary">How does geotagging help local SEO?</h3>
-<p class="text-on-surface-variant">Injecting precise location coordinates into property and business photos signals geographical relevance to Google Image Search and local search algorithms.</p>
-</div>
-<div class="glass-panel p-6 rounded-xl space-y-2">
-<h3 class="font-headline-lg-mobile text-xl font-bold text-primary">Can I batch process multiple photos at once?</h3>
-<p class="text-on-surface-variant">Yes! Use our <a href="bulk-geotagging.html" class="text-secondary font-semibold hover:underline">Bulk Geotagging Tool</a> to upload up to 500 images at a time and apply global coordinates instantly.</p>
-</div>
-</div>
-</div>
+<main class="flex-grow pt-10 pb-20 px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto w-full">
+    <!-- Header -->
+    <div class="text-center space-y-4 mb-14">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 border border-secondary/20 rounded-full">
+            <span class="material-symbols-outlined text-sm">quiz</span>
+            Help &amp; Knowledge Base
+        </span>
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-primary">Frequently Asked Questions</h1>
+        <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto">
+            Find answers to common questions about photo geotagging, GPS coordinates, EXIF metadata, privacy, and our image location tools.
+        </p>
+    </div>
+
+    <!-- FAQ Accordions / Cards Container -->
+    <div class="space-y-4">
+
+        <!-- Q1 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all" open>
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">shield</span>
+                    <span>Are my photos uploaded to remote servers?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>
+                    No. GeotaggingPhotos prioritizes your privacy and security. Image processing and EXIF metadata editing are performed directly in your browser whenever possible, which means your original photos and location data remain under your control.
+                </p>
+                <p>
+                    You can add, edit, replace, and inspect GPS coordinates without permanently storing your files on external servers.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q2 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">image</span>
+                    <span>What image formats are supported?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>Our tools support a wide range of popular image formats, including:</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">JPG</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">JPEG</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">PNG</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">WebP</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">TIFF</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">HEIC</span>
+                </div>
+                <p class="pt-2 text-sm">These formats can be used for photo geotagging, EXIF metadata viewing, GPS coordinate editing, and location discovery.</p>
+            </div>
+        </details>
+
+        <!-- Q3 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">pin_drop</span>
+                    <span>How does photo geotagging work?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>
+                    Photo geotagging works by embedding GPS metadata, such as latitude, longitude, and altitude, into an image file. This information becomes part of the image's EXIF data and can later be used to identify where the photo was taken.
+                </p>
+                <p>
+                    Simply upload your image, enter custom coordinates or use your current location, and download the updated file in seconds.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q4 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">edit_location</span>
+                    <span>Can I replace existing GPS coordinates?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>
+                    Yes. If your uploaded image already contains location data, GeotaggingPhotos automatically detects the existing coordinates and displays them in the editor.
+                </p>
+                <p class="font-medium text-primary mb-1">You can:</p>
+                <ul class="list-disc pl-5 space-y-1 text-sm">
+                    <li>Keep the original coordinates</li>
+                    <li>Replace the location</li>
+                    <li>Remove GPS metadata completely</li>
+                    <li>Use your current location</li>
+                </ul>
+            </div>
+        </details>
+
+        <!-- Q5 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">photo_library</span>
+                    <span>Can I process multiple photos at the same time?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>
+                    Absolutely. The <a href="bulk-geotagging.html" class="text-secondary font-semibold hover:underline">Bulk Geotagging tool</a> allows you to upload multiple images and apply the same GPS coordinates to every file simultaneously.
+                </p>
+                <p>
+                    Instead of manually editing each image, simply enter the coordinates once, and the changes will be applied to all uploaded photos.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q6 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">folder_zip</span>
+                    <span>How are bulk-edited images downloaded?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
+                <p>
+                    Single images are downloaded individually, while multiple edited photos are automatically packaged into a ZIP archive for faster and more organized downloads.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q7 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">my_location</span>
+                    <span>Can I use my current location to geotag photos?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>
+                    Yes. Click the <strong class="text-primary">Use Current Location</strong> button, allow browser access to your location, and the editor will automatically fill the latitude and longitude fields.
+                </p>
+                <p>
+                    The detected coordinates can be applied to one image or an entire batch of photos.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q8 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">info</span>
+                    <span>Can I view EXIF metadata before editing?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>Yes. The built-in <a href="exif-viewer.html" class="text-secondary font-semibold hover:underline">EXIF Viewer</a> lets you inspect hidden metadata, including:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm pt-1">
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check</span> GPS coordinates</div>
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check</span> Capture date and time</div>
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check</span> Camera model</div>
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check</span> Lens information</div>
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check</span> Shutter speed</div>
+                    <div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check</span> ISO settings &amp; Altitude data</div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Q9 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">grid_view</span>
+                    <span>How does geotagging help organize photos?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
+                <p>
+                    GPS metadata makes it easier to organize travel albums, manage real-estate listings, document construction projects, and categorize images based on where they were captured.
+                </p>
+                <p>
+                    Photographers, travelers, businesses, and drone operators often rely on location data to manage large image collections.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q10 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">upload_file</span>
+                    <span>Is there a limit on the number of images I can upload?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
+                <p>
+                    The bulk editor supports large uploads, although the maximum number of images may depend on your browser, device performance, and file sizes.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q11 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">download</span>
+                    <span>Do I need to install any software?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
+                <p>
+                    No. GeotaggingPhotos works directly in your browser, so there is no need to download or install additional applications.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q12 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">devices</span>
+                    <span>Does the tool work on mobile devices?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
+                <p>
+                    Yes. Our geotagging and metadata tools are fully optimized for smartphones, tablets, laptops, and desktop computers.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q13 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">groups</span>
+                    <span>Who can use GeotaggingPhotos?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-2 bg-surface/50">
+                <p>Our tools are designed for:</p>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm pt-1 font-semibold text-primary">
+                    <div>• Photographers</div>
+                    <div>• Travelers</div>
+                    <div>• Real-estate pros</div>
+                    <div>• Drone pilots</div>
+                    <div>• GIS specialists</div>
+                    <div>• Journalists</div>
+                    <div>• Businesses</div>
+                    <div>• Content creators</div>
+                </div>
+            </div>
+        </details>
+
+        <!-- Q14 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">sell</span>
+                    <span>Is GeotaggingPhotos free to use?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
+                <p>
+                    Yes. Most core features, including GPS editing, metadata viewing, and bulk geotagging, are available free of charge.
+                </p>
+            </div>
+        </details>
+
+        <!-- Q15 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary shrink-0">contact_support</span>
+                    <span>How can I contact support?</span>
+                </div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
+                <p>
+                    If you have questions, feedback, or technical issues, visit our <a href="contact-us.html" class="text-secondary font-semibold hover:underline">Contact page</a> and send us a message. Our team typically responds within 24 hours.
+                </p>
+            </div>
+        </details>
+
+    </div>
+
+    <!-- Contact CTA Banner -->
+    <div class="mt-16 glass-panel p-8 rounded-3xl text-center space-y-4 border border-outline-variant/30">
+        <h3 class="font-display text-2xl font-bold text-primary">Still have questions?</h3>
+        <p class="text-on-surface-variant text-base max-w-xl mx-auto">Can't find the answer you're looking for? Reach out to our dedicated support team.</p>
+        <a href="contact-us.html" class="inline-flex items-center gap-2 gradient-btn text-white font-semibold px-6 py-3 rounded-xl shadow-md text-sm">
+            <span class="material-symbols-outlined text-sm">mail</span>
+            Contact Customer Support
+        </a>
+    </div>
 </main>
 
 <div id="footer-placeholder"></div>
+<script src="components.js"></script>
 </body>
 </html>

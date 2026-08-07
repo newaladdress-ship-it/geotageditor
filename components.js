@@ -57,7 +57,7 @@ function getHeaderFallbackHTML() {
 <div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
 <a class="font-display text-headline-lg-mobile text-primary tracking-tight scale-105 transition-transform duration-400 ease-out-expo hover:opacity-80 flex items-center gap-2" href="index.html">
 <span class="material-symbols-outlined text-secondary">add_location_alt</span>
-<span>GeotaggingPhotos.com</span>
+<span>GeotaggingPhotos</span>
 </a>
 <nav class="hidden md:flex items-center gap-6">
 <a class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg" href="index.html">Home</a>
@@ -130,12 +130,22 @@ function getFooterFallbackHTML() {
     return `<footer class="bg-surface-container-lowest border-t border-outline-variant/30 w-full py-12 px-margin-mobile md:px-margin-desktop mt-auto">
 <div class="max-w-container-max mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter">
 <div class="col-span-2 lg:col-span-2 flex flex-col gap-4">
-<a href="index.html" class="font-display text-headline-lg-mobile text-primary hover:opacity-80 transition-opacity">GeotaggingPhotos.com</a>
+<a href="index.html" class="font-display text-headline-lg-mobile text-primary hover:opacity-80 transition-opacity">GeotaggingPhotos</a>
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">
                     Professional metadata management tools for modern workflows.
                 </p>
-<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-4">
-                    © 2026 GeotaggingPhotos.com. All rights reserved.
+<div class="space-y-1.5 text-xs text-on-surface-variant opacity-90 font-body-md mt-1">
+    <p class="flex items-start gap-1.5">
+        <span class="material-symbols-outlined text-sm shrink-0 text-secondary mt-0.5">location_on</span>
+        <span>1600 Amphitheatre Pkwy, Mountain View, CA 94043</span>
+    </p>
+    <p class="flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-sm shrink-0 text-secondary">call</span>
+        <a href="tel:6502530000" class="hover:text-primary transition-colors">(650) 253-0000</a>
+    </p>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-3">
+                    © 2026 GeotaggingPhotos. All rights reserved.
                 </p>
 </div>
 <div class="col-span-1 lg:col-span-1 flex flex-col gap-3">
