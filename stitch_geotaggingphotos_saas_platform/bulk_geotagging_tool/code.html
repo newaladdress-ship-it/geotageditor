@@ -1,0 +1,339 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>Bulk Geotagging Tool</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-container": "#009668",
+                        "outline": "#76777d",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-background": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "primary": "#000000",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#000000",
+                        "surface": "#f7f9fb",
+                        "secondary": "#0051d5",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-surface-variant": "#45464d",
+                        "primary-container": "#131b2e",
+                        "inverse-primary": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#002113",
+                        "secondary-container": "#316bf3",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "on-primary-container": "#7c839b",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-secondary-container": "#fefcff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "inverse-surface": "#2d3133"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-lg": ["Inter"],
+                        "mono-data": ["Geist"],
+                        "display": ["Geist"],
+                        "label-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "mono-data": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    },
+                    boxShadow: {
+                        'glass': '0px 10px 30px rgba(15, 23, 42, 0.05)',
+                        'glass-lg': '0px 20px 40px rgba(15, 23, 42, 0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        .pt-safe { padding-top: env(safe-area-inset-top); }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0px 10px 30px rgba(15, 23, 42, 0.05);
+        }
+        
+        .progress-shimmer {
+            background: linear-gradient(90deg, 
+                theme('colors.secondary-container') 0%, 
+                theme('colors.secondary') 50%, 
+                theme('colors.secondary-container') 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .gradient-btn {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .gradient-btn:hover {
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .gradient-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md pt-safe md:hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-high/80 backdrop-blur-md shadow-sm flex items-center justify-between px-margin-mobile h-16 pt-safe ease-out-expo transition-all duration-400">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-400 p-2 rounded-full active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed tracking-tight">GeotaggingPhotos</h1>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-400 p-2 rounded-full active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="pt-[calc(64px+env(safe-area-inset-top))] px-margin-mobile flex flex-col gap-unit pb-8">
+<!-- Batch Stats -->
+<div class="glass-card rounded-xl p-4 flex justify-between items-center mb-2">
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant">Batch Status</p>
+<p class="font-headline-lg-mobile text-[18px] font-semibold">12 Images Ready</p>
+</div>
+<div class="h-10 w-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">imagesmode</span>
+</div>
+</div>
+<!-- Image List -->
+<div class="flex flex-col gap-2">
+<!-- List Item: Ready -->
+<div class="glass-card rounded-lg p-3 flex items-center gap-4 hover:bg-surface-container-lowest/50 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded bg-surface-container flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A macro shot of a wet green leaf with a single water droplet reflecting a dense forest canopy. The lighting is soft and diffused, creating a serene, natural mood with a high-end, clean photography aesthetic. The color palette focuses on vibrant greens and pristine whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn1qJcnc0hum8x6KBRrOSbawsj59xQrjYa20GQ2VpFG5fRnQ-w9JbgCK4rxa5U3v5H1UapAMFnSvbNNjuLhz_m6Nr-nMds9O4PXgCQ6IGRqlj4AX5-tAlYUFsRIf3iqCPFtlT-ibuZSI2LwVax88F7envMxtctIUd7ePiD9KyiR6FfJpzQQ0lEnPmhtXs6vqthUpJt_VEnTeNMea-1TE9qKITlYCnRASxj5-KSX0YzKTuWLd2J8WJj">
+<!-- Checkbox overlay -->
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-lg">check_circle</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">IMG_8942.JPG</p>
+<p class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">4.2 MB • No Exif</p>
+</div>
+<div class="flex-shrink-0 text-outline-variant">
+<span class="material-symbols-outlined">location_off</span>
+</div>
+</div>
+<!-- List Item: Processed -->
+<div class="glass-card rounded-lg p-3 flex items-center gap-4 border-l-2 border-l-emerald-500 bg-surface-container-lowest/80">
+<div class="w-12 h-12 rounded bg-surface-container flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="An expansive aerial view of a modern city intersection during golden hour. Long shadows stretch across the clean, minimalist pavement. The aesthetic is highly technical and precise, with a color palette emphasizing warm golds, deep concrete grays, and stark whites. The mood is energetic yet ordered." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmUh7fU3ptxKVgUF2BwPAr_E5Q2PEiwPw_GXvc3D9biu0F1TLz1eP0SW-LZJ2UyJ1YYkeK456pmgugoPtrL07wYmH9iSfN5-uSQn4nePPttSm4mjdH6WeQG6PEJ3ugmmtISkJ1PI0WtOO0V2aB4WJdo7V_BMd14iNK1i37PGLpGTSNZgLKuHukJnAJ88an-AtP29JSkIRE3u4mPCbO8OdLUxC28J4fpTv7S4iK2taDHPMnXGxwOeWG">
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">DSC_0014.RAW</p>
+<p class="font-mono-data text-mono-data text-emerald-600 text-[11px]">40.7128° N, -74.0060° W</p>
+</div>
+<div class="flex-shrink-0 text-emerald-500">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+<!-- List Item: Ready -->
+<div class="glass-card rounded-lg p-3 flex items-center gap-4 hover:bg-surface-container-lowest/50 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded bg-surface-container flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A close up of a modern, sleek drone resting on a clean, light-grey studio surface. The lighting is crisp and even, highlighting the technical details of the camera gimbal. The aesthetic is high-tech corporate, with a color palette of pure whites, silvers, and subtle blue accents. The mood is professional and precise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD70KyGa_HcbpOJp8dcf7IDh9-3eH4dLEX7p28oKZh9-lBDXHRj0mr42BmLnZKZrhHkpWq3lWXOHS_VlZdWrcWCEwVwz-aJdgYiIPdmcS5fd8gICe0yNg51a0FeVi_U6bd8Dad4s-VaHkq2VjbZiKJVaSp0KS1ds4lP3b_AdL3LY4KF_4xrWtFtKsIflqfyFHt2mYzlwHbCYBlXtGy5Gv5zqGwB40_Ku4Hav38UWBaZNEHZogakfqi9">
+<!-- Checkbox overlay -->
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-lg">check_circle</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">DRN_551.JPG</p>
+<p class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">8.1 MB • No Exif</p>
+</div>
+<div class="flex-shrink-0 text-outline-variant">
+<span class="material-symbols-outlined">location_off</span>
+</div>
+</div>
+<!-- List Item: Ready -->
+<div class="glass-card rounded-lg p-3 flex items-center gap-4 hover:bg-surface-container-lowest/50 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded bg-surface-container flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="A stunning landscape photo of a calm lake reflecting rugged, snowy mountains under a clear blue sky. The lighting is bright and natural, creating a serene and expansive mood. The aesthetic is clean and professional, with a color palette of deep blues, stark whites, and earthy greys." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-BzSIMNNG4yLd-8nL3ZQjVP_KM5Lfcp-uzQ0GdeHWynZ7gW45weLh83jI-0yg6aBzoZEgDFD6fxImK_mrNfdlbrO0ZjFyrhXoivSlBzVCIdAAjitmmqk5nVonVf-oy-QUpnzoYBHHJzUHMxY1pbGzJzXArmPVH1_N0lHOmqk30p3jMioOcV4ZmzVBe8hFs7ulZGN_GwTTDw-LZhLPkwQWyD7V0xg_lXTp3_YarPXH-RlYAEpMUvt0">
+<!-- Checkbox overlay -->
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-lg">check_circle</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">IMG_8945.JPG</p>
+<p class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">5.2 MB • No Exif</p>
+</div>
+<div class="flex-shrink-0 text-outline-variant">
+<span class="material-symbols-outlined">location_off</span>
+</div>
+</div>
+<!-- List Item: Ready -->
+<div class="glass-card rounded-lg p-3 flex items-center gap-4 hover:bg-surface-container-lowest/50 transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded bg-surface-container flex-shrink-0 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="An abstract architectural shot of a modern glass building facade. Reflections of passing clouds and blue sky distort across the angled panels. The lighting is bright and hard, emphasizing geometry. The aesthetic is corporate and structured, with a color palette of cool blues, silvers, and whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEkjIknSz638SEQyDSccwykbYOpLC9DJmL2e-WDoBhF5g9RJFDLZD6g-caeA0p6znhcrvSnZ5zUI4oKV3eNN2hM_dKtj2W3IROwKMIZg6meZTWEjc5WaV4eeUJFeuoSFi7b6y3ZpxVHyY38sFbgSECg0ImSSRXixTeTILBN5DFSVTgWOP8EfOAoxAHquwRHhdqkc16Z8n66fr8PNAkg-ONaWF1yzFZ2rLTNlubc_ASouU_iOnIXDKg">
+<!-- Checkbox overlay -->
+<div class="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-lg">check_circle</span>
+</div>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">ARCH_09.JPG</p>
+<p class="font-mono-data text-mono-data text-on-surface-variant text-[11px]">3.9 MB • No Exif</p>
+</div>
+<div class="flex-shrink-0 text-outline-variant">
+<span class="material-symbols-outlined">location_off</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Panel: Global Editor & CTA -->
+<div class="fixed bottom-[80px] w-full z-40 px-margin-mobile pb-4 pt-2 pointer-events-none">
+<div class="glass-card rounded-2xl p-4 flex flex-col gap-4 pointer-events-auto bg-surface/95 backdrop-blur-2xl">
+<div class="flex items-center justify-between">
+<p class="font-label-md text-label-md text-on-surface">Apply to Selected (4)</p>
+<button class="text-secondary text-[13px] font-medium flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-[16px]">map</span> Pick on Map
+                </button>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div class="relative">
+<label class="absolute -top-2 left-2 bg-surface-container-lowest px-1 text-[10px] text-on-surface-variant font-mono-data rounded">LAT</label>
+<input class="w-full bg-surface-container-lowest/50 border border-outline-variant/50 rounded-lg px-3 py-2 font-mono-data text-mono-data text-on-surface focus:ring-1 focus:ring-secondary focus:border-secondary outline-none transition-all" placeholder="e.g. 40.7128" type="text">
+</div>
+<div class="relative">
+<label class="absolute -top-2 left-2 bg-surface-container-lowest px-1 text-[10px] text-on-surface-variant font-mono-data rounded">LNG</label>
+<input class="w-full bg-surface-container-lowest/50 border border-outline-variant/50 rounded-lg px-3 py-2 font-mono-data text-mono-data text-on-surface focus:ring-1 focus:ring-secondary focus:border-secondary outline-none transition-all" placeholder="e.g. -74.0060" type="text">
+</div>
+</div>
+<!-- Progress Bar (Simulated Active State) -->
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden mt-1">
+<div class="h-full progress-shimmer w-[25%] rounded-full"></div>
+</div>
+<button class="gradient-btn w-full py-3 rounded-xl font-label-md text-label-md text-white font-semibold flex items-center justify-center gap-2 mt-1">
+<span class="material-symbols-outlined">folder_zip</span>
+                Process &amp; ZIP (4)
+            </button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<footer class="bg-surface-container-low px-margin-mobile pt-8 pb-32 flex flex-col gap-8 border-t border-outline-variant/50">
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-2">
+      <h2 class="font-headline-lg-mobile text-[18px] font-semibold text-primary">GeotaggingPhotos</h2>
+      <p class="text-on-surface-variant text-[13px]">Professional bulk EXIF and GPS management for photographers worldwide.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-y-6 gap-x-4">
+      <div class="flex flex-col gap-3">
+        <p class="font-label-md text-label-md text-primary font-bold">Legal</p>
+        <ul class="flex flex-col gap-2">
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">Privacy Policy</a></li>
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">Terms of Service</a></li>
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">Cookie Policy</a></li>
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">DMCA</a></li>
+        </ul>
+      </div>
+      <div class="flex flex-col gap-3">
+        <p class="font-label-md text-label-md text-primary font-bold">Company</p>
+        <ul class="flex flex-col gap-2">
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">About Us</a></li>
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">Support</a></li>
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">Contact</a></li>
+          <li class=""><a href="#" class="text-on-surface-variant text-[13px] hover:text-secondary transition-colors">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="pt-6 border-t border-outline-variant/30 flex flex-col gap-4">
+    <div class="flex gap-4">
+      <a href="#" class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-secondary-container/20 hover:text-secondary transition-all">
+        <span class="material-symbols-outlined text-[18px]">share</span>
+      </a>
+      <a href="#" class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-secondary-container/20 hover:text-secondary transition-all">
+        <span class="material-symbols-outlined text-[18px]">mail</span>
+      </a>
+    </div>
+    <p class="text-on-surface-variant text-[11px] font-mono-data">© 2024 GeotaggingPhotos. All rights reserved.</p>
+  </div>
+</footer><nav class="fixed bottom-0 w-full rounded-t-xl z-50 bg-surface/90 dark:bg-surface-container-highest/90 backdrop-blur-xl shadow-[0px_-4px_20px_rgba(15,23,42,0.05)] flex justify-around items-center h-20 pb-safe px-4 ease-out-expo transition-transform duration-400">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">add_location</span>
+<span class="font-label-md text-label-md text-[10px]">Add Geotag</span>
+</a>
+<!-- Active State: Bulk -->
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold bg-secondary-container/10 rounded-xl px-4 py-1.5 active:scale-90 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">layers</span>
+<span class="font-label-md text-label-md text-[10px]">Bulk</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed active:scale-90 transition-all duration-400" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">info</span>
+<span class="font-label-md text-label-md text-[10px]">EXIF</span>
+</a>
+</nav>
+
+
+</body></html>

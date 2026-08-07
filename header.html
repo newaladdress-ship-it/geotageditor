@@ -1,0 +1,71 @@
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm transition-all duration-400 ease-out-expo" id="navbar">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<a class="font-display text-headline-lg-mobile text-primary tracking-tight scale-105 transition-transform duration-400 ease-out-expo hover:opacity-80 flex items-center gap-2" href="index.html">
+<span class="material-symbols-outlined text-secondary">add_location_alt</span>
+<span>GeotaggingPhotos.com</span>
+</a>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg" href="index.html">Home</a>
+<div class="relative group">
+<button class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg flex items-center gap-1">
+<span>Tools</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<div class="absolute left-0 top-full pt-2 hidden group-hover:block w-56">
+<div class="glass-card rounded-xl p-2 shadow-xl border border-white/40 bg-surface/95 backdrop-blur-md space-y-1">
+<a href="add-geotag.html" class="flex items-center gap-2 px-3 py-2 text-sm text-on-surface hover:bg-secondary/10 hover:text-secondary rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm text-secondary">add_location</span>
+<span>Add Geotag</span>
+</a>
+<a href="bulk-geotagging.html" class="flex items-center gap-2 px-3 py-2 text-sm text-on-surface hover:bg-secondary/10 hover:text-secondary rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm text-secondary">photo_library</span>
+<span>Bulk Geotagging</span>
+</a>
+<a href="exif-viewer.html" class="flex items-center gap-2 px-3 py-2 text-sm text-on-surface hover:bg-secondary/10 hover:text-secondary rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm text-secondary">info</span>
+<span>EXIF Viewer</span>
+</a>
+<a href="image-location-finder.html" class="flex items-center gap-2 px-3 py-2 text-sm text-on-surface hover:bg-secondary/10 hover:text-secondary rounded-lg transition-colors">
+<span class="material-symbols-outlined text-sm text-secondary">search</span>
+<span>Location Finder</span>
+</a>
+</div>
+</div>
+</div>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg" href="blog.html">Blog</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg" href="about-us.html">About Us</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg" href="contact-us.html">Contact</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md hover:bg-white/10 transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg" href="faq.html">FAQ</a>
+</nav>
+<div class="hidden md:flex items-center gap-4">
+<a href="contact-us.html" class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">Support</a>
+<a href="add-geotag.html" class="gradient-btn font-label-md text-label-md px-4 py-2 rounded-lg text-white">Get Started</a>
+</div>
+<button class="md:hidden text-primary p-2" id="mobile-menu-btn" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div id="mobile-menu" class="hidden md:hidden bg-surface border-b border-outline-variant/30 px-6 py-4 space-y-3">
+<a href="index.html" class="block text-on-surface hover:text-secondary font-medium py-1">Home</a>
+<div class="space-y-1 pl-3 border-l-2 border-outline-variant/30">
+<div class="text-xs font-bold uppercase text-on-surface-variant/70 tracking-wider">Tools</div>
+<a href="add-geotag.html" class="block text-sm text-on-surface hover:text-secondary py-1">Add Geotag</a>
+<a href="bulk-geotagging.html" class="block text-sm text-on-surface hover:text-secondary py-1">Bulk Geotagging</a>
+<a href="exif-viewer.html" class="block text-sm text-on-surface hover:text-secondary py-1">EXIF Viewer</a>
+<a href="image-location-finder.html" class="block text-sm text-on-surface hover:text-secondary py-1">Image Location Finder</a>
+</div>
+<div class="space-y-1 pl-3 border-l-2 border-outline-variant/30">
+<div class="text-xs font-bold uppercase text-on-surface-variant/70 tracking-wider">Regional</div>
+<a href="photo-geotagging-usa.html" class="block text-sm text-on-surface hover:text-secondary py-1">USA Services</a>
+<a href="photo-geotagging-uk.html" class="block text-sm text-on-surface hover:text-secondary py-1">UK Services</a>
+<a href="photo-geotagging-australia.html" class="block text-sm text-on-surface hover:text-secondary py-1">Australia Services</a>
+</div>
+<a href="blog.html" class="block text-on-surface hover:text-secondary font-medium py-1">Blog</a>
+<a href="about-us.html" class="block text-on-surface hover:text-secondary font-medium py-1">About Us</a>
+<a href="contact-us.html" class="block text-on-surface hover:text-secondary font-medium py-1">Contact Us</a>
+<a href="faq.html" class="block text-on-surface hover:text-secondary font-medium py-1">FAQ & Support</a>
+<div class="pt-2 border-t border-outline-variant/30">
+<a href="add-geotag.html" class="block w-full text-center gradient-btn font-label-md py-2.5 rounded-lg text-white">Get Started Free</a>
+</div>
+</div>
+</header>

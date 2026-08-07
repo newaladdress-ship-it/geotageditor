@@ -1,0 +1,314 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<title>GeotaggingPhotos.com - Add GPS to Photos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Shimmer animation for drag zone */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .animate-shimmer {
+            animation: shimmer 2s infinite linear;
+        }
+        
+        /* Pulse for icons */
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        .animate-subtle-pulse {
+            animation: subtle-pulse 3s infinite ease-in-out;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "background": "#f7f9fb",
+                        "on-primary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-container": "#009668",
+                        "outline": "#76777d",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-background": "#191c1e",
+                        "on-error-container": "#93000a",
+                        "primary": "#000000",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#000000",
+                        "surface": "#f7f9fb",
+                        "secondary": "#0051d5",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-surface-variant": "#45464d",
+                        "primary-container": "#131b2e",
+                        "inverse-primary": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "surface-dim": "#d8dadc",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#002113",
+                        "secondary-container": "#316bf3",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "on-primary-container": "#7c839b",
+                        "on-tertiary-fixed": "#002113",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-secondary-container": "#fefcff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "inverse-surface": "#2d3133"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Geist", "sans-serif"],
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "mono-data": ["Geist", "monospace"],
+                        "display": ["Geist", "sans-serif"],
+                        "label-md": ["Geist", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "mono-data": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden pt-16">
+<!-- TopAppBar -->
+<header class="bg-surface/80 dark:bg-surface-container-high/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-outline-variant/20 dark:border-outline/20 shadow-sm ease-out-expo transition-all duration-400">
+<div class="flex items-center justify-between px-margin-mobile h-16 w-full">
+<button aria-label="Menu" class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-400 p-2 rounded-full active:scale-95">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-display text-display tracking-tight text-primary dark:text-primary-fixed text-2xl font-bold truncate">GeotaggingPhotos</h1>
+<button aria-label="Profile" class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-400 p-2 rounded-full active:scale-95">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<main class="w-full max-w-[600px] mx-auto">
+<!-- Hero Section -->
+<section class="px-margin-mobile pt-10 pb-6 text-center">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-4">Add GPS Location to Photos Online Free</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Securely update EXIF metadata in seconds. No sign-up required. Your photos never leave your device.</p>
+</section>
+<!-- AdSense Placeholder -->
+<div class="w-full px-margin-mobile mb-6">
+<div class="w-full min-h-[250px] bg-surface-container flex items-center justify-center rounded-xl border border-outline-variant/20 relative overflow-hidden">
+<span class="text-on-surface-variant/50 text-sm font-label-md">Advertisement</span>
+</div>
+</div>
+<!-- Main Interaction Area (Drag & Drop) -->
+<section class="px-margin-mobile mb-10">
+<div class="relative w-full rounded-2xl border-2 border-dashed border-outline-variant/50 bg-surface/50 backdrop-blur-sm p-8 text-center transition-all duration-300 hover:border-secondary/50 group overflow-hidden" id="drop-zone">
+<div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+<div class="flex flex-col items-center justify-center space-y-4 relative z-10">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-secondary shadow-sm mb-2 group-hover:scale-105 transition-transform duration-300 animate-subtle-pulse">
+<span class="material-symbols-outlined text-4xl" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<h3 class="font-headline-lg-mobile text-xl text-primary font-semibold">Upload Photo</h3>
+<p class="font-body-md text-sm text-on-surface-variant mb-4">Drag &amp; drop or tap to browse</p>
+<button class="w-full max-w-[200px] bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-label-md text-label-md py-3 px-6 rounded-lg shadow-md hover:shadow-lg hover:shadow-secondary/30 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add_photo_alternate">add_photo_alternate</span>
+                        Browse Files
+                    </button>
+<p class="font-mono-data text-mono-data text-on-surface-variant/70 mt-4 text-xs">Supports JPG, JPEG, PNG • Max 10MB</p>
+</div>
+</div>
+</section>
+<!-- Features Bento Layout (Vertical Stack for Mobile) -->
+<section class="px-margin-mobile mb-12 space-y-4">
+<!-- Feature 1 -->
+<div class="bg-surface/80 backdrop-blur-xl rounded-2xl p-6 border border-white/40 shadow-[0px_10px_30px_rgba(15,23,42,0.05)] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-bl-full -z-10 blur-2xl"></div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-container rounded-xl text-primary">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-lg text-primary mb-1">100% Secure &amp; Private</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Processing happens locally in your browser. Files are never uploaded to our servers.</p>
+</div>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="bg-surface/80 backdrop-blur-xl rounded-2xl p-6 border border-white/40 shadow-[0px_10px_30px_rgba(15,23,42,0.05)] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary-fixed-dim/20 rounded-bl-full -z-10 blur-2xl"></div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-container rounded-xl text-primary">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-lg text-primary mb-1">Interactive Map</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Pinpoint locations with precision using our high-fidelity map interface before saving EXIF data.</p>
+</div>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="bg-surface/80 backdrop-blur-xl rounded-2xl p-6 border border-white/40 shadow-[0px_10px_30px_rgba(15,23,42,0.05)] relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-error-container/20 rounded-bl-full -z-10 blur-2xl"></div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-container rounded-xl text-primary">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</div>
+<div>
+<h4 class="font-headline-lg-mobile text-lg text-primary mb-1">Lightning Fast</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Optimized for touch devices, making batch edits and quick fixes frictionless on the go.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- How it works (Simplified List) -->
+<section class="px-margin-mobile mb-10">
+<h3 class="font-headline-lg-mobile text-xl text-primary mb-6 text-center">How It Works</h3>
+<div class="space-y-0 relative">
+<!-- Connecting Line -->
+<div class="absolute left-6 top-6 bottom-6 w-0.5 bg-outline-variant/30 z-0"></div>
+<!-- Step 1 -->
+<div class="flex items-center gap-4 relative z-10 py-4">
+<div class="w-12 h-12 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center font-headline-lg-mobile text-lg text-primary shadow-sm shrink-0">1</div>
+<div>
+<h4 class="font-label-md text-base text-primary">Select Photo</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Upload an image from your camera roll.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex items-center gap-4 relative z-10 py-4">
+<div class="w-12 h-12 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center font-headline-lg-mobile text-lg text-primary shadow-sm shrink-0">2</div>
+<div>
+<h4 class="font-label-md text-base text-primary">Pick Location</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Drop a pin on the map or enter coordinates.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-center gap-4 relative z-10 py-4">
+<div class="w-12 h-12 rounded-full bg-secondary text-on-secondary border-2 border-surface flex items-center justify-center font-headline-lg-mobile text-lg shadow-sm shrink-0">3</div>
+<div>
+<h4 class="font-label-md text-base text-primary">Save &amp; Download</h4>
+<p class="font-body-md text-sm text-on-surface-variant">Download the updated photo instantly.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom AdSense Placeholder -->
+<div class="w-full px-margin-mobile mb-8">
+<div class="w-full min-h-[250px] bg-surface-container flex items-center justify-center rounded-xl border border-outline-variant/20 relative overflow-hidden">
+<span class="text-on-surface-variant/50 text-sm font-label-md">Advertisement</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="bg-surface-container border-t border-outline-variant/30 pt-10 pb-20 px-margin-mobile">
+    <div class="max-w-[600px] mx-auto">
+        <div class="grid grid-cols-2 gap-8 mb-10">
+            <div class="space-y-4">
+                <h5 class="font-label-md text-primary font-bold">Legal</h5>
+                <ul class="space-y-2">
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Privacy Policy</a></li>
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Terms of Service</a></li>
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Cookie Policy</a></li>
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">DMCA</a></li>
+                <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Cookie Policy</a></li></ul>
+            </div>
+            <div class="space-y-4">
+                <h5 class="font-label-md text-primary font-bold">Company</h5>
+                <ul class="space-y-2">
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">About Us</a></li>
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Support</a></li>
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Contact</a></li>
+                    <li class=""><a href="#" class="text-on-surface-variant text-sm hover:text-primary transition-colors">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="pt-6 border-t border-outline-variant/20 text-center">
+            <div class="font-display text-lg font-bold text-primary mb-2">GeotaggingPhotos</div>
+            <p class="text-xs text-on-surface-variant/70 font-mono-data">© 2024 GeotaggingPhotos.com. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+<script>
+        // Simple drag and drop visual feedback
+        const dropZone = document.getElementById('drop-zone');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('border-secondary');
+            dropZone.querySelector('.bg-secondary\\/5').classList.remove('opacity-0');
+            dropZone.querySelector('.bg-secondary\\/5').classList.add('opacity-100');
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('border-secondary');
+            dropZone.querySelector('.bg-secondary\\/5').classList.add('opacity-0');
+            dropZone.querySelector('.bg-secondary\\/5').classList.remove('opacity-100');
+        }
+    </script>
+
+
+</body></html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Geotag to Photos | GeotaggingPhotos.com</title>
+<meta content="Add precise GPS coordinates, latitude, longitude, and EXIF location metadata to your images online for free." name="description"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-surface": "#191c1e",
+                        "outline": "#76777d",
+                        "surface-container-highest": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary": "#000000",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#002113",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#009668",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c6c6cd",
+                        "surface": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary-fixed": "#00174b",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-background": "#191c1e",
+                        "secondary": "#0051d5",
+                        "primary": "#000000",
+                        "on-surface-variant": "#45464d",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-container": "#316bf3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "mono-data": ["Geist", "monospace"],
+                        "label-md": ["Geist", "sans-serif"],
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "display": ["Geist", "sans-serif"],
+                        "headline-lg-mobile": ["Geist", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+        .drop-zone {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .drop-zone.active {
+            background-color: rgba(37, 99, 235, 0.05);
+            border-color: rgba(37, 99, 235, 0.5);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+            transform: scale(1.02);
+        }
+    </style>
+    <script src="components.js"></script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pt-16">
+<div id="header-placeholder"></div>
+
+<!-- Main Content Grid -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-gutter flex flex-col md:flex-row gap-gutter">
+<!-- Left Column: Controls & Metadata -->
+<section class="w-full md:w-80 flex-shrink-0 flex flex-col gap-unit h-full order-2 md:order-1 relative z-10">
+<!-- Upload Zone -->
+<div class="glass-panel rounded-2xl p-6 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant drop-zone text-center cursor-pointer min-h-[200px]" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+<span class="material-symbols-outlined text-display text-outline-variant mb-unit pointer-events-none" style="font-variation-settings: 'FILL' 0;">cloud_upload</span>
+<p class="font-label-md text-label-md text-on-surface pointer-events-none">Drag &amp; Drop Photos</p>
+<p class="font-body-md text-body-md text-outline text-sm mt-1 pointer-events-none">or click to browse files</p>
+<input accept="image/*" class="hidden" id="fileInput" multiple="" type="file"/>
+</div>
+<!-- Coordinate Input -->
+<div class="glass-panel rounded-xl p-4 flex flex-col gap-3">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-xs">Location Coordinates</h3>
+<div class="flex flex-col gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style="font-size: 18px;">find_replace</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-2 pl-10 pr-3 font-mono-data text-mono-data text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors placeholder:text-outline/50" placeholder="Latitude (e.g. 40.7128)" type="text"/>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" style="font-size: 18px;">public</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-2 pl-10 pr-3 font-mono-data text-mono-data text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors placeholder:text-outline/50" placeholder="Longitude (e.g. -74.0060)" type="text"/>
+</div>
+</div>
+<div class="flex gap-2 mt-1">
+<button class="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-surface-container-high hover:bg-surface-dim rounded-lg transition-colors font-label-md text-label-md text-on-surface text-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">my_location</span>
+                        Current
+                    </button>
+<button class="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-surface-container-high hover:bg-surface-dim rounded-lg transition-colors font-label-md text-label-md text-on-surface text-sm">
+<span class="material-symbols-outlined" style="font-size: 16px;">map</span>
+                        Pick Map
+                    </button>
+</div>
+</div>
+<!-- Batch Actions -->
+<div class="glass-panel rounded-xl p-4 flex flex-col gap-2 mt-auto">
+<button class="w-full flex items-center justify-center gap-2 py-2 px-4 border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">library_add_check</span>
+                    Apply to All
+                </button>
+<button class="w-full btn-gradient flex items-center justify-center gap-2 py-3 px-4 rounded-lg font-label-md text-label-md text-white shadow-md">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+                    Save Geotagged Photos
+                </button>
+</div>
+</section>
+<!-- Right Column: Map Preview & Selected Images -->
+<section class="flex-grow flex flex-col gap-gutter h-[calc(100vh-140px)] md:h-auto min-h-[500px] order-1 md:order-2">
+<!-- Map Preview Area -->
+<div class="flex-grow relative rounded-2xl overflow-hidden glass-panel border border-outline-variant/30 min-h-[350px]">
+<div class="absolute inset-0 bg-surface-container-low bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARMXjBpH-gYqhTn2aysspkcst7ompcSK-w36wH_p7crRMpjVlY_r914SQvnAnazuEETcx2nsPun33QUgh6j5uHZeEAYcH_nm4caXgmEmAD-uBJ9pb8gvbSYwNoGbqUrtCtDscM1OCIZa37dNG281B2PEffHAGuB3YPQoL_gcmy_Ui38BWEhkc2QSJPdW9w68IebaKUa4V_1jhiN4FFRU6qqlRk3kUTsSW-bP8PIY2JyKw5aoo_cVWx')"></div>
+<div class="absolute top-4 right-4 flex flex-col gap-2">
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-white/50 shadow-sm flex items-center justify-center text-on-surface hover:bg-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-white/50 shadow-sm flex items-center justify-center text-on-surface hover:bg-white transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+
+<div id="footer-placeholder"></div>
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    if (dropZone && fileInput) {
+        dropZone.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+                fileInput.click();
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (fileInput.files && fileInput.files[0]) {
+                handleUploadedPhoto(fileInput.files[0]);
+            }
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            let files = e.dataTransfer.files;
+            if (files && files[0]) {
+                handleUploadedPhoto(files[0]);
+            }
+        }, false);
+
+        function handleUploadedPhoto(file) {
+            const imageUrl = URL.createObjectURL(file);
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+
+            dropZone.innerHTML = `
+                <div class="relative w-full h-full min-h-[220px] flex flex-col items-center justify-center p-2 group">
+                    <img src="${imageUrl}" alt="${file.name}" class="max-h-[200px] w-auto object-contain rounded-xl shadow-md mb-2" />
+                    <span class="font-bold text-sm text-primary truncate max-w-full">${file.name}</span>
+                    <span class="text-xs font-mono-data text-on-surface-variant">${fileSizeMB} MB</span>
+                    <button type="button" onclick="location.reload()" class="mt-2 text-xs text-secondary hover:underline font-semibold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">refresh</span> Change Photo
+                    </button>
+                </div>
+            `;
+
+            detectAndApplyCurrentLocation();
+        }
+
+        function detectAndApplyCurrentLocation() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            let latInput = document.getElementById('latitude');
+            let lngInput = document.getElementById('longitude');
+
+            if (!latInput && inputs[0]) latInput = inputs[0];
+            if (!lngInput && inputs[1]) lngInput = inputs[1];
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        if (latInput) latInput.value = position.coords.latitude.toFixed(6);
+                        if (lngInput) lngInput.value = position.coords.longitude.toFixed(6);
+                    },
+                    (error) => {
+                        if (latInput && !latInput.value) latInput.value = '40.712776';
+                        if (lngInput && !lngInput.value) lngInput.value = '-74.005974';
+                    },
+                    { enableHighAccuracy: true, timeout: 5000 }
+                );
+            } else {
+                if (latInput && !latInput.value) latInput.value = '40.712776';
+                if (lngInput && !lngInput.value) lngInput.value = '-74.005974';
+            }
+        }
+    }
+</script>
+</body>
+</html>

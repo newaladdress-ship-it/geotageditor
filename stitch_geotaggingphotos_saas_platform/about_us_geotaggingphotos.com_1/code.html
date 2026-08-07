@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>About Us | GeotaggingPhotos.com</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-surface": "#191c1e",
+                        "outline": "#76777d",
+                        "surface-container-highest": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary": "#000000",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#002113",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#009668",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c6c6cd",
+                        "surface": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary-fixed": "#00174b",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-background": "#191c1e",
+                        "secondary": "#0051d5",
+                        "primary": "#000000",
+                        "on-surface-variant": "#45464d",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-container": "#316bf3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "mono-data": ["Geist"],
+                        "label-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Inter"],
+                        "display": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #2563EB, #1D4ED8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-btn {
+            background: linear-gradient(to right, #2563EB, #1D4ED8);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .gradient-btn:hover {
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+            transform: scale(1.02);
+        }
+    </style>
+<!-- Organization Schema Markup -->
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "GeotaggingPhotos.com",
+      "url": "https://geotaggingphotos.com",
+      "logo": "https://geotaggingphotos.com/logo.png",
+      "description": "The world's fastest, most secure, and SEO-friendly geotagging tool for professional photographers and GIS specialists.",
+      "sameAs": [
+        "https://twitter.com/geotaggingphotos",
+        "https://linkedin.com/company/geotaggingphotos"
+      ]
+    }
+    </script>
+</head>
+<body class="bg-surface-bright text-on-surface font-body-md min-h-screen flex flex-col pt-16">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm transition-transform duration-400 ease-out-expo">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="font-display text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight">
+                GeotaggingPhotos.com
+            </div>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Tools</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Blog</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">API</a>
+</div>
+<div class="flex items-center gap-unit">
+<button class="hidden md:block text-on-surface-variant hover:text-primary font-label-md text-label-md px-4 py-2">Login</button>
+<button class="gradient-btn px-6 py-2 rounded-lg font-label-md text-label-md">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col items-center w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 gap-12 md:gap-24">
+<!-- Hero Section -->
+<section class="w-full text-center max-w-3xl mx-auto space-y-6 mt-8">
+<h1 class="font-display text-display md:text-[64px] text-primary leading-tight tracking-tight">
+                Precision Metadata for the <span class="gradient-text">Modern Web</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Our mission is to provide the world's fastest, most secure, and SEO-friendly geotagging tool. Built for photographers, optimized for search engines, secured by design.
+            </p>
+</section>
+<!-- Bento Grid: Core Tenets -->
+<section class="w-full grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Technical Leadership Card -->
+<div class="glass-panel p-8 rounded-2xl md:col-span-2 flex flex-col justify-between hover:scale-[1.01] transition-transform duration-400 ease-out-expo">
+<div>
+<div class="w-12 h-12 bg-primary-fixed/20 rounded-xl flex items-center justify-center mb-6 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4">Uncompromising Speed &amp; SEO</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        We engineered our EXIF injection pipeline to be instantly responsive. By optimizing metadata structures specifically for Google Image Search algorithms, we ensure your visual assets rank higher and load faster.
+                    </p>
+</div>
+<div class="w-full h-48 rounded-xl overflow-hidden relative border border-outline-variant/30">
+<img class="object-cover w-full h-full opacity-80 mix-blend-multiply" data-alt="A sleek, modern dashboard visualization displaying fast data transfer speeds and SEO metrics. The interface features a clean, high-tech glassmorphism aesthetic with bright white surfaces, subtle blue gradient accents, and sharp typography indicating high performance. The mood is highly professional and technical." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRsHhIkD8Qff52BLcD6kBHHqoHGWy7xf_-fNABKLuklaTlT-wQfCEeElh89yThDFiGEF6WItVEiGJT4zK1ewcBicfIVYoXx5B-Mo-eiBXBfbRAlpBIis6fnrqBCq4zrsmHqxqGgAg6bWKyY5Ucg_X2vIgUBwUfFt4K9RndX3f_9fIs0a-mMi-DeeikHC2Sd7tpJdM_UMIBBA1iPpscSfhOKc_VsAokehCXWt156r761Vkc2DlEwRwE"/>
+</div>
+</div>
+<!-- Security First Card -->
+<div class="glass-panel p-8 rounded-2xl flex flex-col justify-between hover:scale-[1.01] transition-transform duration-400 ease-out-expo">
+<div>
+<div class="w-12 h-12 bg-surface-variant rounded-xl flex items-center justify-center mb-6 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-4">Client-Side Processing</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Your photos never leave your device. Our tool leverages advanced WebAssembly to read and write EXIF data entirely within your browser. Zero server uploads means absolute security.
+                    </p>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/30">
+<div class="flex items-center gap-3 text-on-surface-variant font-mono-data text-mono-data">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        No Server Storage
+                    </div>
+<div class="flex items-center gap-3 text-on-surface-variant font-mono-data text-mono-data mt-2">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        End-to-End Privacy
+                    </div>
+</div>
+</div>
+</section>
+<!-- Privacy Commitment Section -->
+<section class="w-full glass-panel rounded-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+<div class="flex-1 space-y-6">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">A Commitment to Total Privacy</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    In an era where personal data is constantly monetized, we take a different stance. We do not track the coordinates you input, nor do we analyze the images you process. Our business model relies on providing a premium utility, not harvesting your location history.
+                </p>
+<div class="pt-4">
+<button class="flex items-center gap-2 text-secondary font-label-md text-label-md hover:opacity-80 transition-opacity">
+                        Read our Privacy Manifesto
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex-1 w-full relative">
+<div class="w-full h-64 rounded-xl overflow-hidden bg-surface-container border border-outline-variant/30 flex items-center justify-center">
+<img class="object-cover w-full h-full opacity-90" data-alt="A minimalist, conceptual digital illustration representing data privacy and security. The scene features an abstract shield constructed from glowing white and soft blue geometric glass layers against a pristine, light-mode background. The aesthetic is clean, corporate, and technically sophisticated, conveying trust and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpQFbWvF4Y9pV6gEST4x8ixgm343SJsJP_koTnOMhd0zEXsSlLnTl0bPAkj0G2fM3lvuy5DLOMp27b6Lb4r2ZMsJjNhAebvGXYDMsa_zy84EkVwE0qyuBpEbqhKHUXwhVO-K_OnvjiYKRTiRZ2PDjfG2J0jq4vBk6K0hNP7HZbOaa7VQ4S4T-pxH27OplqZ5ClRCC0U0eUVaOh7S2Vn9gWV4GpzLYapbTZAq2uCVVqj0HdvuKPR3uS"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full rounded-t-xl bg-surface-container-lowest border-t border-outline-variant/30 mt-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-2 lg:col-span-2 mb-8 md:mb-0">
+<div class="font-display text-headline-lg-mobile text-primary mb-2">GeotaggingPhotos.com</div>
+<div class="text-on-surface-variant font-body-md text-body-md">
+                    © 2024 GeotaggingPhotos.com. All rights reserved.
+                </div>
+</div>
+<div class="flex flex-col gap-3">
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-secondary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-secondary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-secondary transition-colors opacity-80 hover:opacity-100" href="#">DMCA</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-secondary transition-colors opacity-80 hover:opacity-100" href="#">Support</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-secondary transition-colors opacity-80 hover:opacity-100" href="#">Contact</a>
+<a class="text-on-surface-variant font-body-md text-body-md hover:text-secondary transition-colors opacity-80 hover:opacity-100" href="#">Sitemap</a>
+</div>
+</div>
+</footer>
+</body></html>

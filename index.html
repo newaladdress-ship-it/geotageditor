@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Add GPS Location to Photos Online Free | GeotaggingPhotos.com</title>
+<meta content="Easily add, edit, or remove GPS coordinates from your photos online for free. Support for JPG, JPEG, PNG, and WebP. Batch processing and live map preview included." name="description">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-surface": "#191c1e",
+                        "outline": "#76777d",
+                        "surface-container-highest": "#e0e3e5",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary": "#000000",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#002113",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#009668",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "primary-fixed-dim": "#bec6e0",
+                        "primary-container": "#131b2e",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "on-primary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c6c6cd",
+                        "surface": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed": "#dae2fd",
+                        "on-secondary-fixed": "#00174b",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-background": "#191c1e",
+                        "secondary": "#0051d5",
+                        "primary": "#000000",
+                        "on-surface-variant": "#45464d",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-container": "#316bf3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "mono-data": ["Geist"],
+                        "label-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Inter"],
+                        "display": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "mono-data": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .gradient-btn:hover {
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .drop-zone {
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.dragover {
+            background: rgba(37, 99, 235, 0.05);
+            border-color: #2563EB;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+    </style>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "GeotaggingPhotos",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Add, edit, or remove GPS location metadata from your photos online for free."
+    }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+<div id="header-placeholder"></div>
+<main class="flex-grow pt-24 pb-16">
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-16 mt-4 text-center animate-fade-in-up">
+<h1 class="font-display text-display text-primary mb-4 leading-tight">Add GPS Coordinates to Photos<br>Online in Seconds</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-6 max-w-3xl mx-auto">
+                Upload one or multiple photos, add, edit, or replace GPS coordinates, and instantly update latitude and longitude data directly in your browser. Use your current location, view existing EXIF metadata, and apply the same coordinates to multiple images at once. Download a single photo or export bulk edits as a ZIP file in seconds.
+            </p>
+<div class="flex flex-wrap justify-center gap-4 mb-8">
+<button onclick="document.getElementById('file-input').click()" class="gradient-btn font-label-md px-6 py-3 rounded-lg text-white font-semibold flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                Select Photos
+            </button>
+<button onclick="if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>alert('Current Location: Lat '+p.coords.latitude+', Lng '+p.coords.longitude))}else{alert('Geolocation not supported')}" class="px-6 py-3 rounded-lg border border-outline-variant bg-surface-container-lowest hover:bg-surface-container-high font-semibold text-primary flex items-center justify-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">my_location</span>
+                Use Current Location
+            </button>
+</div>
+
+<div class="glass-card rounded-2xl max-w-4xl mx-auto p-2 relative overflow-hidden animate-fade-in-up stagger-1">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-tertiary-fixed-dim/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="drop-zone border-2 border-dashed border-outline-variant rounded-xl bg-surface-container-lowest/50 p-12 md:p-20 flex flex-col items-center justify-center relative z-10 cursor-pointer hover:border-secondary transition-colors" id="drop-zone">
+<div class="bg-surface p-4 rounded-full shadow-sm mb-4 inline-flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">add_location</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Drag &amp; Drop Photos Here</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Supports JPG, JPEG, PNG, WebP (Max 50MB per file)</p>
+<button class="gradient-btn font-label-md text-label-md px-6 py-3 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                        Browse Files
+                    </button>
+<input accept=".jpg,.jpeg,.png,.webp" class="hidden" id="file-input" multiple="" type="file">
+</div>
+</div>
+</section>
+
+<!-- Featured Tools Section -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-24">
+<div class="text-center mb-12">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-3">Explore Powerful Metadata Tools</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto">Everything you need to view, edit, and optimize your photo location data for search engines and GIS applications.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<a href="add-geotag.html" class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">add_location</span>
+</div>
+<h3 class="font-headline-lg-mobile text-lg font-bold text-primary mb-2">Add Geotag</h3>
+<p class="text-sm text-on-surface-variant">Inject precise latitude, longitude, and altitude EXIF data into single or multiple images.</p>
+</div>
+<div class="mt-6 flex items-center text-secondary text-sm font-semibold gap-1">
+<span>Launch Tool</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<a href="bulk-geotagging.html" class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">photo_library</span>
+</div>
+<h3 class="font-headline-lg-mobile text-lg font-bold text-primary mb-2">Bulk Geotagging</h3>
+<p class="text-sm text-on-surface-variant">Batch process hundreds of photos simultaneously with custom coordinate presets.</p>
+</div>
+<div class="mt-6 flex items-center text-secondary text-sm font-semibold gap-1">
+<span>Launch Tool</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<a href="exif-viewer.html" class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">info</span>
+</div>
+<h3 class="font-headline-lg-mobile text-lg font-bold text-primary mb-2">EXIF Viewer</h3>
+<p class="text-sm text-on-surface-variant">Inspect complete camera metadata, GPS tags, timestamp, shutter speed, and lens settings.</p>
+</div>
+<div class="mt-6 flex items-center text-secondary text-sm font-semibold gap-1">
+<span>Launch Tool</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<a href="image-location-finder.html" class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform flex flex-col justify-between group">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-4 group-hover:bg-secondary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">search</span>
+</div>
+<h3 class="font-headline-lg-mobile text-lg font-bold text-primary mb-2">Location Finder</h3>
+<p class="text-sm text-on-surface-variant">Reverse lookup photo coordinates to see exact addresses on interactive satellite maps.</p>
+</div>
+<div class="mt-6 flex items-center text-secondary text-sm font-semibold gap-1">
+<span>Launch Tool</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+</div>
+</section>
+
+<!-- Section 2: Why Thousands of Users Need Photo Geotagging -->
+<section class="py-16 md:py-24 border-t border-outline-variant/20 bg-surface-container-lowest/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="max-w-3xl mb-12">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Use Cases &amp; Importance</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Why Thousands of Users Need Photo Geotagging</h2>
+<p class="font-body-lg text-on-surface-variant mb-4 leading-relaxed">
+            Every day, millions of photos are captured using smartphones, cameras, drones, and action devices. Many of these images already contain hidden metadata, including GPS coordinates, altitude, timestamps, camera settings, and device information.
+        </p>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+            Sometimes, users want to preserve this location information. In other cases, they need to update it, remove it, or replace it with more accurate coordinates.
+        </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+<div class="p-6 rounded-2xl bg-surface border border-outline-variant/30">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">camera_alt</span>
+</div>
+<h4 class="font-bold text-primary text-base mb-2">Photographers &amp; Travelers</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Organize travel albums, identify shooting locations, and keep track of location memories.</p>
+</div>
+<div class="p-6 rounded-2xl bg-surface border border-outline-variant/30">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h4 class="font-bold text-primary text-base mb-2">Real Estate &amp; Business</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Attach location information to property images and optimize local search content for mapping.</p>
+</div>
+<div class="p-6 rounded-2xl bg-surface border border-outline-variant/30">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<h4 class="font-bold text-primary text-base mb-2">Journalists &amp; Verification</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Verify exact capture locations and maintain authentic digital evidence documentation.</p>
+</div>
+<div class="p-6 rounded-2xl bg-surface border border-outline-variant/30">
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">dashboard</span>
+</div>
+<h4 class="font-bold text-primary text-base mb-2">Single Dashboard Control</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">GeotaggingPhotos.com provides all the tools needed to manage image metadata in one place.</p>
+</div>
+</div>
+
+<div class="space-y-4">
+<p class="font-body-lg text-primary font-semibold">Instead of switching between multiple applications, users can:</p>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+<div class="flex items-center gap-2 p-3.5 rounded-xl bg-surface border border-outline-variant/30 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>View EXIF info</span>
+</div>
+<div class="flex items-center gap-2 p-3.5 rounded-xl bg-surface border border-outline-variant/30 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Inject coordinates</span>
+</div>
+<div class="flex items-center gap-2 p-3.5 rounded-xl bg-surface border border-outline-variant/30 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Reverse-search</span>
+</div>
+<div class="flex items-center gap-2 p-3.5 rounded-xl bg-surface border border-outline-variant/30 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Inspect camera</span>
+</div>
+<div class="flex items-center gap-2 p-3.5 rounded-xl bg-surface border border-outline-variant/30 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Bulk GPS update</span>
+</div>
+<div class="flex items-center gap-2 p-3.5 rounded-xl bg-surface border border-outline-variant/30 text-sm font-medium text-primary">
+<span class="material-symbols-outlined text-secondary text-base">check_circle</span>
+<span>Instant export</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 3: Complete Metadata Toolkit for Modern Photography -->
+<section class="py-16 md:py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16 max-w-3xl mx-auto">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Platform Capabilities</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Complete Metadata Toolkit for Modern Photography</h2>
+<p class="font-body-lg text-on-surface-variant">
+        GeotaggingPhotos.com is more than a simple GPS editor. It combines multiple tools into one platform, helping users manage image metadata efficiently.
+    </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="p-8 rounded-2xl border border-outline-variant/30 bg-surface flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-5">
+<span class="material-symbols-outlined text-2xl">add_location_alt</span>
+</div>
+<h3 class="font-bold text-xl text-primary mb-3">Add Geotag</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+            Insert precise latitude, longitude, and altitude data into one or multiple images. Upload your photos, enter coordinates manually, or use the current-location button to automatically detect your position.
+        </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl border border-outline-variant/30 bg-surface flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-5">
+<span class="material-symbols-outlined text-2xl">collections</span>
+</div>
+<h3 class="font-bold text-xl text-primary mb-3">Bulk Geotagging</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+            Upload dozens or even hundreds of images and apply the same coordinates to every file simultaneously. Once processing is complete, all updated images are packaged into a downloadable ZIP file.
+        </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl border border-outline-variant/30 bg-surface flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-5">
+<span class="material-symbols-outlined text-2xl">find_in_page</span>
+</div>
+<h3 class="font-bold text-xl text-primary mb-3">EXIF Viewer</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+            Inspect detailed metadata stored inside your images, including GPS coordinates, timestamps, shutter speed, aperture, ISO values, camera model, lens information, and software details.
+        </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl border border-outline-variant/30 bg-surface flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-5">
+<span class="material-symbols-outlined text-2xl">map</span>
+</div>
+<h3 class="font-bold text-xl text-primary mb-3">Image Location Finder</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+            Already have a geotagged image? Upload it to discover where the photo was taken. The tool extracts the GPS data and displays the exact location on an interactive map.
+        </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl border border-outline-variant/30 bg-surface flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-5">
+<span class="material-symbols-outlined text-2xl">sync_alt</span>
+</div>
+<h3 class="font-bold text-xl text-primary mb-3">Replace Existing GPS Data</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+            If an uploaded image already contains coordinates, the system automatically detects them and fills the latitude and longitude fields. Users can keep the original location, replace it with new coordinates, or instantly use their current location.
+        </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl border border-outline-variant/30 bg-surface flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center mb-5">
+<span class="material-symbols-outlined text-2xl">security</span>
+</div>
+<h3 class="font-bold text-xl text-primary mb-3">Browser-Based Processing</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+            Your images remain under your control. Files are processed locally, reducing unnecessary uploads and improving privacy. Browser-based processing has become a major differentiator among modern EXIF and geotagging tools.
+        </p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 4: Edit Existing GPS Data or Replace Photo Locations -->
+<section class="py-16 md:py-24 border-t border-outline-variant/20 bg-surface-container-lowest/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-7">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Data Management</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Detect, Edit, and Replace Existing GPS Coordinates Instantly</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed">
+<p>
+                Not every image starts without location information. Photos captured with smartphones, drones, and digital cameras often contain embedded GPS metadata, including latitude, longitude, altitude, timestamps, and device information. Instead of manually checking every file, GeotaggingPhotos.com automatically scans uploaded images and detects whether location data already exists.
+            </p>
+<p>
+                As soon as you upload a photo, the editor extracts the available coordinates and displays them in the input fields. You can keep the original values, replace them with a new location, remove the coordinates completely, or use your current location to overwrite the existing metadata.
+            </p>
+<p>
+                Whether you're correcting inaccurate locations, updating travel photos, organizing real-estate listings, or managing drone imagery, the editing process takes only a few seconds.
+            </p>
+<p>
+                With support for single-image and bulk editing, you don't need to repeat the same steps for every file. Upload your images, review the detected coordinates, make your changes, and export the updated versions instantly.
+            </p>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface border border-outline-variant/30 rounded-2xl p-8 shadow-sm">
+<h3 class="font-bold text-primary text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">tune</span>
+            Section Capabilities
+        </h3>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Automatic GPS detection</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Existing coordinate preview</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Replace latitude and longitude</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Remove GPS metadata</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Edit altitude information</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Batch coordinate replacement</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Browser-based processing</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 5: Bulk Geotagging for Multiple Images -->
+<section class="py-16 md:py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="max-w-3xl mb-12">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Bulk Workflows</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Add the Same Location to Hundreds of Photos at Once</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed">
+<p>
+            Editing images one by one can be frustrating, especially when an entire album was captured in the same location. The bulk geotagging tool allows you to upload multiple images simultaneously and apply the same coordinates to every selected file with a single click.
+        </p>
+<p>
+            Simply drag and drop your photos, enter the desired latitude and longitude, and let the editor process the entire collection automatically. Whether you upload five images or hundreds of files, the coordinates only need to be entered once.
+        </p>
+<p>
+            For even faster processing, use the <strong>Current Location</strong> button to automatically fetch your coordinates from your device. The detected location is instantly applied to all uploaded photos, saving time and eliminating repetitive work.
+        </p>
+<p>
+            After processing is complete, all edited files are packaged into a ZIP archive, making downloads fast and organized.
+        </p>
+</div>
+</div>
+
+<div class="mb-12">
+<h3 class="font-bold text-primary text-lg mb-4">Bulk Processing is Especially Useful For:</h3>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Travel albums</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Wedding photography</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Real-estate galleries</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Drone surveys</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Construction projects</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Field research</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Tourism businesses</div>
+<div class="p-4 rounded-xl bg-surface border border-outline-variant/30 text-center font-semibold text-sm text-primary">Event photography</div>
+</div>
+</div>
+
+<div class="bg-surface-container-lowest/50 border border-outline-variant/30 rounded-2xl p-8">
+<h3 class="font-bold text-primary text-base mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">collections</span>
+        Bulk Processing Features:
+    </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Upload multiple images at once</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Apply one location to all files</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Automatic ZIP downloads</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Drag-and-drop support</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Current location integration</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Fast browser processing</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Support for JPG, PNG, WebP, HEIC, TIFF</div>
+</div>
+</div>
+</section>
+
+<!-- Section 6: Use Your Current Location with One Click -->
+<section class="py-16 md:py-24 border-t border-outline-variant/20 bg-surface-container-lowest/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-7">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Automation</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Automatically Detect Your Current GPS Coordinates</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed">
+<p>
+                Manually entering latitude and longitude values isn't always convenient. That's why GeotaggingPhotos.com includes a built-in location detector that can fetch your current GPS coordinates automatically.
+            </p>
+<p>
+                By clicking the <strong>Use Current Location</strong> button, your browser requests permission to access your device's location. Once approved, the editor fills the latitude and longitude fields instantly, allowing you to geotag your images without copying coordinates from Google Maps or other services.
+            </p>
+<p>
+                This feature works for both single-image uploads and bulk photo processing. If you've uploaded multiple images, the detected coordinates are automatically applied to every selected file.
+            </p>
+<p>
+                The current-location feature is ideal for photographers working in the field, travelers documenting their journeys, real-estate agents updating property photos, and businesses managing location-based content.
+            </p>
+<p>
+                Because everything happens directly inside your browser, you remain in control of your data throughout the entire process.
+            </p>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface border border-outline-variant/30 rounded-2xl p-8 shadow-sm">
+<h3 class="font-bold text-primary text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">my_location</span>
+            Benefits of Automatic Location Detection
+        </h3>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> No need to copy coordinates manually</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Instant GPS detection</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Faster workflow</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Works with multiple images</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Higher accuracy</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Mobile and desktop support</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Secure browser permissions</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 7: Supported Formats and Advanced EXIF Metadata -->
+<section class="py-16 md:py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="max-w-3xl mb-12">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Format &amp; EXIF Support</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">View, Edit, and Manage Photo Metadata with Full Format Support</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed">
+<p>
+            Every image contains more information than what appears on the screen. Modern smartphones, cameras, and drones store hidden metadata that includes GPS coordinates, timestamps, camera settings, altitude, orientation, and device details. GeotaggingPhotos.com makes it easy to access and manage all of this information from a single place.
+        </p>
+<p>
+            Whether you're working with travel photos, professional photography, real-estate images, or drone surveys, our editor supports the most popular image formats used around the world. Upload your files and instantly inspect the metadata stored inside them, including latitude, longitude, altitude, capture date, shutter speed, ISO, aperture, focal length, and camera model.
+        </p>
+<p>
+            The built-in EXIF viewer helps you understand exactly where and when an image was captured. If location data already exists, the coordinates are automatically detected and displayed, allowing you to update or replace them in seconds.
+        </p>
+</div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+<div class="bg-surface border border-outline-variant/30 rounded-2xl p-8">
+<h3 class="font-bold text-primary text-base mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">extension</span>
+            Supported Image Formats:
+        </h3>
+<div class="grid grid-cols-2 gap-3 text-sm font-semibold text-primary">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> JPG</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> JPEG</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> PNG</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> WebP</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> TIFF</div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> HEIC</div>
+<div class="flex items-center gap-2 col-span-2"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Camera RAW formats</div>
+</div>
+</div>
+
+<div class="bg-surface border border-outline-variant/30 rounded-2xl p-8">
+<h3 class="font-bold text-primary text-base mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">list_alt</span>
+            Metadata You Can Inspect &amp; Edit:
+        </h3>
+<div class="grid grid-cols-1 gap-2.5 text-sm font-medium text-on-surface-variant">
+<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Latitude and longitude</div>
+<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Altitude information</div>
+<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Camera manufacturer and model</div>
+<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Capture date and time</div>
+<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Lens details &amp; exposure settings</div>
+<div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Image orientation &amp; device info</div>
+</div>
+</div>
+</div>
+
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+        Whether you're editing a single photo or managing thousands of files, GeotaggingPhotos.com gives you complete control over your image metadata without requiring additional software or technical knowledge.
+    </p>
+</section>
+
+<!-- Section 8: Built for Photographers, Travelers, Businesses, and Drone Pilots -->
+<section class="py-16 md:py-24 border-t border-outline-variant/20 bg-surface-container-lowest/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16 max-w-3xl mx-auto">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">User Personas</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Who Uses GeotaggingPhotos.com?</h2>
+<p class="font-body-lg text-on-surface-variant">
+            Photo location data is useful in far more situations than most people realize. From professional photographers to businesses managing local content, accurate GPS information helps users organize, verify, and optimize their images.
+        </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="p-8 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">photo_camera</span>
+</div>
+<h3 class="font-bold text-primary text-lg mb-2">Photographers &amp; Content Creators</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                Professional photographers shoot hundreds of images in different locations. GPS metadata makes it easier to organize albums, track shooting locations, and build better portfolios.
+            </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">explore</span>
+</div>
+<h3 class="font-bold text-primary text-lg mb-2">Travelers &amp; Adventure Enthusiasts</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                Travel photos tell stories, but GPS coordinates preserve the exact location where those memories were created. Document road trips, hiking adventures, and vacations around the world.
+            </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">real_estate_agent</span>
+</div>
+<h3 class="font-bold text-primary text-lg mb-2">Real-Estate Professionals</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                Property agents and agencies use location-enabled images to organize listings and maintain accurate records of homes, apartments, offices, and commercial properties.
+            </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<h3 class="font-bold text-primary text-lg mb-2">Drone Pilots &amp; Survey Teams</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                Drone photography relies on precise GPS information. Surveyors, construction teams, and mapping professionals use image coordinates to track progress and document projects.
+            </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<h3 class="font-bold text-primary text-lg mb-2">Businesses &amp; Local Brands</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                Businesses use image metadata to organize marketing assets, manage location-based content, and maintain consistency across digital platforms and local mapping profiles.
+            </p>
+</div>
+</div>
+
+<div class="p-8 rounded-2xl bg-surface border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">newspaper</span>
+</div>
+<h3 class="font-bold text-primary text-lg mb-2">Journalists &amp; Researchers</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                Researchers and journalists frequently need to verify where photos were taken. GPS metadata provides an additional layer of context and helps validate image origins.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 9: Privacy, Security, and Browser-Based Processing -->
+<section class="py-16 md:py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-7">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Privacy &amp; Security</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Your Photos Stay Private and Secure</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed">
+<p>
+                Privacy matters when working with personal and professional images. That's why GeotaggingPhotos.com is designed with security and user control in mind. Instead of forcing users to install software or rely on complicated desktop applications, the platform performs image processing directly in the browser whenever possible.
+            </p>
+<p>
+                You remain in control of your files throughout the editing process. Upload your photos, inspect existing metadata, add or replace GPS coordinates, and download your updated images in just a few clicks.
+            </p>
+<p>
+                Whether you're editing family photos, travel memories, business assets, or drone images, your data should remain secure and accessible only to you.
+            </p>
+</div>
+</div>
+<div class="lg:col-span-5 bg-surface border border-outline-variant/30 rounded-2xl p-8 shadow-sm">
+<h3 class="font-bold text-primary text-lg mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">shield</span>
+            Security Features
+        </h3>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Browser-based processing</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> No technical setup required</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Secure uploads and downloads</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Fast metadata editing</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Automatic image packaging</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Mobile and desktop support</li>
+<li class="flex items-center gap-3 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Simple and intuitive workflow</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- Section 10: Why GPS Metadata Matters for Local SEO, Maps, and Image Organization -->
+<section class="py-16 md:py-24 border-t border-outline-variant/20 bg-surface-container-lowest/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="max-w-3xl mb-12">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Value &amp; Benefits</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Why Photo Location Data Matters More Than Ever</h2>
+<div class="space-y-4 font-body-lg text-on-surface-variant leading-relaxed">
+<p>
+            Photos are no longer just visual memories. Today, images contain valuable information that helps people organize their content, verify locations, and manage large collections more efficiently. GPS metadata makes it possible to connect photos with real-world places by storing latitude, longitude, altitude, and capture details directly inside the file.
+        </p>
+<p>
+            For photographers, location data simplifies album management and makes it easier to revisit shooting locations. Travelers can preserve the exact places where their memories were created, while businesses can organize marketing assets based on cities, offices, stores, and project sites.
+        </p>
+<p>
+            Real-estate agencies and construction companies often work with thousands of images taken across multiple locations. By embedding accurate coordinates, teams can sort, categorize, and manage visual content more effectively.
+        </p>
+<p>
+            Drone operators and survey teams also rely on precise metadata to track inspections, monitor projects, and document field work. Instead of manually organizing hundreds of files, they can use location information to quickly identify where each image was captured.
+        </p>
+</div>
+</div>
+
+<div class="bg-surface border border-outline-variant/30 rounded-2xl p-8">
+<h3 class="font-bold text-primary text-base mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">stars</span>
+        Benefits of Accurate GPS Metadata:
+    </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Organize photos by location</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Verify capture location</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Improve project documentation</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Manage large photo libraries</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Simplify agency workflows</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Preserve location info</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Access details instantly</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Section 11: Frequently Asked Questions (Standard List Accordion System) -->
+<section class="py-16 md:py-24 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16 max-w-3xl mx-auto">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">FAQ</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Frequently Asked Questions</h2>
+<p class="font-body-lg text-on-surface-variant">
+        Got questions about geotagging photos, browser processing, or format support? Here are the answers to common questions.
+    </p>
+</div>
+
+<div class="max-w-4xl mx-auto divide-y divide-outline-variant/30 border-y border-outline-variant/30">
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I upload multiple images at the same time?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. You can upload one image or hundreds of photos simultaneously and apply the same GPS coordinates to every file with a single click.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Do I need to enter coordinates for every image?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">No. Simply enter latitude and longitude once, and the selected location will be applied to all uploaded images.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I replace existing GPS coordinates?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. If an image already contains location data, the editor automatically detects it and allows you to replace or remove the coordinates.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I use my current location?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. Click the <strong>Use Current Location</strong> button to automatically fill the latitude and longitude fields using your device's GPS.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">What image formats are supported?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">The editor supports JPG, JPEG, PNG, WebP, TIFF, HEIC, and several other popular image formats.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I remove location data from photos?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. You can remove GPS coordinates completely while preserving the rest of the image metadata.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">How are multiple images downloaded?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">If you edit multiple photos, all processed files are packaged into a ZIP archive for faster downloading.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I view existing EXIF metadata?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. The built-in EXIF viewer displays GPS information, timestamps, camera settings, lens details, and more.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Does this tool work on mobile devices?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. GeotaggingPhotos.com works on smartphones, tablets, laptops, and desktop computers.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Do I need to install any software?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">No. Everything works directly in your browser, so there is nothing to download or install.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I edit photos captured by drones?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. Drone photos containing GPS metadata can be uploaded, inspected, and updated.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I process travel photos?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Absolutely. Travelers can add, replace, and organize photo locations from trips around the world.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Is there a limit on the number of images?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">The tool supports bulk uploads, although limits may depend on your device and browser performance.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">Can I edit altitude information?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. In addition to latitude and longitude, you can also modify altitude values.</p>
+</div>
+
+<div class="py-6">
+<h3 class="font-bold text-primary text-lg mb-2">How long does the editing process take?</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">Most images are processed within seconds, depending on the number and size of the uploaded files.</p>
+</div>
+</div>
+</section>
+
+<!-- Section 12: Final Call to Action Banner -->
+<section class="py-16 md:py-24 bg-surface-container-lowest/80 border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop text-center">
+<div class="max-w-3xl mx-auto space-y-6">
+<h2 class="font-display text-display text-primary leading-tight">Start Editing Your Photos in Seconds</h2>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+            Whether you need to add coordinates to a single image, update existing metadata, inspect camera information, or process hundreds of files at once, GeotaggingPhotos.com provides everything you need in one place.
+        </p>
+<p class="font-body-lg text-on-surface-variant leading-relaxed">
+            Upload your images, enter custom latitude and longitude values, or use your current location to fill the coordinates automatically. Review existing metadata, replace outdated locations, and download your updated photos in just a few clicks.
+        </p>
+
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-left max-w-xl mx-auto py-2">
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Add GPS coordinates</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Replace existing locations</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> View EXIF metadata</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Bulk process photos</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> Instant downloads</div>
+<div class="flex items-center gap-2 text-sm font-semibold text-primary"><span class="material-symbols-outlined text-secondary text-base">check_circle</span> No software needed</div>
+</div>
+
+<div class="pt-4">
+<button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="gradient-btn text-white font-label-md px-8 py-4 rounded-xl shadow-lg text-base inline-flex items-center gap-2">
+<span class="material-symbols-outlined">upload_file</span>
+            Upload Your Photos Now
+        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<div id="footer-placeholder"></div>
+<script src="components.js"></script>
+<script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+
+        if (dropZone && fileInput) {
+            dropZone.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') {
+                    fileInput.click();
+                }
+            });
+
+            const browseBtn = dropZone.querySelector('button');
+            if (browseBtn) {
+                browseBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    fileInput.click();
+                });
+            }
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.add('border-secondary', 'bg-secondary/5'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, () => dropZone.classList.remove('border-secondary', 'bg-secondary/5'), false);
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (fileInput.files && fileInput.files[0]) {
+                    handleUploadedFile(fileInput.files[0]);
+                }
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                let dt = e.dataTransfer;
+                let files = dt.files;
+                if (files && files[0]) {
+                    handleUploadedFile(files[0]);
+                }
+            }, false);
+
+            function handleUploadedFile(file) {
+                const imageUrl = URL.createObjectURL(file);
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                
+                // Read image resolution
+                const img = new Image();
+                img.onload = function() {
+                    const width = img.naturalWidth;
+                    const height = img.naturalHeight;
+                    
+                    dropZone.innerHTML = `
+                        <div class="w-full flex flex-col items-center gap-6 p-4">
+                            <div class="relative max-w-lg w-full rounded-2xl overflow-hidden shadow-lg border border-outline-variant/40 group">
+                                <img src="${imageUrl}" alt="${file.name}" class="w-full max-h-[320px] object-contain bg-black/5" />
+                                <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-xs font-mono px-3 py-1.5 rounded-full">
+                                    ${width} × ${height} px
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <h3 class="font-headline-lg-mobile text-lg font-bold text-primary">${file.name}</h3>
+                                <p class="text-sm text-on-surface-variant font-mono-data mt-1">${fileSizeMB} MB • ${file.type || 'image/jpeg'}</p>
+                            </div>
+
+                            <div class="w-full max-w-xl bg-surface-container-lowest border border-outline-variant/40 rounded-2xl p-6 shadow-sm text-left">
+                                <div class="flex items-center justify-between gap-2 mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-secondary">location_on</span>
+                                        <h4 class="font-bold text-primary">GPS Geotag Coordinates</h4>
+                                    </div>
+                                    <button type="button" onclick="detectAndApplyCurrentLocation()" class="text-xs font-semibold text-secondary bg-secondary/10 hover:bg-secondary/20 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors">
+                                        <span class="material-symbols-outlined text-sm">my_location</span>
+                                        Use Current Location
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                    <div>
+                                        <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Latitude</label>
+                                        <input type="text" id="preview-lat" value="40.712776" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs uppercase font-semibold text-on-surface-variant mb-1">Longitude</label>
+                                        <input type="text" id="preview-lng" value="-74.005974" class="w-full px-3 py-2 rounded-xl bg-surface border border-outline-variant/40 text-sm font-mono-data focus:outline-none focus:border-secondary" />
+                                    </div>
+                                </div>
+                                <div id="geo-status" class="text-xs text-emerald-600 font-medium mb-3 hidden"></div>
+                                <div class="flex flex-col sm:flex-row gap-3 mt-4">
+                                    <button onclick="downloadGeotaggedImage('${file.name}', '${imageUrl}')" class="gradient-btn flex-1 py-3 px-4 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm">
+                                        <span class="material-symbols-outlined text-lg">download</span>
+                                        Download Geotagged Photo
+                                    </button>
+                                    <button onclick="location.reload()" class="px-4 py-3 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors font-semibold text-sm flex items-center justify-center gap-1">
+                                        <span class="material-symbols-outlined text-lg">refresh</span>
+                                        Upload Another
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    detectAndApplyCurrentLocation();
+                };
+                img.src = imageUrl;
+            }
+        }
+
+        function detectAndApplyCurrentLocation() {
+            const latInput = document.getElementById('preview-lat') || document.getElementById('latitude');
+            const lngInput = document.getElementById('preview-lng') || document.getElementById('longitude');
+            const statusMsg = document.getElementById('geo-status');
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        if (latInput) latInput.value = position.coords.latitude.toFixed(6);
+                        if (lngInput) lngInput.value = position.coords.longitude.toFixed(6);
+                        if (statusMsg) {
+                            statusMsg.innerText = "✓ Detected current location automatically";
+                            statusMsg.classList.remove('hidden');
+                        }
+                    },
+                    (error) => {
+                        console.warn("Geolocation fallback used:", error.message);
+                    },
+                    { enableHighAccuracy: true, timeout: 5000 }
+                );
+            }
+        }
+
+        function downloadGeotaggedImage(fileName, imageUrl) {
+            const lat = document.getElementById('preview-lat')?.value || '40.712776';
+            const lng = document.getElementById('preview-lng')?.value || '-74.005974';
+            const a = document.createElement('a');
+            a.href = imageUrl;
+            const nameParts = fileName.split('.');
+            const ext = nameParts.pop();
+            a.download = `${nameParts.join('.')}_geotagged_${lat}_${lng}.${ext}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Geotag to Photos Online | GeotaggingPhotos.com</title>
+<meta content="Inject precise latitude, longitude, and altitude EXIF GPS metadata into single or multiple images." name="description"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-bright": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-surface": "#191c1e",
+                        "outline": "#76777d",
+                        "surface-tint": "#565e74",
+                        "tertiary-container": "#002113",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#00174b",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-container": "#009668",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed": "#dbe1ff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#002113",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-container": "#7c839b",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-container": "#316bf3",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary": "#000000",
+                        "tertiary-fixed": "#6ffbbe",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface": "#f7f9fb",
+                        "primary": "#000000",
+                        "primary-container": "#131b2e",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0051d5",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "unit": "8px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Geist", "sans-serif"],
+                        "mono-data": ["Geist", "monospace"],
+                        "display": ["Geist", "sans-serif"],
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "label-md": ["Geist", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+        .drop-zone.active {
+            background-color: rgba(37, 99, 235, 0.05);
+            border-color: rgba(37, 99, 235, 0.5);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+            transform: scale(1.02);
+        }
+    </style>
+<script src="components.js"></script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pt-16">
+<div id="header-placeholder"></div>
+
+<!-- Main Content Grid -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-gutter flex flex-col md:flex-row gap-gutter">
+<div class="w-full md:w-5/12 flex flex-col gap-6">
+<div>
+<span class="inline-block px-3 py-1 mb-3 text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary-container/20 rounded-full">Single Image Mode</span>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-2">Add Geotag to Photos</h1>
+<p class="font-body-md text-on-surface-variant">Inject precise latitude, longitude, and altitude EXIF metadata into single or multiple images.</p>
+</div>
+<div class="drop-zone glass-panel border-2 border-dashed border-outline-variant hover:border-secondary rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors duration-400 ease-out-expo min-h-[260px] relative overflow-hidden group" id="drop-zone" onclick="document.getElementById('file-input').click()">
+<input accept="image/*" class="hidden" id="file-input" type="file"/>
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-400">
+<span class="material-symbols-outlined text-secondary text-3xl">add_photo_alternate</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-1">Upload Your Image</h3>
+<p class="font-body-md text-on-surface-variant text-sm mb-4">Drag and drop file here, or click to browse</p>
+<span class="text-xs font-mono-data text-outline uppercase tracking-wider">Supports JPG, PNG, WEBP, HEIC</span>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex flex-col gap-5">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">edit_location</span> Target Location
+                </h3>
+<div class="flex flex-col gap-4">
+<div>
+<label class="block text-xs font-label-md uppercase text-on-surface-variant mb-1.5" for="latitude">Latitude</label>
+<input class="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 focus:border-secondary focus:outline-none font-mono-data text-sm" id="latitude" placeholder="e.g. 40.7128" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-label-md uppercase text-on-surface-variant mb-1.5" for="longitude">Longitude</label>
+<input class="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 focus:border-secondary focus:outline-none font-mono-data text-sm" id="longitude" placeholder="e.g. -74.0060" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-label-md uppercase text-on-surface-variant mb-1.5" for="altitude">Altitude (Meters)</label>
+<input class="w-full px-4 py-2.5 rounded-xl bg-surface-container-lowest border border-outline-variant/40 focus:border-secondary focus:outline-none font-mono-data text-sm" id="altitude" placeholder="e.g. 15" type="text"/>
+</div>
+</div>
+<button class="btn-gradient w-full py-3.5 px-6 rounded-xl font-label-md text-white shadow-sm flex items-center justify-center gap-2 mt-2">
+<span class="material-symbols-outlined text-lg">save</span> Save Geotagged Photo
+                </button>
+</div>
+</div>
+<div class="w-full md:w-7/12 flex flex-col gap-6">
+<div class="flex-grow relative rounded-2xl overflow-hidden glass-panel border border-outline-variant/30 min-h-[350px]">
+<div class="absolute inset-0 bg-surface-container-low bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARMXjBpH-gYqhTn2aysspkcst7ompcSK-w36wH_p7crRMpjVlY_r914SQvnAnazuEETcx2nsPun33QUgh6j5uHZeEAYcH_nm4caXgmEmAD-uBJ9pb8gvbSYwNoGbqUrtCtDscM1OCIZa37dNG281B2PEffHAGuB3YPQoL_gcmy_Ui38BWEhkc2QSJPdW9w68IebaKUa4V_1jhiN4FFRU6qqlRk3kUTsSW-bP8PIY2JyKw5aoo_cVWx')"></div>
+<div class="absolute top-4 right-4 flex flex-col gap-2">
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-white/50 shadow-sm flex items-center justify-center text-on-surface hover:bg-white transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md border border-white/50 shadow-sm flex items-center justify-center text-on-surface hover:bg-white transition-colors">
+<span class="material-symbols-outlined">remove</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+
+<div id="footer-placeholder"></div>
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+
+    if (dropZone && fileInput) {
+        dropZone.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+                fileInput.click();
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (fileInput.files && fileInput.files[0]) {
+                handleUploadedPhoto(fileInput.files[0]);
+            }
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            let files = e.dataTransfer.files;
+            if (files && files[0]) {
+                handleUploadedPhoto(files[0]);
+            }
+        }, false);
+
+        function handleUploadedPhoto(file) {
+            const imageUrl = URL.createObjectURL(file);
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+
+            dropZone.innerHTML = `
+                <div class="relative w-full h-full min-h-[220px] flex flex-col items-center justify-center p-2 group">
+                    <img src="${imageUrl}" alt="${file.name}" class="max-h-[200px] w-auto object-contain rounded-xl shadow-md mb-2" />
+                    <span class="font-bold text-sm text-primary truncate max-w-full">${file.name}</span>
+                    <span class="text-xs font-mono-data text-on-surface-variant">${fileSizeMB} MB</span>
+                    <button type="button" onclick="location.reload()" class="mt-2 text-xs text-secondary hover:underline font-semibold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">refresh</span> Change Photo
+                    </button>
+                </div>
+            `;
+
+            detectAndApplyCurrentLocation();
+        }
+
+        function detectAndApplyCurrentLocation() {
+            const inputs = document.querySelectorAll('input[type="text"]');
+            let latInput = document.getElementById('latitude');
+            let lngInput = document.getElementById('longitude');
+
+            if (!latInput && inputs[0]) latInput = inputs[0];
+            if (!lngInput && inputs[1]) lngInput = inputs[1];
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        if (latInput) latInput.value = position.coords.latitude.toFixed(6);
+                        if (lngInput) lngInput.value = position.coords.longitude.toFixed(6);
+                    },
+                    (error) => {
+                        if (latInput && !latInput.value) latInput.value = '40.712776';
+                        if (lngInput && !lngInput.value) lngInput.value = '-74.005974';
+                    },
+                    { enableHighAccuracy: true, timeout: 5000 }
+                );
+            } else {
+                if (latInput && !latInput.value) latInput.value = '40.712776';
+                if (lngInput && !lngInput.value) lngInput.value = '-74.005974';
+            }
+        }
+    }
+</script>
+</body>
+</html>

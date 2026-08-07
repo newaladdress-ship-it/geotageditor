@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Image Location Finder | GeotaggingPhotos.com</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-container": "#fefcff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "outline": "#76777d",
+                        "surface-tint": "#565e74",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-container": "#002113",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed": "#00174b",
+                        "outline-variant": "#c6c6cd",
+                        "on-surface": "#191c1e",
+                        "on-tertiary-container": "#009668",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed": "#dbe1ff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#002113",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-container": "#7c839b",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-container": "#316bf3",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary": "#000000",
+                        "tertiary-fixed": "#6ffbbe",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface": "#f7f9fb",
+                        "primary": "#000000",
+                        "primary-container": "#131b2e",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary": "#0051d5",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-background": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem"
+                    },
+                    spacing: {
+                        "gutter": "24px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "unit": "8px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Geist", "sans-serif"],
+                        "mono-data": ["Geist Mono", "monospace"],
+                        "display": ["Geist", "sans-serif"],
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "label-md": ["Geist", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "mono-data": ["13px", { lineHeight: "1.4", fontWeight: "400" }],
+                        "display": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }]
+                    },
+                    boxShadow: {
+                        'glass': '0 10px 30px rgba(15, 23, 42, 0.05)',
+                        'glass-modal': '0 25px 50px -12px rgba(15, 23, 42, 0.15)',
+                        'glow': '0 0 15px rgba(37, 99, 235, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+        }
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+        }
+        .glass-btn {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-btn:hover {
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+            transform: scale(1.02);
+        }
+        .drag-active {
+            background-color: rgba(37, 99, 235, 0.05);
+            border-color: #2563EB;
+        }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg text-on-surface bg-background min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm transition-all duration-400 ease-out-expo" id="navbar">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<a class="font-display text-headline-lg-mobile text-primary tracking-tight" href="#">GeotaggingPhotos.com</a>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-secondary font-bold border-b-2 border-secondary font-label-md text-label-md pb-1" href="#">Tools</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-400 ease-out-expo font-label-md text-label-md" href="#">Blog</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-400 ease-out-expo font-label-md text-label-md" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-400 ease-out-expo font-label-md text-label-md" href="#">API</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="hidden md:inline-flex text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors duration-400 ease-out-expo">Login</button>
+<button class="glass-btn px-6 py-2 rounded-full font-label-md text-label-md shadow-sm">Get Started</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full flex flex-col md:flex-row gap-gutter">
+<!-- Left Panel: Uploader & Metadata -->
+<div class="w-full md:w-1/3 flex flex-col gap-6">
+<!-- Header -->
+<div>
+<h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">Image Location Finder</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">Extract GPS metadata from your photos instantly. Upload an image to reveal its exact location and coordinate data securely in your browser.</p>
+</div>
+<!-- Drag & Drop Zone -->
+<div class="glass-panel rounded-2xl p-8 border-2 border-dashed border-outline-variant hover:border-secondary transition-colors duration-400 ease-out-expo flex flex-col items-center justify-center text-center cursor-pointer min-h-[250px] relative overflow-hidden group" id="drop-zone">
+<input accept="image/jpeg, image/png, image/webp, image/heic" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" id="file-input" type="file"/>
+<div class="bg-surface-container rounded-full p-4 mb-4 group-hover:scale-110 transition-transform duration-400 ease-out-expo shadow-sm">
+<span class="material-symbols-outlined text-4xl text-secondary" style="font-variation-settings: 'FILL' 0;">cloud_upload</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Upload Photo</h3>
+<p class="text-on-surface-variant font-body-md text-body-md mb-4">Drag and drop your image here, or click to browse.</p>
+<p class="text-outline font-label-md text-label-md text-xs uppercase tracking-wider">Supports JPG, PNG, WEBP, HEIC</p>
+<!-- Loading State (Hidden by default) -->
+<div class="hidden absolute bottom-0 left-0 w-full h-1 bg-surface-variant" id="upload-progress">
+<div class="h-full bg-secondary w-1/3 animate-pulse"></div>
+</div>
+</div>
+<!-- Ad Space -->
+<div class="w-full bg-surface-container-low rounded-xl flex items-center justify-center text-outline font-label-md text-label-md border border-outline-variant/20 min-h-[250px]">
+                Advertisement Area (250px min-height)
+            </div>
+<!-- Extracted Metadata Panel (Initially Hidden/Skeleton) -->
+<div class="glass-panel rounded-xl p-6 flex flex-col gap-4 opacity-50 pointer-events-none transition-opacity duration-400" id="metadata-panel">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">info</span> EXIF Data
+                </h3>
+<div class="grid grid-cols-2 gap-4">
+<!-- Latitude -->
+<div class="flex flex-col">
+<label class="text-on-surface-variant font-label-md text-label-md text-xs uppercase mb-1">Latitude</label>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">explore</span>
+<span class="font-mono-data text-mono-data text-primary truncate">--.------</span>
+</div>
+</div>
+<!-- Longitude -->
+<div class="flex flex-col">
+<label class="text-on-surface-variant font-label-md text-label-md text-xs uppercase mb-1">Longitude</label>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm">explore</span>
+<span class="font-mono-data text-mono-data text-primary truncate">--.------</span>
+</div>
+</div>
+</div>
+<!-- Reverse Geocode Result -->
+<div class="flex flex-col mt-2">
+<label class="text-on-surface-variant font-label-md text-label-md text-xs uppercase mb-1">Location Name</label>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-3 flex gap-3 items-start">
+<span class="material-symbols-outlined text-secondary mt-0.5">location_on</span>
+<p class="font-body-md text-body-md text-primary leading-tight">Waiting for image upload...</p>
+</div>
+</div>
+<div class="flex flex-col mt-2">
+<label class="text-on-surface-variant font-label-md text-label-md text-xs uppercase mb-1">Capture Time</label>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-3 flex gap-3 items-center">
+<span class="material-symbols-outlined text-outline">schedule</span>
+<p class="font-mono-data text-mono-data text-primary">YYYY:MM:DD HH:MM:SS</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: Map Preview & Visualizer -->
+<div class="w-full md:w-2/3 flex flex-col min-h-[500px] relative">
+<div class="glass-panel rounded-2xl overflow-hidden shadow-glass flex-grow relative flex items-center justify-center bg-surface-container-lowest border border-outline-variant/20">
+<!-- Placeholder / Empty State -->
+<div class="text-center p-8 flex flex-col items-center z-10" id="map-placeholder">
+<div class="bg-surface-container rounded-full p-6 mb-6">
+<span class="material-symbols-outlined text-6xl text-outline-variant" style="font-variation-settings: 'FILL' 0;">map</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface-variant mb-2">No Location Data Yet</h2>
+<p class="text-outline font-body-md text-body-md max-w-md">Upload an image containing GPS metadata to visualize its exact location on the interactive map.</p>
+</div>
+<!-- Map View (Hidden until upload) -->
+<!-- Simulated map background -->
+<div class="absolute inset-0 w-full h-full hidden" id="map-view">
+<img class="w-full h-full object-cover opacity-80" data-alt="A highly detailed, professional UI map interface showing a stylized top-down view of a coastal city. The map uses a light-mode color palette with soft gray roads, subtle blue water features, and clean white landmasses. The style is modern, technical, and clean, fitting a premium SaaS application for GIS professionals. Soft lighting and minimal labels." data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3lTmwdiV2E8aYJFkakO0wOfjXOY22QKWcMm6mkyf-wGypKE6o-KYRrqAf-VVpGgyDkQlQ7ep7zGjdilumox0vXN1hGBiez1Ywdop_Z9h28bzAWJrfzEuhrM5YfdsOmkx070odWvt1InBli2DmybicB7zQcAfmu7L83sWEmB6kJ7WBAsFQpPe4q3mKvJIrDJDC3Y428qD-Zfdz2qujpjXtlBRp-7KmEDI4eKz0pxvvwI1xkkNMyWUs"/>
+<!-- Floating UI Controls -->
+<div class="absolute top-4 right-4 flex flex-col gap-2 z-20">
+<button class="bg-white/80 backdrop-blur-md border border-white/50 shadow-sm w-10 h-10 rounded-full flex items-center justify-center text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+<button class="bg-white/80 backdrop-blur-md border border-white/50 shadow-sm w-10 h-10 rounded-full flex items-center justify-center text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-lg">remove</span>
+</button>
+</div>
+<div class="absolute bottom-4 right-4 z-20">
+<button class="bg-white/80 backdrop-blur-md border border-white/50 shadow-sm w-10 h-10 rounded-full flex items-center justify-center text-primary hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-lg">layers</span>
+</button>
+</div>
+<!-- Simulated Map Pin -->
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="bg-secondary text-white px-3 py-1 rounded-lg text-xs font-mono-data mb-1 shadow-sm whitespace-nowrap animate-bounce" style="animation-duration: 2s;">37.7749° N, 122.4194° W</div>
+<div class="w-4 h-4 bg-secondary rounded-full border-2 border-white shadow-md relative">
+<div class="absolute inset-0 bg-secondary rounded-full animate-ping opacity-75"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full rounded-t-xl bg-surface-container-lowest border-t border-outline-variant/30 mt-auto relative z-10">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-2 md:col-span-4 lg:col-span-2 flex flex-col gap-4">
+<span class="font-display text-headline-lg-mobile text-primary">GeotaggingPhotos.com</span>
+<p class="text-on-surface-variant font-body-md text-body-md">Professional metadata management and spatial mapping solutions.</p>
+<p class="text-outline font-body-md text-body-md mt-auto text-sm">© 2024 GeotaggingPhotos.com. All rights reserved.</p>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-primary font-bold mb-2">Product</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Tools</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">API</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-primary font-bold mb-2">Legal</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">DMCA</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-primary font-bold mb-2">Company</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Blog</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Support</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Contact</a>
+</div>
+<div class="flex flex-col gap-2">
+<span class="font-label-md text-label-md text-primary font-bold mb-2">Other</span>
+<a class="text-on-surface-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 font-body-md text-body-md text-sm" href="#">Sitemap</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interactions for demonstration
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('drag-active');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('drag-active');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) simulateUpload();
+        });
+
+        function handleDrop(e) {
+            let dt = e.dataTransfer;
+            let files = dt.files;
+            if (files.length > 0) simulateUpload();
+        }
+
+        function simulateUpload() {
+            const progress = document.getElementById('upload-progress');
+            progress.classList.remove('hidden');
+            
+            // Simulate processing time
+            setTimeout(() => {
+                progress.classList.add('hidden');
+                
+                // Show metadata panel
+                const metaPanel = document.getElementById('metadata-panel');
+                metaPanel.classList.remove('opacity-50', 'pointer-events-none');
+                
+                // Update dummy data
+                const monoTexts = metaPanel.querySelectorAll('.font-mono-data');
+                if(monoTexts.length >= 3) {
+                    monoTexts[0].textContent = "37.774929";
+                    monoTexts[1].textContent = "-122.419416";
+                    monoTexts[2].textContent = "2023:10:24 14:32:10";
+                }
+                
+                const locText = metaPanel.querySelector('p.font-body-md');
+                if(locText) {
+                    locText.textContent = "San Francisco City Hall, 1 Dr Carlton B Goodlett Pl, San Francisco, CA 94102";
+                    locText.classList.add('font-medium');
+                }
+
+                // Switch map view
+                document.getElementById('map-placeholder').classList.add('hidden');
+                document.getElementById('map-view').classList.remove('hidden');
+
+            }, 1500);
+        }
+    </script>
+</body></html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blog - GeotaggingPhotos.com</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline-variant": "#c6c6cd",
+                      "on-background": "#191c1e",
+                      "error-container": "#ffdad6",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "background": "#f7f9fb",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed": "#131b2e",
+                      "surface-dim": "#d8dadc",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "inverse-surface": "#2d3133",
+                      "inverse-primary": "#bec6e0",
+                      "on-tertiary-fixed": "#002113",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "outline": "#76777d",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#4edea3",
+                      "on-tertiary-fixed-variant": "#005236",
+                      "error": "#ba1a1a",
+                      "surface-tint": "#565e74",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary-fixed": "#dbe1ff",
+                      "tertiary": "#000000",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-surface": "#191c1e",
+                      "on-secondary-container": "#fefcff",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "primary": "#000000",
+                      "surface": "#f7f9fb",
+                      "tertiary-container": "#002113",
+                      "secondary-container": "#316bf3",
+                      "on-secondary-fixed": "#00174b",
+                      "primary-fixed": "#dae2fd",
+                      "on-primary-container": "#7c839b",
+                      "surface-variant": "#e0e3e5",
+                      "surface-container-high": "#e6e8ea",
+                      "primary-container": "#131b2e",
+                      "inverse-on-surface": "#eff1f3",
+                      "primary-fixed-dim": "#bec6e0",
+                      "secondary": "#0051d5",
+                      "surface-container": "#eceef0",
+                      "tertiary-fixed": "#6ffbbe",
+                      "on-tertiary-container": "#009668",
+                      "on-surface-variant": "#45464d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1280px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "unit": "8px",
+                      "margin-desktop": "40px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": [
+                              "Geist"
+                      ],
+                      "label-md": [
+                              "Geist"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Geist"
+                      ],
+                      "display": [
+                              "Geist"
+                      ],
+                      "mono-data": [
+                              "Geist"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "mono-data": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .glass-panel {
+              background: rgba(255, 255, 255, 0.7);
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+              border: 1px solid rgba(255, 255, 255, 0.4);
+              box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+          }
+          .glass-panel-hover:hover {
+              transform: scale(1.01);
+              box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+              transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .gradient-btn {
+              background: linear-gradient(135deg, #2563EB, #1D4ED8);
+              color: white;
+              transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .gradient-btn:hover {
+              box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+          }
+      </style>
+</head>
+<body class="bg-background text-on-background antialiased font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm transition-all duration-400 ease-out-expo" id="mainNav">
+<div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<a class="font-display text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight" href="#">GeotaggingPhotos.com</a>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg hover:bg-white/10" href="#">Tools</a>
+<a class="font-label-md text-label-md text-secondary font-bold border-b-2 border-secondary px-3 py-2" href="#">Blog</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg hover:bg-white/10" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-400 ease-out-expo px-3 py-2 rounded-lg hover:bg-white/10" href="#">API</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="hidden md:block font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Login</a>
+<a class="gradient-btn px-4 py-2 rounded-lg font-label-md text-label-md shadow-sm" href="#">Get Started</a>
+<button class="md:hidden text-on-surface p-2 rounded-lg hover:bg-surface-variant/50 transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
+<!-- Header Section -->
+<header class="mb-12 text-center md:text-left">
+<h1 class="font-display text-display text-primary mb-4">Insights &amp; Updates</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Expert guides, tutorials, and news about metadata management, SEO optimization for photographers, and GIS data precision.</p>
+</header>
+<!-- Category Filters -->
+<section class="mb-12">
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 rounded-full bg-secondary-container text-on-secondary-container font-label-md text-label-md shadow-sm transition-all hover:opacity-90">All Articles</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-all">Tutorials</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-all">SEO Strategy</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-all">EXIF Metadata</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-highest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant transition-all">Product Updates</button>
+</div>
+</section>
+<!-- Featured Article (Bento Style) -->
+<section class="mb-16">
+<div class="glass-panel rounded-2xl overflow-hidden glass-panel-hover grid grid-cols-1 md:grid-cols-2 gap-0">
+<div class="h-64 md:h-auto relative bg-surface-container-highest">
+<img class="w-full h-full object-cover absolute inset-0" data-alt="A professional photographer working on a sleek modern laptop displaying a world map interface with intricate data overlays. The environment is a clean, well-lit studio space with modern minimalist decor, flooded with natural daylight. The color palette emphasizes cool whites, subtle greys, and vibrant blue accents representing digital technology. The mood is focused, high-tech, and precise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYoGdZRoasg_bvVsWMpnUUKotxUtCAUDSl3H-J2LXqdw01uosBOSSSZo1vlCBc98VKR64xkhJP1g2Xk17xliRPTWWEgmOQFntPlrDTtJhFA3wQpKOOP59n4SPeOElsX4vbHINoXiUH2gdW4ZIoDxZjDK5EepXALMlfxYYKPDEjJeF-J8vfEbeCB-tTt6c4dkCRmKhO4vXGLXHq3d-aTSP4Bt32f8vz2Ruz4VNpwZBc3rRlwE3Ct9bn"/>
+</div>
+<div class="p-8 md:p-12 flex flex-col justify-center">
+<span class="inline-block px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-md text-label-md w-max mb-4">Featured Guide</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">How to Geotag Multiple Images for Local SEO Domination</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Learn the definitive workflow for batch-processing location metadata to signal relevance to search engines and dominate local map packs.</p>
+<div class="flex items-center gap-4 mb-8">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A clean, professional headshot of an author with a neutral expression. Modern corporate styling with soft, flattering lighting and a simple abstract background using the brand's cool white and grey tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4G7One3zVzRVUvMqC_LizV96xiDYUCXVBN6E_47CrTZboFS_hVnHMc0SFBPyzRczEyJSvPWIRjT5iYBv8_1ojzmWZbWr-ZYYV4eA6fCWy6wPYbblTAu01Qw5_kXd4U57TScbIOakoBEE8nw28GH2wpCT71B4Guiy89cgZYiAYNIrvoJGcXTTkykBoB3SE3uME-FaFfb33jXCQ1wJnEX8yNQYvpGeQPDBG7jRljD0fezSjTCFa_191"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary">Alex Mercer</p>
+<p class="font-mono-data text-mono-data text-outline">Oct 12, 2023 • 8 min read</p>
+</div>
+</div>
+<a class="inline-flex items-center gap-2 text-secondary font-label-md text-label-md hover:opacity-80 transition-opacity" href="#">
+                        Read Full Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Article Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter mb-16">
+<!-- Article Card 1 -->
+<article class="glass-panel rounded-2xl p-6 glass-panel-hover flex flex-col h-full">
+<div class="h-48 rounded-xl bg-surface-container overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover" data-alt="A detailed macro shot of a camera lens reflecting a digital map grid. The lighting is dramatic yet clean, highlighting the technical precision of the equipment against a minimalist studio background. The color palette features deep blacks, sleek silver metallics, and subtle neon blue reflections indicating digital integration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaj-oKNZ4oSz9ZsQG91Cj_Ex5lyzx7O2tADgAphqAiPsW5U_niMBmnH7wUnw7Ncoe_1ao9_4kGM17ULNc3JUwSNRQh9dfMsvn1_GmxrKi3vLJzeiPaeTFnE85zWH6WB01Oa3kXAn-jYSNLxWwdkuQWX_w4nm95xMzic09qyFY4GDjh4bppukySbbK98Ybou8Xupax8A6cvQTEpf1GN67jK8I_aJuFqdGLe3LRtpHHonD6TTLylSWqy"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-3">
+<span class="text-secondary font-label-md text-label-md">EXIF Metadata</span>
+<span class="font-mono-data text-mono-data text-outline">Oct 05, 2023</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-3">Understanding EXIF Data: What You're Really Sharing</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">A deep dive into the hidden information stored in your photographs and how to manage privacy without losing utility.</p>
+<a class="inline-flex items-center gap-1 text-primary font-label-md text-label-md hover:text-secondary transition-colors mt-auto w-max border-b border-transparent hover:border-secondary pb-1" href="#">
+                        Read Article
+                    </a>
+</div>
+</article>
+<!-- Article Card 2 -->
+<article class="glass-panel rounded-2xl p-6 glass-panel-hover flex flex-col h-full">
+<div class="h-48 rounded-xl bg-surface-container overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover" data-alt="Abstract 3D rendering of location pins connected by glowing fiber optic lines over a minimalist topographical map. The style is modern, technical, and glassmorphic, utilizing translucent materials and soft ambient lighting. The primary colors are pristine white, light grey, and vibrant energetic blue, conveying high-speed data transmission." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaEm5IXpMs4BGY9NDwEELKYuwneXbNHCN0FM3MLghYXj34V1aC6sfQG2dMBb65DXMFtIl-UPt5G6NedRRrY_vjxpRyT7ekWJTrA-N-jnXW8i5FEB7ygYQESgxRsUK3TE1Zx2hYJS0s3BeTJmVEbJBEc1ZuUgQj0BgoH3XvM3FTs4IGuYpAfjJd4cH2ou94v6wyNaNhU26ak51oGBX796WspjJYQdLPAmYHmgfZuV-FLFlTYu4YKf6h"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-3">
+<span class="text-secondary font-label-md text-label-md">SEO Strategy</span>
+<span class="font-mono-data text-mono-data text-outline">Sep 28, 2023</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-3">SEO Benefits of Geotagging Your Business Imagery</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Discover how embedded location coordinates in images can significantly boost your local search visibility and attract regional clients.</p>
+<a class="inline-flex items-center gap-1 text-primary font-label-md text-label-md hover:text-secondary transition-colors mt-auto w-max border-b border-transparent hover:border-secondary pb-1" href="#">
+                        Read Article
+                    </a>
+</div>
+</article>
+<!-- Article Card 3 -->
+<article class="glass-panel rounded-2xl p-6 glass-panel-hover flex flex-col h-full">
+<div class="h-48 rounded-xl bg-surface-container overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover" data-alt="A minimalist workspace setting featuring a smartphone interface displaying a clean, modern map application with a prominent blue tracking dot. The phone rests on a pristine white desk next to a modern coffee cup and stylish glasses. Lighting is soft, natural, and bright, creating a crisp, professional, and inviting atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJymcLQezMCMwFq8Imy8Ed4xZRr2pP49hnImasgDWINjpK5dIi7y-3N8hAKr4bKZEqyjSFlGLGBCyEDzQVoaKRb4MiHhSN_Vjbjm3REzMSC4yI5r88rvAC9lc-gX1Ho-jqx0AddX2svM-WFhucnlmAJao-TwTkET9wNmu_RdHxBHD8Admc6XdfCpQtNYZq5s-XRQfc2V4FK30OzM2lVbyRvIF0pgd4HfeZ3V02N-jcjEGShtBmZfHy"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-3">
+<span class="text-secondary font-label-md text-label-md">Tutorials</span>
+<span class="font-mono-data text-mono-data text-outline">Sep 15, 2023</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-3">Batch Editing Coordinates in Lightroom Classic</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Step-by-step instructions for syncing GPS tracks with your photo catalog for thousands of images simultaneously.</p>
+<a class="inline-flex items-center gap-1 text-primary font-label-md text-label-md hover:text-secondary transition-colors mt-auto w-max border-b border-transparent hover:border-secondary pb-1" href="#">
+                        Read Article
+                    </a>
+</div>
+</article>
+<!-- AdSense Container Placeholder -->
+<div class="md:col-span-2 lg:col-span-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl flex items-center justify-center p-4 min-h-[250px]">
+<p class="text-on-surface-variant font-mono-data text-mono-data opacity-50 text-center">Advertisement Space<br/>(min-height: 250px to prevent CLS)</p>
+</div>
+<!-- Article Card 4 -->
+<article class="glass-panel rounded-2xl p-6 glass-panel-hover flex flex-col h-full">
+<div class="h-48 rounded-xl bg-surface-container overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover" data-alt="A close-up view of a high-resolution drone controller screen displaying a complex aerial map interface with waypoint markers. The styling is technical and rugged yet refined, with sharp focus on the glowing screen elements. Colors are muted greys and blacks with sharp neon blue indicators for navigational data." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhHEhMkxt3B-ZeTF9-uDHnY_LNbFrCPiRFaN3HbvzKfjDLZkH9KNGKTgEgd_OPBTbnq3maFyZeDv8ySDNDgy9TOeL2QEEqOJK7jD0MJqKdk6gFH_oHU7qT-FXel2Mg1V9cgZFeemI5uhu0WdNg4dzlK3HK1P2SaohJGhtPrZ_Bkhj6I1f_MzTfrBtKdof-mDHDHJIHn9w3dbP-j5vh_qysfFxsCcRT5Kq6VH5yZU98wqAjPRr5oCfo"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-center mb-3">
+<span class="text-secondary font-label-md text-label-md">Tutorials</span>
+<span class="font-mono-data text-mono-data text-outline">Sep 02, 2023</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-3">Extracting Location Data from Drone Photography</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow">Techniques for accessing and utilizing the highly precise telemetry and GPS data embedded by commercial drones.</p>
+<a class="inline-flex items-center gap-1 text-primary font-label-md text-label-md hover:text-secondary transition-colors mt-auto w-max border-b border-transparent hover:border-secondary pb-1" href="#">
+                        Read Article
+                    </a>
+</div>
+</article>
+</section>
+<!-- Newsletter CTA -->
+<section class="glass-panel rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto relative overflow-hidden">
+<!-- Subtle background decoration -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl text-secondary mb-4">mail</span>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-4">Stay Ahead in Metadata Management</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-2xl mx-auto">Join 15,000+ photographers and SEO professionals receiving our weekly insights on spatial data optimization.</p>
+<form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+<input class="flex-grow bg-surface-bright border border-outline-variant/50 rounded-lg px-4 py-3 font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" placeholder="Enter your email address" required="" type="email"/>
+<button class="gradient-btn px-6 py-3 rounded-lg font-label-md text-label-md whitespace-nowrap shadow-md" type="submit">Subscribe Now</button>
+</form>
+<p class="font-mono-data text-mono-data text-outline mt-4">No spam. Unsubscribe anytime.</p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full rounded-t-xl bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant/30 mt-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter py-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="col-span-2 lg:col-span-2 mb-8 lg:mb-0">
+<a class="font-display text-headline-lg-mobile text-primary dark:text-inverse-primary block mb-4" href="#">GeotaggingPhotos.com</a>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant mb-6 pr-4">Precision metadata management tools for professionals.</p>
+<p class="font-mono-data text-mono-data text-outline">© 2024 GeotaggingPhotos.com. All rights reserved.</p>
+</div>
+<div class="col-span-1 lg:col-span-2"></div> <!-- Spacer for layout -->
+<div class="col-span-2 md:col-span-4 lg:col-span-2 grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-3">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">DMCA</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Support</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Contact</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-secondary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Sitemap</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Simple script for nav background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('bg-surface/80', 'bg-surface/95');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('bg-surface/95', 'bg-surface/80');
+            }
+        });
+    </script>
+</body></html>
