@@ -7,98 +7,11 @@
 <meta content="Batch process hundreds of photos simultaneously to inject or edit GPS location metadata." name="description"/>
 <link rel="canonical" href="https://www.geotaggingphotos.com/bulk-geotagging"/>
 <meta name="google-site-verification" content="N64YrbFPSdHsGD-4WXS1l56mGfE0Kp2fCjPvzKa6KL4" />
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-bright": "#f7f9fb",
-                        "inverse-surface": "#2d3133",
-                        "on-tertiary": "#ffffff",
-                        "on-tertiary-fixed-variant": "#005236",
-                        "on-surface": "#191c1e",
-                        "outline": "#76777d",
-                        "surface-container-highest": "#e0e3e5",
-                        "error": "#ba1a1a",
-                        "surface-container-high": "#e6e8ea",
-                        "tertiary": "#000000",
-                        "surface-tint": "#565e74",
-                        "tertiary-container": "#002113",
-                        "on-secondary-container": "#fefcff",
-                        "surface-container-lowest": "#ffffff",
-                        "inverse-on-surface": "#eff1f3",
-                        "on-error": "#ffffff",
-                        "on-tertiary-container": "#009668",
-                        "on-secondary-fixed-variant": "#003ea8",
-                        "secondary-fixed-dim": "#b4c5ff",
-                        "primary-fixed-dim": "#bec6e0",
-                        "primary-container": "#131b2e",
-                        "on-primary-container": "#7c839b",
-                        "tertiary-fixed-dim": "#4edea3",
-                        "on-error-container": "#93000a",
-                        "surface-container": "#eceef0",
-                        "on-primary": "#ffffff",
-                        "background": "#f7f9fb",
-                        "error-container": "#ffdad6",
-                        "on-secondary": "#ffffff",
-                        "tertiary-fixed": "#6ffbbe",
-                        "on-tertiary-fixed": "#002113",
-                        "surface-container-low": "#f2f4f6",
-                        "outline-variant": "#c6c6cd",
-                        "surface": "#f7f9fb",
-                        "inverse-primary": "#bec6e0",
-                        "primary-fixed": "#dae2fd",
-                        "on-secondary-fixed": "#00174b",
-                        "secondary-fixed": "#dbe1ff",
-                        "on-primary-fixed": "#131b2e",
-                        "on-background": "#191c1e",
-                        "secondary": "#0051d5",
-                        "primary": "#000000",
-                        "on-surface-variant": "#45464d",
-                        "surface-dim": "#d8dadc",
-                        "on-primary-fixed-variant": "#3f465c",
-                        "surface-variant": "#e0e3e5",
-                        "secondary-container": "#316bf3"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "container-max": "1280px",
-                        "gutter": "24px",
-                        "margin-mobile": "16px",
-                        "unit": "8px",
-                        "margin-desktop": "40px"
-                    },
-                    "fontFamily": {
-                        "headline-lg-mobile": ["Geist"],
-                        "label-md": ["Geist"],
-                        "body-lg": ["Inter"],
-                        "headline-lg": ["Geist"],
-                        "display": ["Geist"],
-                        "mono-data": ["Geist"],
-                        "body-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "mono-data": ["13px", { "lineHeight": "1.4", "fontWeight": "400" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
-                    }
-                }
-            }
-        }
-    </script>
+<link rel="stylesheet" href="/styles.css"/>
 <style>
         .glass-panel {
             background: rgba(255, 255, 255, 0.7);
