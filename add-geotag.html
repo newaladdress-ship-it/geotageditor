@@ -27,6 +27,8 @@
     </style>
 <script src="/components.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="/geotag-exif.js"></script>
 </head>
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pt-16">
@@ -321,7 +323,7 @@
                             <span class="material-symbols-outlined text-secondary text-base">library_add_check</span>
                             10. Bulk Mode Settings
                         </h5>
-                        <div class="p-3 bg-secondary/5 border border-secondary/20 rounded-xl space-y-2 text-xs text-on-surface">
+                        <div class="p-3.5 bg-secondary/5 border border-secondary/20 rounded-xl space-y-2.5 text-xs text-on-surface">
                             <div class="font-semibold text-secondary flex items-center gap-1 mb-1">
                                 <span class="material-symbols-outlined text-sm">info</span>
                                 <span>Coordinates will be applied to all uploaded images.</span>
@@ -338,18 +340,26 @@
                                 <input type="checkbox" id="bulk-keep-timestamps" checked class="rounded text-secondary" />
                                 <span>Keep original timestamps</span>
                             </label>
+                            <div class="pt-1">
+                                <button type="button" onclick="createBulkZipExport()" class="gradient-btn font-semibold text-white text-xs px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-sm">
+                                    <span class="material-symbols-outlined text-sm">folder_zip</span>
+                                    Create ZIP File
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 11. Export & Download Preview Section -->
-                    <div class="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl space-y-2 text-xs">
+                    <div class="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl space-y-3 text-xs">
                         <h5 class="font-bold text-primary text-xs flex items-center gap-1.5">
                             <span class="material-symbols-outlined text-secondary text-sm">preview</span>
-                            11. Export File Preview
+                            11. Live Export Preview
                         </h5>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-on-surface-variant font-mono">
-                            <div><span class="font-semibold text-primary">Filename:</span> <span id="preview-filename-text">photo_geotagged.jpg</span></div>
+                            <div><span class="font-semibold text-primary">Download Name:</span> <span id="preview-filename-text">photo_geotagged.jpg</span></div>
                             <div><span class="font-semibold text-primary">GPS Preview:</span> <span id="preview-gps-text">No GPS Set</span></div>
+                            <div><span class="font-semibold text-primary">Resolution:</span> <span id="preview-resolution-text">--</span></div>
+                            <div><span class="font-semibold text-primary">Location:</span> <span id="preview-address-text">Not geocoded</span></div>
                         </div>
                     </div>
                 </div>
@@ -381,6 +391,17 @@
         </div>
 
     </div>
+
+    <!-- SEO TEXT BELOW TOOL -->
+    <section class="mt-8 glass-card p-6 rounded-2xl border border-outline-variant/30 text-left space-y-2">
+        <h3 class="font-bold text-primary text-lg flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary">tune</span>
+            Advanced Photo Metadata Editor
+        </h3>
+        <p class="text-sm text-on-surface-variant leading-relaxed">
+            Add GPS coordinates, rename photos, edit descriptions, manage keywords, and update EXIF metadata directly in your browser. Perfect for photographers, real-estate agents, drone pilots, travelers, and businesses.
+        </p>
+    </section>
 
     <!-- Comprehensive SEO Content Section (500+ Words) -->
     <article class="mt-16 border-t border-outline-variant/30 pt-16 space-y-16">
@@ -1133,6 +1154,27 @@
         }
     }
 
+    function getAdvancedOptions() {
+        return {
+            customFileName: document.getElementById('meta-filename')?.value || '',
+            keepOriginalName: document.getElementById('meta-keep-name')?.checked || false,
+            title: document.getElementById('meta-title')?.value || '',
+            description: document.getElementById('meta-description')?.value || '',
+            keywords: typeof metaKeywordsArray !== 'undefined' ? metaKeywordsArray : [],
+            artist: document.getElementById('meta-author')?.value || '',
+            copyright: document.getElementById('meta-copyright')?.value || '',
+            country: document.getElementById('meta-country')?.value || '',
+            state: document.getElementById('meta-state')?.value || '',
+            city: document.getElementById('meta-city')?.value || '',
+            address: document.getElementById('meta-address')?.value || '',
+            altitude: document.getElementById('meta-altitude')?.value || '',
+            heading: document.getElementById('meta-heading')?.value || '',
+            accuracy: document.getElementById('meta-accuracy')?.value || '',
+            captureTime: document.getElementById('meta-capture-time')?.value || '',
+            timezone: document.getElementById('meta-timezone')?.value || ''
+        };
+    }
+
     function downloadGeotaggedImage() {
         if (uploadedImages.length === 0) {
             alert('Please upload at least one image first!');
@@ -1147,6 +1189,8 @@
             alert('Please enter or select latitude and longitude coordinates before downloading!');
             return;
         }
+
+        const options = getAdvancedOptions();
 
         // Determine custom export filename
         let exportName = activeImg.name;
@@ -1163,7 +1207,81 @@
             exportName = `${nameParts.join('.')}_geotagged.${ext}`;
         }
 
-        geotagImageAndDownload(activeImg.url, exportName, lat, lng);
+        geotagImageAndDownload(activeImg.url, exportName, lat, lng, options);
+    }
+
+    async function createBulkZipExport() {
+        if (uploadedImages.length === 0) {
+            alert('Please upload at least one image first!');
+            return;
+        }
+
+        if (typeof JSZip === 'undefined') {
+            alert('ZIP library is loading, please try again in a moment.');
+            return;
+        }
+
+        const defaultLat = document.getElementById('latitude')?.value;
+        const defaultLng = document.getElementById('longitude')?.value;
+        const options = getAdvancedOptions();
+        const autoRename = document.getElementById('bulk-auto-rename')?.checked;
+
+        showGeoStatus("⏳ Generating geotagged ZIP archive...");
+        const zip = new JSZip();
+
+        for (let i = 0; i < uploadedImages.length; i++) {
+            const imgItem = uploadedImages[i];
+            const lat = imgItem.lat || defaultLat;
+            const lng = imgItem.lng || defaultLng;
+
+            if (!lat || !lng) continue;
+
+            const latNum = parseFloat(lat);
+            const lngNum = parseFloat(lng);
+            if (isNaN(latNum) || isNaN(lngNum)) continue;
+
+            let fileName = imgItem.name;
+            if (autoRename) {
+                const ext = imgItem.name.split('.').pop() || 'jpg';
+                fileName = `geotagged_photo_${i + 1}.${ext}`;
+            }
+
+            try {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = imgItem.url;
+                });
+
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || img.width;
+                canvas.height = img.naturalHeight || img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+
+                let jpegDataUrl = canvas.toDataURL("image/jpeg", 0.95);
+                if (typeof piexif !== 'undefined') {
+                    const exifBytes = buildGpsExifData(latNum, lngNum, options);
+                    jpegDataUrl = piexif.insert(exifBytes, jpegDataUrl);
+                }
+
+                const base64Data = jpegDataUrl.replace(/^data:image\/jpeg;base64,/, "");
+                zip.file(fileName, base64Data, { base64: true });
+            } catch (err) {
+                console.error("Error processing bulk image", imgItem.name, err);
+            }
+        }
+
+        const content = await zip.generateAsync({ type: "blob" });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(content);
+        a.download = "geotagged_photos_bundle.zip";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showGeoStatus("✓ ZIP file created and downloaded successfully!");
     }
 </script>
 </body>
