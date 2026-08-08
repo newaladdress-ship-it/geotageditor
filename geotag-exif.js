@@ -94,7 +94,7 @@ function buildGpsExifData(latNum, lngNum, options = {}) {
     }
 
     // Optional Software branding
-    zeroDict[piexif.ImageIFD.Software] = "GeotaggingPhotos.com EXIF Suite";
+    zeroDict[piexif.ImageIFD.Software] = "GeoTaggingPhotos.com EXIF Suite";
 
     // Optional Capture Date/Time
     if (options.captureTime && options.captureTime.trim() !== "") {
