@@ -153,8 +153,9 @@ function getFooterFallbackHTML() {
         <a href="tel:6502530000" class="hover:text-primary transition-colors">(650) 253-0000</a>
     </p>
 </div>
-<div class="mt-2">
+<div class="mt-2 flex flex-wrap items-center gap-3">
     <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer"><img src="https://tooldirs.com/badge/badge_light.svg" alt="Featured on ToolDirs" width="200" height="54" /></a>
+    <a href="https://www.justsimple.tools" target="_blank" rel="noopener noreferrer"><img src="https://www.justsimple.tools/badge.svg" width="150" alt="Listed on JustSimple Tools" /></a>
 </div>
 <p class="font-body-md text-body-md text-on-surface-variant text-sm mt-3">
                     © 2026 GeoTaggingPhotos. All rights reserved.
