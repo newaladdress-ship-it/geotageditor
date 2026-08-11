@@ -62,24 +62,7 @@ function getHeaderFallbackHTML() {
     return `<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm transition-all duration-400 ease-out-expo" id="navbar">
 <div class="flex justify-between items-center h-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
 <a class="font-display text-headline-lg-mobile text-primary tracking-tight scale-105 transition-transform duration-400 ease-out-expo hover:opacity-80 flex items-center gap-2.5 group" href="/" aria-label="GeoTaggingPhotos Homepage">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-8 h-8 shrink-0 transition-transform duration-300 group-hover:scale-105" aria-hidden="true">
-  <defs>
-    <linearGradient id="headerFallbackMapIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7A52F4"/>
-      <stop offset="50%" stop-color="#6739EE"/>
-      <stop offset="100%" stop-color="#4E2BE6"/>
-    </linearGradient>
-    <filter id="headerFallbackIconShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="3.5" stdDeviation="4" flood-color="#4E2BE6" flood-opacity="0.38"/>
-    </filter>
-  </defs>
-  <rect x="12" y="16" width="76" height="76" rx="26" ry="26" fill="url(#headerFallbackMapIconGrad)" filter="url(#headerFallbackIconShadow)"/>
-  <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M50 35C42.5 35 36.5 41 36.5 48.5C36.5 58 50 72.5 50 72.5C50 72.5 63.5 58 63.5 48.5C63.5 41 57.5 35 50 35Z" stroke-width="5"/>
-    <circle cx="50" cy="47.5" r="4" stroke-width="4.5"/>
-  </g>
-  <circle cx="82" cy="18" r="11.5" fill="#00D285" stroke="#FFFFFF" stroke-width="4"/>
-</svg>
+<img src="/geotaggingphotos.png" alt="GeoTaggingPhotos Logo" class="w-8 h-8 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
 <span>GeoTaggingPhotos</span>
 </a>
 <nav class="hidden md:flex items-center gap-6" aria-label="Main Navigation">
@@ -154,24 +137,7 @@ function getFooterFallbackHTML() {
 <div class="max-w-container-max mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-gutter">
 <div class="col-span-2 lg:col-span-2 flex flex-col gap-4">
 <a href="/" class="font-display text-headline-lg-mobile text-primary hover:opacity-80 transition-opacity flex items-center gap-2.5 group" aria-label="GeoTaggingPhotos Homepage">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-8 h-8 shrink-0 transition-transform duration-300 group-hover:scale-105" aria-hidden="true">
-  <defs>
-    <linearGradient id="footerFallbackMapIconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7A52F4"/>
-      <stop offset="50%" stop-color="#6739EE"/>
-      <stop offset="100%" stop-color="#4E2BE6"/>
-    </linearGradient>
-    <filter id="footerFallbackIconShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="3.5" stdDeviation="4" flood-color="#4E2BE6" flood-opacity="0.38"/>
-    </filter>
-  </defs>
-  <rect x="12" y="16" width="76" height="76" rx="26" ry="26" fill="url(#footerFallbackMapIconGrad)" filter="url(#footerFallbackIconShadow)"/>
-  <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M50 35C42.5 35 36.5 41 36.5 48.5C36.5 58 50 72.5 50 72.5C50 72.5 63.5 58 63.5 48.5C63.5 41 57.5 35 50 35Z" stroke-width="5"/>
-    <circle cx="50" cy="47.5" r="4" stroke-width="4.5"/>
-  </g>
-  <circle cx="82" cy="18" r="11.5" fill="#00D285" stroke="#FFFFFF" stroke-width="4"/>
-</svg>
+<img src="/geotaggingphotos.png" alt="GeoTaggingPhotos Logo" class="w-8 h-8 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105" />
 <span>GeoTaggingPhotos</span>
 </a>
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">
