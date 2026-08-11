@@ -26,6 +26,7 @@ function loadHeader(targetId = "header-placeholder") {
 function loadFooter(targetId = "footer-placeholder") {
     const target = document.getElementById(targetId);
     if (!target) return;
+    if (target.children.length > 0) return;
 
     fetch("/footer.html")
         .then(response => {
