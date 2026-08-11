@@ -2,6 +2,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/blog/how-to-add-gps-coordinates-to-photos", "destination": "/blog/how-to-add-gps-coordinates-to-photos.html" }
+    { "source": "/how-to-add-gps-coordinates-to-photos", "destination": "/how-to-add-gps-coordinates-to-photos.html" },
+    { "source": "/blog/how-to-add-gps-coordinates-to-photos", "destination": "/blog/how-to-add-gps-coordinates-to-photos.html" },
+    { "source": "/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata", "destination": "/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata.html" }
   ]
 }
