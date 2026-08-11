@@ -945,10 +945,9 @@
             return;
         }
 
-        if (isNaN(lngNum) || lngNum < -180 || lngNum > 180) {
-            alert("Please enter a valid Longitude between -180 and 180.");
-            return;
-        }
+        updateActiveCoordinates(latNum.toFixed(6), lngNum.toFixed(6));
+        showGeoStatus(`✓ Coordinates (${latNum.toFixed(6)}, ${lngNum.toFixed(6)}) applied to active photo.`);
+    }
 
     let metaKeywordsArray = [];
 

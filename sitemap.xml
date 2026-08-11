@@ -79,6 +79,12 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.geotaggingphotos.com/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata</loc>
+        <lastmod>2026-08-11</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://www.geotaggingphotos.com/blog</loc>
         <lastmod>2026-08-08</lastmod>
         <changefreq>weekly</changefreq>

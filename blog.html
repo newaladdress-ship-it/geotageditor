@@ -26,7 +26,8 @@
 <style>
         .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05); }
         .gradient-btn { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); transition: all 0.4s ease; }
-    </style>
+        .gradient-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); }
+</style>
 <script src="/components.js"></script>
 </head>
 <body class="bg-background text-on-background font-body-lg min-h-screen flex flex-col pt-16">
@@ -38,18 +39,63 @@
 <p class="font-body-lg text-on-surface-variant max-w-2xl">Expert tutorials, guides, and news about EXIF metadata management, photo SEO, and GIS precision.</p>
 </header>
 
-<section class="mb-12">
-<div class="glass-panel rounded-2xl p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<section class="space-y-8 mb-12">
+<!-- Featured Guide Card (New Article) -->
+<div class="glass-panel rounded-3xl p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center border border-outline-variant/30 hover:border-secondary/30 transition-all">
 <div class="space-y-4">
-<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">Featured Guide</span>
-<h2 class="font-headline-lg text-headline-lg text-primary">How to Add GPS Coordinates to Photos: Step-by-Step</h2>
-<p class="text-on-surface-variant text-body-md">Learn how to geotag photos online in just a few simple steps. Add, edit, or replace latitude and longitude coordinates directly in your browser. Published: August 2026 • 8 min read.</p>
-<a href="/how-to-add-gps-coordinates-to-photos" class="gradient-btn text-white px-6 py-3 rounded-lg inline-flex items-center gap-2 font-medium">
-                Read Full Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">Featured 2026 Guide</span>
+<span class="text-xs text-on-surface-variant font-medium">12 min read</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary leading-tight">How to Add GPS Coordinates to Photos Without Losing EXIF Metadata: Complete 2026 Guide</h2>
+<p class="text-on-surface-variant text-body-md">Learn how photo GPS coordinates work, where EXIF metadata is stored, how to add/replace location parameters, current location detection, bulk geotagging, privacy safety, and image SEO best practices.</p>
+<div class="flex items-center gap-4 pt-2">
+<a href="/blog/how-to-add-gps-coordinates-to-photos" class="gradient-btn text-white px-6 py-3 rounded-xl inline-flex items-center gap-2 font-semibold text-sm">
+                Read Complete Guide <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
 </div>
-<div class="h-64 rounded-xl overflow-hidden">
-<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYoGdZRoasg_bvVsWMpnUUKotxUtCAUDSl3H-J2LXqdw01uosBOSSSZo1vlCBc98VKR64xkhJP1g2Xk17xliRPTWWEgmOQFntPlrDTtJhFA3wQpKOOP59n4SPeOElsX4vbHINoXiUH2gdW4ZIoDxZjDK5EepXALMlfxYYKPDEjJeF-J8vfEbeCB-tTt6c4dkCRmKhO4vXGLXHq3d-aTSP4Bt32f8vz2Ruz4VNpwZBc3rRlwE3Ct9bn"/>
+</div>
+<div class="h-64 md:h-72 rounded-2xl overflow-hidden shadow-md">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYoGdZRoasg_bvVsWMpnUUKotxUtCAUDSl3H-J2LXqdw01uosBOSSSZo1vlCBc98VKR64xkhJP1g2Xk17xliRPTWWEgmOQFntPlrDTtJhFA3wQpKOOP59n4SPeOElsX4vbHINoXiUH2gdW4ZIoDxZjDK5EepXALMlfxYYKPDEjJeF-J8vfEbeCB-tTt6c4dkCRmKhO4vXGLXHq3d-aTSP4Bt32f8vz2Ruz4VNpwZBc3rRlwE3Ct9bn" alt="How to Add GPS Coordinates to Photos Without Losing EXIF Metadata"/>
+</div>
+</div>
+
+<!-- Grid of Guides -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Step by Step Guide Card -->
+<div class="glass-panel rounded-3xl p-8 border border-outline-variant/30 hover:border-secondary/30 transition-all flex flex-col justify-between space-y-6">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">Tutorial &amp; Guide</span>
+<span class="text-xs text-on-surface-variant font-medium">8 min read</span>
+</div>
+<h3 class="font-headline-lg text-2xl text-primary font-bold">How to Add GPS Coordinates to Photos: Step-by-Step</h3>
+<p class="text-on-surface-variant text-body-md text-sm leading-relaxed">Learn how to geotag photos online in just a few simple steps. Add, edit, or replace latitude and longitude coordinates directly in your browser without installing software.</p>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-xs text-on-surface-variant font-medium">Published: August 2026</span>
+<a href="/how-to-add-gps-coordinates-to-photos" class="text-secondary font-semibold text-sm hover:underline inline-flex items-center gap-1">
+                Read Article <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+
+<!-- Tool Integration Card -->
+<div class="glass-panel rounded-3xl p-8 border border-outline-variant/30 hover:border-secondary/30 transition-all flex flex-col justify-between space-y-6">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-bold uppercase tracking-wider">Browser Tools</span>
+<span class="text-xs text-on-surface-variant font-medium">Free Tool</span>
+</div>
+<h3 class="font-headline-lg text-2xl text-primary font-bold">Free Online Photo Geotagging &amp; EXIF Suite</h3>
+<p class="text-on-surface-variant text-body-md text-sm leading-relaxed">Easily geotag single or batch images, inspect hidden camera metadata with map previews, and find exact photo capture locations 100% client-side inside your browser.</p>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="text-xs text-on-surface-variant font-medium">100% Private &amp; Secure</span>
+<a href="/add-geotag" class="text-secondary font-semibold text-sm hover:underline inline-flex items-center gap-1">
+                Open Tools <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
 </div>
 </div>
 </section>

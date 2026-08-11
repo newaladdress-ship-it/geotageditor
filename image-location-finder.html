@@ -76,6 +76,10 @@
                         <div id="finder-lng" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-mono-data text-primary text-sm font-bold">Select a photo</div>
                     </div>
                 </div>
+                <div class="flex flex-col">
+                    <label class="text-on-surface-variant font-label-md text-xs uppercase mb-1">Detected Location / Place</label>
+                    <div id="finder-place-name" class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-2 font-body-md text-primary text-xs font-semibold">Select a photo</div>
+                </div>
                 <div id="finder-status" class="text-xs text-on-surface-variant italic hidden"></div>
             </div>
         </div>
@@ -182,6 +186,10 @@
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(finderMap);
+
+        setTimeout(() => {
+            if (finderMap) finderMap.invalidateSize();
+        }, 300);
     }
 
     function initFinderTool() {
@@ -217,6 +225,26 @@
         }
     }
 
+    async function reverseGeocodeLocation(lat, lng) {
+        const placeEl = document.getElementById('finder-place-name');
+        if (placeEl) placeEl.innerText = "⏳ Looking up place name...";
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+            if (!res.ok) throw new Error("Reverse geocoding failed");
+            const data = await res.json();
+            if (data && data.display_name) {
+                const placeName = data.display_name;
+                if (placeEl) placeEl.innerText = placeName;
+                return placeName;
+            }
+        } catch (err) {
+            console.warn("Reverse geocode error:", err);
+        }
+        const fallback = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+        if (placeEl) placeEl.innerText = fallback;
+        return fallback;
+    }
+
     function handleLocationFile(file) {
         const imageUrl = URL.createObjectURL(file);
         const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
@@ -233,12 +261,13 @@
             </div>
         `;
 
-        parsePhotoExifData(file, (data, err) => {
+        parsePhotoExifData(file, async (data, err) => {
             const statusBox = document.getElementById('finder-status');
 
             if (err || !data || !data.hasGps) {
                 document.getElementById('finder-lat').innerText = 'Not Found';
                 document.getElementById('finder-lng').innerText = 'Not Found';
+                if (document.getElementById('finder-place-name')) document.getElementById('finder-place-name').innerText = 'No GPS Metadata';
                 if (statusBox) {
                     statusBox.innerText = '⚠️ No GPS location metadata found in this photo. Use our Add Geotag tool to set a location.';
                     statusBox.classList.remove('hidden');
@@ -267,12 +296,18 @@
 
                 finderMarker = L.marker([data.latitude, data.longitude], { icon: blueIcon }).addTo(finderMap);
                 finderMap.setView([data.latitude, data.longitude], 14);
-                finderMarker.bindPopup(`<b>Photo Capture Location</b><br>Lat: ${data.latitude.toFixed(6)}<br>Lng: ${data.longitude.toFixed(6)}`).openPopup();
+                
+                setTimeout(() => {
+                    finderMap.invalidateSize();
+                }, 200);
+
+                finderMarker.bindPopup(`<b>Photo Capture Location</b><br>Lat: ${data.latitude.toFixed(6)}<br>Lng: ${data.longitude.toFixed(6)}<br>⏳ Fetching place name...`).openPopup();
+
+                const placeName = await reverseGeocodeLocation(data.latitude, data.longitude);
+                finderMarker.setPopupContent(`<b>Photo Capture Location</b><br>📍 <b>${placeName}</b><br>Lat: ${data.latitude.toFixed(6)}<br>Lng: ${data.longitude.toFixed(6)}`).openPopup();
             }
         });
     }
 </script>
-</body>
-</html>
 </body>
 </html>
