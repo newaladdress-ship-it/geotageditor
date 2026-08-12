@@ -115,14 +115,14 @@
         return Date.now() < parseInt(until, 10);
     }
 
-    // Sidebar Notification Component Injection (Positioned on the right side)
+    // Sidebar Notification Component Injection (Guaranteed bottom-right floating position)
     function setupSidebarNotification() {
         if (isStandalone() || isDismissed()) return;
 
         // Create right-side notification element if missing
         if (!document.getElementById('pwa-install-sidebar')) {
             const sidebarHtml = `
-            <div id="pwa-install-sidebar" class="fixed bottom-6 right-6 z-[9999] max-w-sm w-[calc(100%-32px)] sm:w-80 transform transition-all duration-500 ease-out translate-y-20 opacity-0 pointer-events-none">
+            <div id="pwa-install-sidebar" style="position: fixed !important; bottom: 24px !important; right: 24px !important; left: auto !important; top: auto !important; z-index: 99999 !important; max-width: 360px !important; width: calc(100% - 32px) !important; margin: 0 !important; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; transform: translateY(30px) !important; opacity: 0 !important; pointer-events: none !important;">
                 <div class="glass-card bg-surface/95 dark:bg-surface-container-high/95 backdrop-blur-xl p-4 md:p-5 rounded-2xl border border-secondary/30 shadow-2xl space-y-3 relative overflow-hidden">
                     <div class="absolute -top-12 -right-12 w-32 h-32 bg-secondary/20 rounded-full blur-2xl pointer-events-none"></div>
                     <div class="flex items-start justify-between gap-3">
@@ -155,18 +155,22 @@
         setTimeout(() => {
             const sidebar = document.getElementById('pwa-install-sidebar');
             if (sidebar && !isStandalone() && !isDismissed()) {
-                sidebar.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+                sidebar.style.setProperty('transform', 'translateY(0)', 'important');
+                sidebar.style.setProperty('opacity', '1', 'important');
+                sidebar.style.setProperty('pointer-events', 'auto', 'important');
             }
-        }, 2000);
+        }, 1500);
     }
 
     window.dismissSidebar = function () {
         const sidebar = document.getElementById('pwa-install-sidebar');
         if (sidebar) {
-            sidebar.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            sidebar.style.setProperty('transform', 'translateY(30px)', 'important');
+            sidebar.style.setProperty('opacity', '0', 'important');
+            sidebar.style.setProperty('pointer-events', 'none', 'important');
             setTimeout(() => {
                 if (sidebar) sidebar.remove();
-            }, 500);
+            }, 450);
         }
         setDismissCooldown();
     };

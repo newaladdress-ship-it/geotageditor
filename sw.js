@@ -1,10 +1,10 @@
 /**
  * GeotaggingPhotos Progressive Web App - Service Worker
- * Version: geotaggingphotos-v1
+ * Version: geotaggingphotos-v2
  * Features: Offline app shell, Cache-First static assets, Network-First navigation with Offline Fallback, Privacy Safe (No user photos cached).
  */
 
-const CACHE_NAME = 'geotaggingphotos-v1';
+const CACHE_NAME = 'geotaggingphotos-v2';
 
 // Essential App Shell & Static Assets to Precache
 const PRECACHE_ASSETS = [
