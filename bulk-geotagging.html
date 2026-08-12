@@ -50,6 +50,9 @@
             transform: scale(1.02);
         }
     <script src="/components.js"></script>
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#2563EB" />
+<script src="/pwa.js" defer></script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-16">
 <div id="header-placeholder"></div>
@@ -436,7 +439,10 @@
                 }
             },
             (error) => {
-                alert("Unable to get current location (" + error.message + "). Please enable location permissions in your browser.");
+                const msg = !navigator.onLine ? 
+                    "Current location is unavailable offline. You can enter latitude and longitude manually." :
+                    "Current location is unavailable (" + error.message + "). You can enter latitude and longitude manually.";
+                alert(msg);
                 if (statusBox) statusBox.classList.add('hidden');
             },
             { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }

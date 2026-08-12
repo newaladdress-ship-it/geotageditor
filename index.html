@@ -48,6 +48,9 @@
       "description": "Add, edit, or remove GPS location metadata from your photos online for free."
     }
     </script>
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#2563EB" />
+<script src="/pwa.js" defer></script>
 </head>
 <body class="bg-background text-on-background antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 <div id="header-placeholder"></div>
@@ -1168,7 +1171,10 @@
                     renderIndexQueueListQuiet();
                 },
                 (error) => {
-                    alert("Unable to get location (" + error.message + "). Please allow location access in your browser.");
+                    const msg = !navigator.onLine ? 
+                        "Current location is unavailable offline. You can enter latitude and longitude manually." :
+                        "Current location is unavailable (" + error.message + "). You can enter latitude and longitude manually.";
+                    alert(msg);
                 },
                 { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );

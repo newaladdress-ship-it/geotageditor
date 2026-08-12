@@ -51,6 +51,9 @@
 <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="/geotag-exif.js"></script>
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#2563EB" />
+<script src="/pwa.js" defer></script>
 </head>
 <body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased pt-16">
 <div id="header-placeholder"></div>
@@ -970,7 +973,10 @@
             },
             (error) => {
                 console.warn("Geolocation error:", error.message);
-                alert("Unable to get current location (" + error.message + "). Please enable location permissions in your browser.");
+                const msg = !navigator.onLine ? 
+                    "Current location is unavailable offline. You can enter latitude and longitude manually." :
+                    "Current location is unavailable (" + error.message + "). You can enter latitude and longitude manually.";
+                alert(msg);
                 const statusMsg = document.getElementById('geo-status');
                 if (statusMsg) statusMsg.classList.add('hidden');
             },
