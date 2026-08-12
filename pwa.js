@@ -115,34 +115,34 @@
         return Date.now() < parseInt(until, 10);
     }
 
-    // Sidebar Notification Component Injection
+    // Sidebar Notification Component Injection (Positioned on the right side)
     function setupSidebarNotification() {
         if (isStandalone() || isDismissed()) return;
 
-        // Create sidebar element if missing
+        // Create right-side notification element if missing
         if (!document.getElementById('pwa-install-sidebar')) {
             const sidebarHtml = `
-            <div id="pwa-install-sidebar" class="fixed bottom-4 right-4 left-4 sm:left-auto sm:max-w-md z-50 transform transition-all duration-500 ease-out translate-y-20 opacity-0 pointer-events-none">
-                <div class="glass-card bg-surface/95 dark:bg-surface-container-high/95 backdrop-blur-xl p-5 rounded-2xl border border-secondary/30 shadow-2xl space-y-3 relative overflow-hidden">
+            <div id="pwa-install-sidebar" class="fixed bottom-6 right-6 z-[9999] max-w-sm w-[calc(100%-32px)] sm:w-80 transform transition-all duration-500 ease-out translate-y-20 opacity-0 pointer-events-none">
+                <div class="glass-card bg-surface/95 dark:bg-surface-container-high/95 backdrop-blur-xl p-4 md:p-5 rounded-2xl border border-secondary/30 shadow-2xl space-y-3 relative overflow-hidden">
                     <div class="absolute -top-12 -right-12 w-32 h-32 bg-secondary/20 rounded-full blur-2xl pointer-events-none"></div>
                     <div class="flex items-start justify-between gap-3">
                         <div class="flex items-center gap-3">
                             <img src="/geotaggingphotos.png" alt="GeoTaggingPhotos Logo" class="w-10 h-10 rounded-xl shrink-0 shadow-sm border border-white/20" />
                             <div>
-                                <h4 class="font-bold text-primary text-base leading-snug">Install GeotaggingPhotos</h4>
-                                <p class="text-xs text-on-surface-variant">Install the app for faster access &amp; offline photo processing.</p>
+                                <h4 class="font-bold text-primary text-base leading-snug">Install App</h4>
+                                <p class="text-xs text-on-surface-variant">Install GeotaggingPhotos for fast access &amp; offline photo processing.</p>
                             </div>
                         </div>
-                        <button onclick="dismissSidebar()" class="text-on-surface-variant hover:text-primary p-1 rounded-lg transition-colors" aria-label="Close notification">
-                            <span class="material-symbols-outlined text-lg">close</span>
+                        <button onclick="window.dismissSidebar()" class="text-on-surface-variant hover:text-primary p-1 rounded-lg transition-colors cursor-pointer shrink-0" aria-label="Close notification">
+                            <span class="material-symbols-outlined text-xl">close</span>
                         </button>
                     </div>
                     <div class="flex items-center gap-2 pt-1">
-                        <button onclick="window.triggerPwaInstall()" class="gradient-btn flex-1 py-2 px-4 rounded-xl text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md">
+                        <button onclick="window.triggerPwaInstall()" class="gradient-btn flex-1 py-2 px-4 rounded-xl text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-md cursor-pointer">
                             <span class="material-symbols-outlined text-base">download</span>
                             Install App
                         </button>
-                        <button onclick="dismissSidebar()" class="py-2 px-3 rounded-xl border border-outline-variant hover:bg-white/10 text-on-surface-variant font-medium text-xs transition-colors">
+                        <button onclick="window.dismissSidebar()" class="py-2 px-3 rounded-xl border border-outline-variant hover:bg-white/10 text-on-surface-variant font-medium text-xs transition-colors cursor-pointer">
                             Not now
                         </button>
                     </div>
@@ -157,13 +157,16 @@
             if (sidebar && !isStandalone() && !isDismissed()) {
                 sidebar.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
             }
-        }, 3500);
+        }, 2000);
     }
 
     window.dismissSidebar = function () {
         const sidebar = document.getElementById('pwa-install-sidebar');
         if (sidebar) {
             sidebar.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                if (sidebar) sidebar.remove();
+            }, 500);
         }
         setDismissCooldown();
     };
