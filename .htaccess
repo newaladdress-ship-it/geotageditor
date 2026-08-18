@@ -6,20 +6,25 @@
     # Ensure MultiViews doesn't interfere with rewrites
     Options -MultiViews
 
+    # Specific 301 redirects for consolidated URLs
+    RewriteRule ^how-to-add-gps-coordinates-to-photos/?$ /blog/how-to-add-gps-coordinates-to-photos [R=301,L]
+    RewriteRule ^how-to-add-location-to-a-photo/?$ /blog/how-to-add-location-to-a-photo [R=301,L]
+
     # 1. Redirect direct requests for index.html to /
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
     RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
     RewriteRule ^index\.html$ / [R=301,L]
 
     # 2. Redirect direct requests for *.html to clean URLs (301 Permanent Redirect)
-    # REDIRECT_STATUS check prevents infinite loops when rewritten internally
+    # Exclude direct requests from being looped
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
-    RewriteCond %{THE_REQUEST} \s/([^/]+)\.html[\s?] [NC]
-    RewriteRule ^([^/]+)\.html$ /%1 [R=301,L]
+    RewriteCond %{THE_REQUEST} \s/([^.]+)\.html[\s?] [NC]
+    RewriteRule ^([^.]+)\.html$ /%1 [R=301,L]
 
-    # 3. Rewrite extensionless URLs to .html files internally
+    # 3. Rewrite extensionless URLs to .html files internally (root and subfolders like /blog/)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME}\.html -f
-    RewriteRule ^([^/]+)/?$ %{REQUEST_FILENAME}.html [L]
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^(.*)/?$ $1.html [L]
 </IfModule>
+
