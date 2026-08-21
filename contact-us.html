@@ -13,13 +13,6 @@
 
 <meta name="google-site-verification" content="N64YrbFPSdHsGD-4WXS1l56mGfE0Kp2fCjPvzKa6KL4" />
 <meta name="msvalidate.01" content="207473D434A6B2FA4E2217EFA3CB53DB" />
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xz3xb85z1e");
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -109,23 +102,10 @@
             <div class="glass-panel p-6 rounded-2xl space-y-4">
                 <div class="border-b border-outline-variant/30 pb-3">
                     <h3 class="font-bold text-primary text-lg">GeoTaggingPhotos</h3>
-                    <p class="text-xs text-on-surface-variant">Official Contact &amp; Business Info</p>
+                    <p class="text-xs text-on-surface-variant">Support contact</p>
                 </div>
                 <div class="space-y-3 text-sm text-on-surface-variant">
-                    <div class="flex items-start gap-2.5">
-                        <span class="material-symbols-outlined text-secondary text-lg shrink-0 mt-0.5">location_on</span>
-                        <div>
-                            <strong class="block text-xs uppercase font-bold text-primary mb-0.5">Address</strong>
-                            1600 Amphitheatre Pkwy<br/>
-                            Mountain View, CA 94043, USA
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2.5 pt-1">
-                        <span class="material-symbols-outlined text-secondary text-lg shrink-0">call</span>
-                        <div>
-                            <strong class="block text-xs uppercase font-bold text-primary mb-0.5">Phone Number</strong>
-                            <a href="tel:6502530000" class="text-secondary hover:underline font-semibold">(650) 253-0000</a>
-                        </div>
+                    
                     </div>
                     <div class="flex items-center gap-2.5 pt-1">
                         <span class="material-symbols-outlined text-secondary text-lg shrink-0">mail</span>
@@ -154,30 +134,30 @@
         <!-- Contact Form -->
         <div class="md:col-span-2 glass-panel p-8 rounded-2xl space-y-6">
             <h2 class="font-bold text-2xl text-primary mb-2">Send Us a Message</h2>
-            <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully.');" class="space-y-5">
+            <form onsubmit="handleContactSubmit(event)" class="space-y-5">
                 <div>
                     <label class="block text-xs uppercase font-bold tracking-wider text-primary mb-1">Your Name *</label>
                     <p class="text-xs text-on-surface-variant mb-2">Enter your full name</p>
-                    <input type="text" required class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-sm text-on-surface focus:outline-none focus:border-secondary shadow-sm" placeholder="e.g. John Doe"/>
+                    <input id="contact-name" name="name" type="text" autocomplete="name" required class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-sm text-on-surface focus:outline-none focus:border-secondary shadow-sm" placeholder="Your name"/>
                 </div>
 
                 <div>
                     <label class="block text-xs uppercase font-bold tracking-wider text-primary mb-1">Email Address *</label>
                     <p class="text-xs text-on-surface-variant mb-2">Enter a valid email address so we can respond to your inquiry.</p>
-                    <input type="email" required class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-sm text-on-surface focus:outline-none focus:border-secondary shadow-sm" placeholder="e.g. john@example.com"/>
+                    <input id="contact-email" name="email" type="email" autocomplete="email" required class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-sm text-on-surface focus:outline-none focus:border-secondary shadow-sm" placeholder="you@example.com"/>
                 </div>
 
                 <div>
                     <label class="block text-xs uppercase font-bold tracking-wider text-primary mb-1">Message *</label>
                     <p class="text-xs text-on-surface-variant mb-2">Tell us how we can help. Describe your question, issue, or feedback in as much detail as possible.</p>
-                    <textarea rows="5" required class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-sm text-on-surface focus:outline-none focus:border-secondary shadow-sm" placeholder='e.g. "I&#39;m having trouble replacing the GPS coordinates in multiple images."'></textarea>
+                    <textarea id="contact-message" name="message" rows="5" required class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded-xl p-3 text-sm text-on-surface focus:outline-none focus:border-secondary shadow-sm" placeholder='e.g. "I&#39;m having trouble replacing the GPS coordinates in multiple images."'></textarea>
                 </div>
 
                 <button type="submit" class="w-full gradient-btn text-white py-3.5 rounded-xl font-semibold shadow-md text-sm flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-sm">send</span>
                     Send Message
                 </button>
-            </form>
+            <p id="contact-status" class="text-sm text-on-surface-variant" role="status">This form opens your email app; no message is sent to a server by this static site.</p></form>
         </div>
     </div>
 
@@ -201,22 +181,8 @@
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">
                     Professional metadata management tools for modern workflows.
                 </p>
-<div class="space-y-1.5 text-xs text-on-surface-variant opacity-90 font-body-md mt-1">
-    <p class="flex items-start gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary mt-0.5">location_on</span>
-        <span>1600 Amphitheatre Pkwy, Mountain View, CA 94043</span>
-    </p>
-    <p class="flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary">call</span>
-        <a href="tel:6502530000" class="hover:text-primary transition-colors">(650) 253-0000</a>
-    </p>
-</div>
-<div class="mt-2 flex flex-wrap items-center gap-3">
-    <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer"><img src="https://tooldirs.com/badge/badge_light.svg" alt="Featured on ToolDirs" width="200" height="54" /></a>
-    <a href="https://www.justsimple.tools" target="_blank" rel="noopener noreferrer"><img src="https://www.justsimple.tools/badge.svg" width="150" alt="Listed on JustSimple Tools" /></a>
-    <a href="https://noonlaunch.com/product/geotaggingphotos" target="_blank" rel="dofollow"><img src="https://noonlaunch.com/badges/geotaggingphotos.svg" alt="Featured on Noonlaunch" width="220" height="60" /></a>
-    <a href="https://tools.launchllama.co?utm_source=badge&utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://tools.launchllama.co/featured-badge-white.png?v=2" alt="As seen on Launch Llama Newsletter" width="200" height="50" /></a>
-</div>
+
+<p class="text-xs text-on-surface-variant mt-2">Independent browser tools for photo GPS and metadata workflows.</p>
 <p class="font-body-md text-body-md text-on-surface-variant text-sm mt-3">
                     © 2026 GeoTaggingPhotos. All rights reserved.
                 </p>
@@ -255,5 +221,6 @@
 </footer>
 </div>
 <script src="/components.js"></script>
+<script>function handleContactSubmit(event){event.preventDefault();const name=document.getElementById('contact-name').value.trim(),email=document.getElementById('contact-email').value.trim(),message=document.getElementById('contact-message').value.trim(),status=document.getElementById('contact-status');const subject=encodeURIComponent('GeoTaggingPhotos support request');const body=encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);window.location.href=`mailto:support@geotaggingphotos.com?subject=${subject}&body=${body}`;if(status)status.textContent='Your email app should now open with the message addressed to support@geotaggingphotos.com.';}</script>
 </body>
 </html>

@@ -21,13 +21,6 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Online EXIF Viewer | GeoTaggingPhotos" />
 <meta name="twitter:description" content="Inspect hidden EXIF metadata, GPS tags, camera model, lens parameters, and shooting date from photos online." />
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xz3xb85z1e");
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -43,6 +36,7 @@
 <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 <script src="/exif-parser.js"></script>
 <link rel="manifest" href="/manifest.json" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Online EXIF & GPS Metadata Viewer","url":"https://www.geotaggingphotos.com/exif-viewer","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Inspect EXIF camera, date, and GPS metadata from an image in the browser."}</script>
 <meta name="theme-color" content="#2563EB" />
 <script src="/pwa.js" defer></script>
 </head>
@@ -52,7 +46,7 @@
 <!-- Main Canvas -->
 <main class="flex-grow pt-8 pb-16 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
 <div class="mb-8">
-<h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">EXIF Metadata Viewer</h1>
+<h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">Online EXIF &amp; GPS Metadata Viewer</h1>
 <p class="text-on-surface-variant font-body-md text-body-md">Inspect complete camera metadata, GPS tags, timestamp, shutter speed, and lens settings.</p>
 </div>
 
@@ -218,12 +212,13 @@
 
         <!-- Section 3: Privacy Assurance -->
         <div class="glass-panel p-8 rounded-3xl border border-outline-variant/30 text-center space-y-4">
-            <h2 class="font-display text-2xl font-bold text-primary">100% Client-Side Private &amp; Secure</h2>
+            <h2 class="font-display text-2xl font-bold text-primary">Browser-Based EXIF Inspection</h2>
             <p class="text-on-surface-variant max-w-2xl mx-auto text-base leading-relaxed">
-                GeoTaggingPhotos parses EXIF headers instantly inside your web browser. Your photos are never uploaded, stored, or processed on remote cloud servers, guaranteeing absolute confidentiality for your personal and commercial files.
+                GeoTaggingPhotos reads the selected file in your browser rather than sending it to a photo-processing backend. If you open a map or request a place lookup, that map request is separate from image-file processing. Review the privacy policy for the current network and storage disclosures.
             </p>
         </div>
     </article>
+<section class="mt-12 border-t border-outline-variant/30 pt-10"><h2 class="font-display text-2xl font-bold text-primary mb-3">Checking a photo for GPS</h2><p class="text-on-surface-variant max-w-3xl">A photo may be missing GPS because location services were off or another app removed metadata. Read <a href="/blog/how-to-check-if-a-photo-has-gps-coordinates" class="text-secondary font-semibold hover:underline">how to check if a photo has GPS coordinates</a>, then use <a href="/add-geotag" class="text-secondary font-semibold hover:underline">Add GPS to Photos</a> to set known coordinates or the <a href="/image-location-finder" class="text-secondary font-semibold hover:underline">Image Location Finder</a> to map existing ones.</p></section>
 </main>
 
 <div id="footer-placeholder">
@@ -237,22 +232,8 @@
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">
                     Professional metadata management tools for modern workflows.
                 </p>
-<div class="space-y-1.5 text-xs text-on-surface-variant opacity-90 font-body-md mt-1">
-    <p class="flex items-start gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary mt-0.5">location_on</span>
-        <span>1600 Amphitheatre Pkwy, Mountain View, CA 94043</span>
-    </p>
-    <p class="flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary">call</span>
-        <a href="tel:6502530000" class="hover:text-primary transition-colors">(650) 253-0000</a>
-    </p>
-</div>
-<div class="mt-2 flex flex-wrap items-center gap-3">
-    <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer"><img src="https://tooldirs.com/badge/badge_light.svg" alt="Featured on ToolDirs" width="200" height="54" /></a>
-    <a href="https://www.justsimple.tools" target="_blank" rel="noopener noreferrer"><img src="https://www.justsimple.tools/badge.svg" width="150" alt="Listed on JustSimple Tools" /></a>
-    <a href="https://noonlaunch.com/product/geotaggingphotos" target="_blank" rel="dofollow"><img src="https://noonlaunch.com/badges/geotaggingphotos.svg" alt="Featured on Noonlaunch" width="220" height="60" /></a>
-    <a href="https://tools.launchllama.co?utm_source=badge&utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://tools.launchllama.co/featured-badge-white.png?v=2" alt="As seen on Launch Llama Newsletter" width="200" height="50" /></a>
-</div>
+
+<p class="text-xs text-on-surface-variant mt-2">Independent browser tools for photo GPS and metadata workflows.</p>
 <p class="font-body-md text-body-md text-on-surface-variant text-sm mt-3">
                     © 2026 GeoTaggingPhotos. All rights reserved.
                 </p>

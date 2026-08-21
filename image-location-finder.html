@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Image Location Finder | GeoTaggingPhotos.com</title>
+<title>Find Where a Photo Was Taken — EXIF GPS Location Finder | GeoTaggingPhotos.com</title>
 
-<meta content="Extract GPS coordinates from photos and display exact location on interactive maps with address reverse-geocoding." name="description"/>
+<meta content="Check whether a photo has GPS coordinates, read EXIF location metadata, and find where a photo was taken on an interactive map." name="description"/>
 <link rel="canonical" href="https://www.geotaggingphotos.com/image-location-finder"/>
 <link rel="icon" type="image/png" href="/geotaggingphotos.png" />
 <link rel="shortcut icon" type="image/png" href="/geotaggingphotos.png" />
@@ -17,19 +17,12 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="GeoTaggingPhotos.com" />
-<meta property="og:title" content="Image Location Finder | GeoTaggingPhotos" />
+<meta property="og:title" content="Find Where a Photo Was Taken — EXIF GPS Location Finder" />
 <meta property="og:description" content="Find where a photo was taken by extracting GPS location coordinates directly from EXIF metadata." />
 <meta property="og:url" content="https://www.geotaggingphotos.com/image-location-finder" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Image Location Finder | GeoTaggingPhotos" />
+<meta name="twitter:title" content="Find Where a Photo Was Taken — EXIF GPS Location Finder" />
 <meta name="twitter:description" content="Find where a photo was taken by extracting GPS location coordinates directly from EXIF metadata." />
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xz3xb85z1e");
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -45,6 +38,7 @@
 <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 <script src="/exif-parser.js"></script>
 <link rel="manifest" href="/manifest.json" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Photo Location Finder","url":"https://www.geotaggingphotos.com/image-location-finder","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Read embedded EXIF GPS coordinates from a photo and display the location on a map."}</script>
 <meta name="theme-color" content="#2563EB" />
 <script src="/pwa.js" defer></script>
 </head>
@@ -56,8 +50,8 @@
     <div class="flex flex-col md:flex-row gap-gutter">
         <div class="w-full md:w-1/3 flex flex-col gap-6">
             <div>
-                <h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">Image Location Finder</h1>
-                <p class="text-on-surface-variant font-body-md text-body-md">Extract GPS metadata from your photos instantly to reveal their exact locations on interactive maps.</p>
+                <h1 class="font-headline-lg text-headline-lg md:text-display md:font-display text-primary mb-2">Find Where a Photo Was Taken</h1>
+                <p class="text-on-surface-variant font-body-md text-body-md">Check for embedded GPS coordinates and see where a photo was taken when EXIF location data is available.</p>
             </div>
             <div class="glass-panel rounded-2xl p-8 border-2 border-dashed border-outline-variant hover:border-secondary transition-colors duration-400 ease-out-expo flex flex-col items-center justify-center text-center cursor-pointer min-h-[250px] relative overflow-hidden group" id="drop-zone" onclick="document.getElementById('file-input').click()">
                 <input accept="image/*" class="hidden" id="file-input" type="file"/>
@@ -113,7 +107,7 @@
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold text-lg">1</div>
                     <h3 class="font-bold text-primary text-base">Upload Image</h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Select or drag any digital photo (JPG, PNG, WebP, HEIC, TIFF) into the analyzer tool above.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Select or drag a compatible photo into the analyzer. Browser decoding and EXIF support can vary by file format.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold text-lg">2</div>
@@ -123,7 +117,7 @@
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold text-lg">3</div>
                     <h3 class="font-bold text-primary text-base">Map Pinpoint</h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">View the exact location marker on satellite and street map views with one-click navigation links.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">View the coordinate marker on a map when GPS data is found. Map tiles and place lookups require network access.</p>
                 </div>
             </div>
         </div>
@@ -140,7 +134,7 @@
                         <span class="material-symbols-outlined text-secondary">fact_check</span>
                         Journalism &amp; OSINT Fact-Checking
                     </h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Investigative reporters and open-source intelligence (OSINT) analysts verify original news photography locations to prevent media misattribution.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Journalists and researchers can review embedded coordinates as one piece of file context; EXIF alone does not prove that a photo is authentic or unedited.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <h3 class="font-bold text-primary text-base flex items-center gap-2">
@@ -154,7 +148,7 @@
                         <span class="material-symbols-outlined text-secondary">apartment</span>
                         Real Estate &amp; Insurance Claims
                     </h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Verify structural assessment photos, property boundary images, and claim document locations with indisputable GPS timestamp records.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Review structural assessment photos, property images, and claim documentation when the file contains usable GPS fields. Metadata should be checked alongside other evidence.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <h3 class="font-bold text-primary text-base flex items-center gap-2">
@@ -170,10 +164,11 @@
         <div class="glass-panel p-8 rounded-3xl border border-outline-variant/30 text-center space-y-4">
             <h2 class="font-display text-2xl font-bold text-primary">Private &amp; Confidential Analysis</h2>
             <p class="text-on-surface-variant max-w-2xl mx-auto text-base leading-relaxed">
-                GeoTaggingPhotos analyzes metadata inside your web browser. Your images are never saved, tracked, or stored on remote cloud infrastructure, ensuring absolute privacy for your personal files.
+                GeoTaggingPhotos reads the selected image in your browser rather than sending it to a photo-processing backend. If you request a map or place lookup, the related network request is separate from image-file processing.
             </p>
         </div>
     </article>
+<section class="mt-12 border-t border-outline-variant/30 pt-10"><h2 class="font-display text-2xl font-bold text-primary mb-3">What if the photo has no GPS?</h2><p class="text-on-surface-variant max-w-3xl">The finder can only map coordinates embedded in the file. Read the guide <a href="/blog/how-to-check-if-a-photo-has-gps-coordinates" class="text-secondary font-semibold hover:underline">How to check if a photo has GPS coordinates</a>, use the <a href="/exif-viewer" class="text-secondary font-semibold hover:underline">EXIF Viewer</a> to inspect the file, then use <a href="/add-geotag" class="text-secondary font-semibold hover:underline">Add Geotag</a> when you know the correct coordinates.</p></section>
 </main>
 
 <div id="footer-placeholder">
@@ -187,22 +182,8 @@
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">
                     Professional metadata management tools for modern workflows.
                 </p>
-<div class="space-y-1.5 text-xs text-on-surface-variant opacity-90 font-body-md mt-1">
-    <p class="flex items-start gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary mt-0.5">location_on</span>
-        <span>1600 Amphitheatre Pkwy, Mountain View, CA 94043</span>
-    </p>
-    <p class="flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary">call</span>
-        <a href="tel:6502530000" class="hover:text-primary transition-colors">(650) 253-0000</a>
-    </p>
-</div>
-<div class="mt-2 flex flex-wrap items-center gap-3">
-    <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer"><img src="https://tooldirs.com/badge/badge_light.svg" alt="Featured on ToolDirs" width="200" height="54" /></a>
-    <a href="https://www.justsimple.tools" target="_blank" rel="noopener noreferrer"><img src="https://www.justsimple.tools/badge.svg" width="150" alt="Listed on JustSimple Tools" /></a>
-    <a href="https://noonlaunch.com/product/geotaggingphotos" target="_blank" rel="dofollow"><img src="https://noonlaunch.com/badges/geotaggingphotos.svg" alt="Featured on Noonlaunch" width="220" height="60" /></a>
-    <a href="https://tools.launchllama.co?utm_source=badge&utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://tools.launchllama.co/featured-badge-white.png?v=2" alt="As seen on Launch Llama Newsletter" width="200" height="50" /></a>
-</div>
+
+<p class="text-xs text-on-surface-variant mt-2">Independent browser tools for photo GPS and metadata workflows.</p>
 <p class="font-body-md text-body-md text-on-surface-variant text-sm mt-3">
                     © 2026 GeoTaggingPhotos. All rights reserved.
                 </p>
@@ -355,7 +336,7 @@
             if (finderMap) {
                 if (finderMarker) finderMap.removeLayer(finderMarker);
                 const blueIcon = L.icon({
-                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                    iconUrl: '/map-icon.svg',
                     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                     iconSize: [25, 41],
                     iconAnchor: [12, 41],

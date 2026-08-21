@@ -1,14 +1,1 @@
-{
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    { "source": "/how-to-add-gps-coordinates-to-photos", "destination": "/blog/how-to-add-gps-coordinates-to-photos", "permanent": true },
-    { "source": "/how-to-add-location-to-a-photo", "destination": "/blog/how-to-add-location-to-a-photo", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/blog/how-to-add-gps-coordinates-to-photos", "destination": "/blog/how-to-add-gps-coordinates-to-photos.html" },
-    { "source": "/blog/how-to-add-location-to-a-photo", "destination": "/blog/how-to-add-location-to-a-photo.html" },
-    { "source": "/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata", "destination": "/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata.html" }
-  ]
-}
-
+{"cleanUrls":true,"trailingSlash":false,"redirects":[{"source":"/how-to-add-gps-coordinates-to-photos","destination":"/blog/how-to-add-gps-coordinates-to-photos","permanent":true},{"source":"/how-to-add-location-to-a-photo","destination":"/blog/how-to-add-location-to-a-photo","permanent":true},{"source":"/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata","destination":"/blog/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata","permanent":true}],"rewrites":[{"source":"/blog/how-to-add-gps-coordinates-to-photos","destination":"/blog/how-to-add-gps-coordinates-to-photos.html"},{"source":"/blog/how-to-add-location-to-a-photo","destination":"/blog/how-to-add-location-to-a-photo.html"},{"source":"/blog/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata","destination":"/blog/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata.html"},{"source":"/blog/how-to-check-if-a-photo-has-gps-coordinates","destination":"/blog/how-to-check-if-a-photo-has-gps-coordinates.html"}]}

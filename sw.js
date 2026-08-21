@@ -83,9 +83,8 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Bypass analytics, ads, and clarity tracking
-    if (url.hostname.includes('clarity.ms') ||
-        url.hostname.includes('google-analytics.com') ||
+    // Bypass known analytics and advertising requests
+    if (url.hostname.includes('google-analytics.com') ||
         url.hostname.includes('googlesyndication.com') ||
         url.hostname.includes('doubleclick.net')) {
         return;

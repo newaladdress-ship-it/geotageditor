@@ -11,13 +11,6 @@
 <link rel="apple-touch-icon" href="/geotaggingphotos.png" />
 <meta name="google-site-verification" content="N64YrbFPSdHsGD-4WXS1l56mGfE0Kp2fCjPvzKa6KL4" />
 <meta name="msvalidate.01" content="207473D434A6B2FA4E2217EFA3CB53DB" />
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xz3xb85z1e");
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -37,7 +30,7 @@
       "name": "Are my photos uploaded to remote servers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. GeoTaggingPhotos prioritizes your privacy and security. Image processing and EXIF metadata editing are performed directly in your browser whenever possible."
+        "text": "Selected image processing is designed to happen in your browser rather than on a photo-processing backend. Map tiles and place lookups are separate network features when requested."
       }
     },
     {
@@ -45,7 +38,7 @@
       "name": "What image formats are supported?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Our tools support JPG, JPEG, PNG, WebP, TIFF, and HEIC formats."
+        "text": "Common JPG, JPEG, PNG, and WebP files are supported in the browser; exact decoding and metadata behavior can vary by format and browser, and converted output may be JPEG."
       }
     },
     {
@@ -54,6 +47,22 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Photo geotagging embeds GPS metadata (latitude, longitude, altitude) directly into your image file EXIF headers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I check if a photo has GPS coordinates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open the EXIF Viewer and select the original image. Review the latitude, longitude, altitude, and location fields. The GPS-check guide explains what a missing result means."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I find where a photo was taken?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Image Location Finder when the photo contains EXIF GPS coordinates. It can display the coordinate on a map; it cannot recover a location from a file with no embedded GPS data."
       }
     }
   ]
@@ -93,7 +102,7 @@
             </summary>
             <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
                 <p>
-                    No. GeoTaggingPhotos prioritizes your privacy and security. Image processing and EXIF metadata editing are performed directly in your browser whenever possible, which means your original photos and location data remain under your control.
+                    Selected image processing is designed to happen in your browser rather than on a photo-processing backend. Map tiles and place lookups are separate network features when requested, so the privacy policy distinguishes file processing from map requests.
                 </p>
                 <p>
                     You can add, edit, replace, and inspect GPS coordinates without permanently storing your files on external servers.
@@ -111,16 +120,16 @@
                 <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
             </summary>
             <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50">
-                <p>Our tools support a wide range of popular image formats, including:</p>
+                <p>                    Common browser-readable formats include:</p>
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
                     <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">JPG</span>
                     <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">JPEG</span>
                     <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">PNG</span>
                     <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">WebP</span>
-                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">TIFF</span>
-                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">HEIC</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">TIFF*</span>
+                    <span class="px-3 py-1.5 bg-surface rounded-lg border border-outline-variant/30 text-xs font-mono font-bold text-primary text-center">HEIC*</span>
                 </div>
-                <p class="pt-2 text-sm">These formats can be used for photo geotagging, EXIF metadata viewing, GPS coordinate editing, and location discovery.</p>
+                <p class="pt-2 text-sm">                    *Support and metadata behavior can vary by browser and file encoding. Verify the downloaded copy when the exact format matters.</p>
             </div>
         </details>
 
@@ -261,6 +270,24 @@
             </div>
         </details>
 
+        <!-- Q16 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all" open>
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary shrink-0">search</span><span>How can I check if a photo has GPS coordinates?</span></div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50"><p>Open the <a href="/exif-viewer" class="text-secondary font-semibold hover:underline">EXIF Viewer</a> and select the original image. Review the latitude, longitude, altitude, and location fields. For a step-by-step explanation, read <a href="/blog/how-to-check-if-a-photo-has-gps-coordinates" class="text-secondary font-semibold hover:underline">How to check if a photo has GPS coordinates</a>.</p></div>
+        </details>
+
+        <!-- Q17 -->
+        <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
+            <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
+                <div class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary shrink-0">map</span><span>How can I find where a photo was taken?</span></div>
+                <span class="material-symbols-outlined transition-transform duration-300 group-open:rotate-180 text-on-surface-variant">expand_more</span>
+            </summary>
+            <div class="p-6 text-on-surface-variant leading-relaxed text-base space-y-3 bg-surface/50"><p>Use the <a href="/image-location-finder" class="text-secondary font-semibold hover:underline">Image Location Finder</a> when the photo contains EXIF GPS coordinates. It can map embedded coordinates, but it cannot recover a location from a file with no GPS metadata.</p></div>
+        </details>
+
         <!-- Q10 -->
         <details class="glass-panel rounded-2xl border border-outline-variant/30 overflow-hidden group transition-all">
             <summary class="flex items-center justify-between p-6 cursor-pointer font-bold text-primary text-lg group-open:border-b group-open:border-outline-variant/20">
@@ -360,7 +387,7 @@
             </summary>
             <div class="p-6 text-on-surface-variant leading-relaxed text-base bg-surface/50">
                 <p>
-                    If you have questions, feedback, or technical issues, visit our <a href="/contact-us" class="text-secondary font-semibold hover:underline">Contact page</a> and send us a message. Our team typically responds within 24 hours.
+                    If you have questions, feedback, or technical issues, visit our <a href="/contact-us" class="text-secondary font-semibold hover:underline">Contact page</a>. The static site opens a prefilled email message; response time may vary.
                 </p>
             </div>
         </details>
@@ -389,22 +416,8 @@
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">
                     Professional metadata management tools for modern workflows.
                 </p>
-<div class="space-y-1.5 text-xs text-on-surface-variant opacity-90 font-body-md mt-1">
-    <p class="flex items-start gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary mt-0.5">location_on</span>
-        <span>1600 Amphitheatre Pkwy, Mountain View, CA 94043</span>
-    </p>
-    <p class="flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm shrink-0 text-secondary">call</span>
-        <a href="tel:6502530000" class="hover:text-primary transition-colors">(650) 253-0000</a>
-    </p>
-</div>
-<div class="mt-2 flex flex-wrap items-center gap-3">
-    <a href="https://tooldirs.com" target="_blank" rel="noopener noreferrer"><img src="https://tooldirs.com/badge/badge_light.svg" alt="Featured on ToolDirs" width="200" height="54" /></a>
-    <a href="https://www.justsimple.tools" target="_blank" rel="noopener noreferrer"><img src="https://www.justsimple.tools/badge.svg" width="150" alt="Listed on JustSimple Tools" /></a>
-    <a href="https://noonlaunch.com/product/geotaggingphotos" target="_blank" rel="dofollow"><img src="https://noonlaunch.com/badges/geotaggingphotos.svg" alt="Featured on Noonlaunch" width="220" height="60" /></a>
-    <a href="https://tools.launchllama.co?utm_source=badge&utm_medium=referral" target="_blank" rel="noopener noreferrer"><img src="https://tools.launchllama.co/featured-badge-white.png?v=2" alt="As seen on Launch Llama Newsletter" width="200" height="50" /></a>
-</div>
+
+<p class="text-xs text-on-surface-variant mt-2">Independent browser tools for photo GPS and metadata workflows.</p>
 <p class="font-body-md text-body-md text-on-surface-variant text-sm mt-3">
                     © 2026 GeoTaggingPhotos. All rights reserved.
                 </p>
