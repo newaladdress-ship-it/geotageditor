@@ -19,7 +19,14 @@ The site's core subject areas are photo geotagging, GPS coordinates in photos, l
 * [About GeoTaggingPhotos.com](https://www.geotaggingphotos.com/about/): Information about the platform and its purpose.
 * [FAQ & Help](https://www.geotaggingphotos.com/faq/): Answers to common questions about photo geotagging, GPS metadata, EXIF information, supported workflows, and using the site's tools.
 * [Contact](https://www.geotaggingphotos.com/contact/): Contact information and support options.
-* [Blog](https://www.geotaggingphotos.com/blog/): Educational and informational content related to photo geotagging, GPS coordinates, EXIF metadata, image location, and related photography workflows.
+* [Blog & Knowledge Hub](https://www.geotaggingphotos.com/blog/): Educational and informational content related to photo geotagging, GPS coordinates, EXIF metadata, image location, and related photography workflows.
+  * [5 Ways to Geotag Photos Online](https://www.geotaggingphotos.com/blog/how-to-add-location-to-a-photo): Complete pillar tutorial on adding coordinates, live geolocation, EXIF replacement, and batch geotagging.
+  * [How to Add GPS Coordinates to Photos](https://www.geotaggingphotos.com/blog/how-to-add-gps-coordinates-to-photos): Step-by-step guide to embedding latitude and longitude coordinates.
+  * [Add GPS Without Losing EXIF](https://www.geotaggingphotos.com/blog/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata): Guide to preserving camera metadata (ISO, Shutter, Aperture) and image quality.
+  * [Check If a Photo Has GPS Coordinates](https://www.geotaggingphotos.com/blog/how-to-check-if-a-photo-has-gps-coordinates): Guide to reading EXIF GPS headers and mapping existing photo locations.
+  * [Geotag Photos on iPhone & Android](https://www.geotaggingphotos.com/blog/how-to-geotag-photos-on-iphone-and-android): Mobile guide for iOS Camera, Apple Photos, Android permissions, Google Photos, and browser tools.
+  * [Photo Geotagging for Local SEO & Google Maps](https://www.geotaggingphotos.com/blog/photo-geotagging-for-local-seo-and-google-maps): Strategic guide for Google Business Profiles, local search signals, and real estate marketing.
+  * [How to Bulk Geotag Photos Online](https://www.geotaggingphotos.com/blog/how-to-bulk-geotag-photos-online): Guide to batch processing up to 500 images simultaneously with instant ZIP export.
 
 ## Photo Geotagging
 
