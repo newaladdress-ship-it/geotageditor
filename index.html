@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Geotag Photos Online — Add GPS Location to Photos Free | GeoTaggingPhotos.com</title>
-<meta content="Easily add, edit, or replace GPS coordinates in your photos online for free. Geotag pictures, use live current location, or batch process images in seconds with 100% browser privacy." name="description">
+<title>Geotag Photos Online — Free Photo GPS & EXIF Editor</title>
+<meta content="Geotag photos online for free. Add, edit, or remove GPS coordinates and EXIF metadata directly in your browser without uploading image files to a server." name="description">
 <link rel="canonical" href="https://www.geotaggingphotos.com/" />
 <link rel="icon" type="image/png" href="/geotaggingphotos.png" />
 <link rel="shortcut icon" type="image/png" href="/geotaggingphotos.png" />
@@ -15,32 +15,121 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="GeoTaggingPhotos.com" />
-<meta property="og:title" content="Geotag Photos Online — Add GPS Location to Photos Free | GeoTaggingPhotos.com" />
-<meta property="og:description" content="Easily add, edit, or replace GPS coordinates in your photos online for free. Geotag pictures, use live current location, or batch process images in seconds." />
+<meta property="og:title" content="Geotag Photos Online — Free Photo GPS & EXIF Editor" />
+<meta property="og:description" content="Geotag photos online for free. Add, edit, or remove GPS coordinates and EXIF metadata directly in your browser without uploading image files to a server." />
 <meta property="og:url" content="https://www.geotaggingphotos.com/" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Geotag Photos Online — Add GPS Location to Photos Free" />
-<meta name="twitter:description" content="Easily add, edit, or replace GPS coordinates in your photos online for free." />
+<meta name="twitter:title" content="Geotag Photos Online — Free Photo GPS & EXIF Editor" />
+<meta name="twitter:description" content="Geotag photos online for free. Add, edit, or remove GPS coordinates and EXIF metadata directly in your browser without uploading image files to a server." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
+      "@type": "WebSite",
+      "@id": "https://www.geotaggingphotos.com/#website",
+      "url": "https://www.geotaggingphotos.com/",
       "name": "GeoTaggingPhotos",
+      "description": "Free privacy-first client-side photo geotagging and EXIF GPS metadata editor.",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.geotaggingphotos.com/#webapp",
+      "url": "https://www.geotaggingphotos.com/",
+      "name": "GeoTaggingPhotos — Online Photo Geotagger",
       "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Web",
+      "operatingSystem": "All modern browsers (Chrome, Safari, Firefox, Edge)",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "description": "Add, edit, or remove GPS location metadata from your photos online for free."
+      "description": "Geotag photos online for free. Add, edit, or remove GPS coordinates and EXIF metadata directly in your browser without uploading files to a server.",
+      "browserRequirements": "Requires JavaScript. Supports HTML5 Canvas and Geolocation API.",
+      "featureList": [
+        "Add GPS coordinates to photos",
+        "Bulk geotag multiple photos",
+        "Inspect EXIF metadata and camera settings",
+        "Browser-based 100% private client-side processing",
+        "Automatic device GPS location detection",
+        "Preserve original EXIF metadata structure"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.geotaggingphotos.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is photo geotagging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Photo geotagging is the process of embedding geographic metadata—specifically GPS latitude, longitude, and altitude coordinates—into the EXIF header of a digital image file so mapping software, photo galleries, and search engines know where the photograph was taken."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I add GPS coordinates to photos online for free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Upload your photos to GeoTaggingPhotos.com, enter the desired latitude and longitude coordinates (or click 'Use Current Location' to auto-detect device GPS), click 'Add Coordinates to Photo', and download your updated geotagged images instantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I geotag multiple photos at the same time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can upload up to 20 photos simultaneously on the homepage or batch-process hundreds of images on our Bulk Geotagging tool, applying uniform GPS coordinates and downloading the entire batch as a single ZIP archive."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my uploaded photos sent to a remote server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. GeoTaggingPhotos.com executes all EXIF parsing, coordinate injection, and image rendering 100% locally inside your web browser using client-side JavaScript. Your photos never leave your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What image formats are supported for geotagging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The platform supports JPG, JPEG, PNG, WebP, TIFF, and HEIC image formats with direct EXIF metadata injection and preservation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I remove or replace existing GPS location data from an image?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. When you upload an image that already contains GPS coordinates, the editor detects the existing location and allows you to overwrite it with new coordinates or strip the GPS tags completely."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.geotaggingphotos.com/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.geotaggingphotos.com/"
+        }
+      ]
     }
-    </script>
+  ]
+}
+</script>
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#2563EB" />
 </head>
@@ -49,7 +138,7 @@
 <main class="flex-grow pt-24 pb-16">
 <!-- Hero Section -->
 <section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-16 mt-4 text-center animate-fade-in-up">
-<h1 class="font-display text-display text-primary mb-4 leading-tight">Geotag Photos Online — Add GPS Location to Your Photos</h1>
+<h1 class="font-display text-display text-primary mb-4 leading-tight">Geotag Photos Online — Add GPS Coordinates &amp; Location to Photos</h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-6 max-w-3xl mx-auto">
     Upload one or multiple photos, add, edit, or replace GPS coordinates, and instantly update latitude and longitude data directly in your browser. Use your current location, view existing EXIF metadata, and apply the same coordinates to multiple images at once. Download a single photo or export bulk edits as a ZIP file in seconds.
 </p>
@@ -781,7 +870,69 @@
 </div>
 </div>
 </section>
-<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-24" aria-labelledby="related-photo-tools"><div class="rounded-2xl border border-outline-variant/30 bg-surface p-8 md:p-10"><span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Choose a workflow</span><h2 id="related-photo-tools" class="font-headline-lg text-headline-lg text-primary mb-4">Use the right photo GPS tool for the job</h2><p class="text-on-surface-variant max-w-3xl mb-7">Add a location to an existing photo, process a batch, check hidden EXIF GPS data, or see where a photo was taken. Each tool runs in your browser and links to the next step.</p><div class="grid grid-cols-1 md:grid-cols-3 gap-4"><a href="/add-geotag" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-colors"><h3 class="font-bold text-primary mb-1">Add or replace GPS</h3><p class="text-sm text-on-surface-variant">Set coordinates and optional metadata.</p></a><a href="/bulk-geotagging" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-colors"><h3 class="font-bold text-primary mb-1">Geotag multiple photos</h3><p class="text-sm text-on-surface-variant">Apply a coordinate preset and download a ZIP.</p></a><a href="/exif-viewer" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-colors"><h3 class="font-bold text-primary mb-1">Check EXIF GPS</h3><p class="text-sm text-on-surface-variant">Inspect whether a photo has location data.</p></a></div></div></section>
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-24" aria-labelledby="related-photo-tools">
+<div class="rounded-2xl border border-outline-variant/30 bg-surface p-8 md:p-10">
+<span class="inline-block text-xs font-bold uppercase tracking-wider text-secondary mb-3">Workflows &amp; Tutorials</span>
+<h2 id="related-photo-tools" class="font-headline-lg text-headline-lg text-primary mb-4">Explore Specialized Photo GPS Tools &amp; Step-by-Step Guides</h2>
+<p class="text-on-surface-variant max-w-3xl mb-7">Choose the right tool or tutorial for your image metadata workflow. Every tool operates 100% inside your browser with complete privacy and zero photo uploads.</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<a href="/add-geotag" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-all bg-surface-container-lowest hover:shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-base">add_location_alt</span>
+</div>
+<h3 class="font-bold text-primary mb-1">Add Geotag</h3>
+<p class="text-xs text-on-surface-variant">Inject latitude, longitude &amp; altitude coordinates into photos.</p>
+</a>
+
+<a href="/bulk-geotagging" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-all bg-surface-container-lowest hover:shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-base">collections</span>
+</div>
+<h3 class="font-bold text-primary mb-1">Bulk Geotagger</h3>
+<p class="text-xs text-on-surface-variant">Batch tag hundreds of images and download as a ZIP archive.</p>
+</a>
+
+<a href="/exif-viewer" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-all bg-surface-container-lowest hover:shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-base">info</span>
+</div>
+<h3 class="font-bold text-primary mb-1">EXIF GPS Viewer</h3>
+<p class="text-xs text-on-surface-variant">Inspect embedded GPS coordinates, camera model, and lens data.</p>
+</a>
+
+<a href="/image-location-finder" class="rounded-xl border border-outline-variant/30 p-5 hover:border-secondary transition-all bg-surface-container-lowest hover:shadow-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-base">travel_explore</span>
+</div>
+<h3 class="font-bold text-primary mb-1">Location Finder</h3>
+<p class="text-xs text-on-surface-variant">View photo capture locations on interactive satellite maps.</p>
+</a>
+</div>
+
+<div class="pt-6 border-t border-outline-variant/30">
+<h4 class="font-bold text-primary text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">menu_book</span>
+Helpful Geotagging &amp; EXIF Tutorials:
+</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+<a href="/blog/how-to-add-gps-coordinates-to-photos" class="flex items-center gap-2 p-3 rounded-lg bg-surface hover:bg-secondary/5 border border-outline-variant/20 text-primary font-medium transition-colors">
+<span class="material-symbols-outlined text-secondary text-sm">arrow_forward</span>
+<span>How to Add GPS Coordinates to Photos</span>
+</a>
+<a href="/blog/how-to-add-gps-coordinates-to-photos-without-losing-exif-metadata" class="flex items-center gap-2 p-3 rounded-lg bg-surface hover:bg-secondary/5 border border-outline-variant/20 text-primary font-medium transition-colors">
+<span class="material-symbols-outlined text-secondary text-sm">arrow_forward</span>
+<span>Add GPS Without Losing EXIF Metadata</span>
+</a>
+<a href="/blog/how-to-check-if-a-photo-has-gps-coordinates" class="flex items-center gap-2 p-3 rounded-lg bg-surface hover:bg-secondary/5 border border-outline-variant/20 text-primary font-medium transition-colors">
+<span class="material-symbols-outlined text-secondary text-sm">arrow_forward</span>
+<span>How to Check If a Photo Has GPS Data</span>
+</a>
+</div>
+</div>
+
+</div>
+</section>
 </main>
 <div id="footer-placeholder">
 <footer class="bg-surface-container-lowest border-t border-outline-variant/30 w-full py-12 px-margin-mobile md:px-margin-desktop mt-auto">

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Bulk Geotagging Tool | GeoTaggingPhotos.com</title>
-<meta content="Batch process hundreds of photos simultaneously to inject or edit GPS location metadata." name="description"/>
+<title>Bulk Geotagging Tool — Batch Geotag Multiple Photos Free</title>
+<meta content="Bulk geotag multiple photos online for free. Batch inject GPS coordinates, latitude, longitude, and EXIF metadata into hundreds of images with ZIP download." name="description"/>
 <link rel="canonical" href="https://www.geotaggingphotos.com/bulk-geotagging"/>
 <link rel="icon" type="image/png" href="/geotaggingphotos.png" />
 <link rel="shortcut icon" type="image/png" href="/geotaggingphotos.png" />
@@ -15,12 +15,12 @@
 <meta property="og:locale" content="en_US" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="GeoTaggingPhotos.com" />
-<meta property="og:title" content="Bulk Photo Geotagging Tool | GeoTaggingPhotos" />
-<meta property="og:description" content="Batch process hundreds of photos simultaneously to inject or edit GPS location metadata." />
+<meta property="og:title" content="Bulk Geotagging Tool — Batch Geotag Multiple Photos Free" />
+<meta property="og:description" content="Bulk geotag multiple photos online for free. Batch inject GPS coordinates, latitude, longitude, and EXIF metadata into hundreds of images with ZIP download." />
 <meta property="og:url" content="https://www.geotaggingphotos.com/bulk-geotagging" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Bulk Photo Geotagging Tool | GeoTaggingPhotos" />
-<meta name="twitter:description" content="Batch process hundreds of photos simultaneously to inject or edit GPS location metadata." />
+<meta name="twitter:title" content="Bulk Geotagging Tool — Batch Geotag Multiple Photos Free" />
+<meta name="twitter:description" content="Bulk geotag multiple photos online for free. Batch inject GPS coordinates, latitude, longitude, and EXIF metadata into hundreds of images with ZIP download." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -42,11 +42,98 @@
             box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
             transform: scale(1.02);
         }
-    </style>
+</style>
 <script src="/components.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="/geotag-exif.js"></script>
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#2563EB" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Bulk Photo Geotagging Tool","url":"https://www.geotaggingphotos.com/bulk-geotagging","applicationCategory":"MultimediaApplication","operatingSystem":"Web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Apply GPS coordinates and selected metadata to multiple photos locally, then download a ZIP archive."}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://www.geotaggingphotos.com/bulk-geotagging#webapp",
+      "url": "https://www.geotaggingphotos.com/bulk-geotagging",
+      "name": "Bulk Photo Geotagging Tool",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All modern browsers (Chrome, Safari, Firefox, Edge)",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Bulk geotag multiple photos online for free. Batch inject GPS coordinates, latitude, longitude, and EXIF metadata into hundreds of images with instant ZIP archive export.",
+      "browserRequirements": "Requires JavaScript. Supports HTML5 Canvas, JSZip, and Geolocation API.",
+      "featureList": [
+        "Batch geotag up to 500 photos simultaneously",
+        "Global GPS coordinate preset application",
+        "Automatic device location detection",
+        "One-click packaged ZIP archive download",
+        "100% client-side browser processing without server uploads"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.geotaggingphotos.com/bulk-geotagging#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.geotaggingphotos.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Bulk Geotagging",
+          "item": "https://www.geotaggingphotos.com/bulk-geotagging"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.geotaggingphotos.com/bulk-geotagging#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many photos can I geotag in a single bulk batch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can upload and batch-process up to 500 photos simultaneously per session directly in your browser without file size paywalls."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I download the batch of geotagged images?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Once you enter your coordinate preset and click 'Process & Download ZIP', all updated images are automatically compiled into a single organized ZIP archive and downloaded to your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are my batch photo uploads sent to a cloud server?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. All batch file reading, canvas rendering, EXIF GPS injection, and ZIP packaging occur 100% locally inside your web browser. No image files are transmitted to external servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What image formats are supported for bulk geotagging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The bulk geotagger supports JPG, JPEG, PNG, WebP, and TIFF image formats, applying consistent GPS coordinates and optional metadata across all files."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <script src="/pwa.js" defer></script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-16">
@@ -54,9 +141,13 @@
 
 <!-- Main Content -->
 <main class="flex-grow pt-8 pb-12 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full">
-<header class="mb-8">
-<h1 class="font-headline-lg text-headline-lg mb-2 text-primary">Bulk Geotagging Tool</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Upload hundreds of photos, apply coordinates globally, and download a ready-to-use ZIP file.</p>
+<header class="mb-8 text-center max-w-3xl mx-auto">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 border border-secondary/20 rounded-full mb-3">
+    <span class="material-symbols-outlined text-sm">collections</span>
+    High-Throughput Batch Processing
+</span>
+<h1 class="font-headline-lg text-3xl md:text-4xl font-bold mb-3 text-primary">Bulk Photo Geotagging Tool</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Upload up to 500 photos at once, apply uniform GPS coordinates globally, and download your entire collection as an organized ZIP archive.</p>
 </header>
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
 <div class="lg:col-span-8 flex flex-col gap-gutter">
@@ -132,7 +223,7 @@
 <!-- Privacy Badge -->
 <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 text-xs font-medium">
     <span class="material-symbols-outlined text-sm">lock</span>
-    <span>🔒 Processed entirely in your browser. Your photos never leave your device.</span>
+    <span>🔒 Processed directly in your browser without uploading image files to a server.</span>
 </div>
 
 <button type="button" onclick="processBulkGeotagging()" class="w-full gradient-btn text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 shadow-md">
@@ -199,32 +290,32 @@
 
     <!-- Comprehensive SEO Content Section (500+ Words) -->
     <article class="mt-16 border-t border-outline-variant/30 pt-16 space-y-16">
-        <!-- Section 1: Guide -->
+        <!-- Section 1: Step-by-Step Guide -->
         <div class="space-y-6">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 border border-secondary/20 rounded-full">
                 <span class="material-symbols-outlined text-sm">auto_awesome</span>
-                Batch Workflow Efficiency
+                Step-by-Step Batch Guide
             </span>
-            <h2 class="font-display text-2xl md:text-3xl font-bold text-primary">Streamline Large Image Collections with Bulk Geotagging</h2>
+            <h2 class="font-display text-2xl md:text-3xl font-bold text-primary">How to Geotag Multiple Photos in Bulk Online</h2>
             <p class="text-on-surface-variant text-base leading-relaxed">
-                Managing metadata for large photo libraries can be a daunting, repetitive task when editing files individually. GeoTaggingPhotos provides a high-throughput <strong>Bulk Geotagging Tool</strong> designed to inject verified latitude, longitude, and altitude coordinates into hundreds of photos simultaneously—eliminating manual overhead and saving hours of editing time.
+                Manually injecting GPS coordinates into dozens of individual photos can take hours. Our browser-based <strong>Bulk Geotagging Tool</strong> lets you apply latitude, longitude, altitude, and custom EXIF metadata across hundreds of images simultaneously in three simple steps:
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold text-lg">1</div>
-                    <h3 class="font-bold text-primary text-base">Batch Upload</h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Select or drag up to 500 images at once into the queue. Supports high-resolution JPG, PNG, WebP, and TIFF file formats.</p>
+                    <h3 class="font-bold text-primary text-base">Batch Upload Photos</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Select or drag up to 500 images into the drop zone. Supports JPG, JPEG, PNG, WebP, and TIFF file formats up to 50MB each.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold text-lg">2</div>
                     <h3 class="font-bold text-primary text-base">Set Global Coordinates</h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Enter your desired latitude and longitude preset. The global coordinates are mapped automatically across every image in your batch queue.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Enter your target latitude and longitude values or click "Current Location". The coordinates are automatically applied across every queued file.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <div class="w-10 h-10 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center font-bold text-lg">3</div>
-                    <h3 class="font-bold text-primary text-base">One-Click ZIP Export</h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Click "Process &amp; Download ZIP". The browser creates a downloadable ZIP of processed copies. JPEG output is used when a source format needs conversion.</p>
+                    <h3 class="font-bold text-primary text-base">Export as ZIP Archive</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Click "Process &amp; Download ZIP". The tool embeds binary EXIF GPS data into every image and packages your files into a single ZIP download.</p>
                 </div>
             </div>
         </div>
@@ -233,46 +324,112 @@
         <div class="space-y-6">
             <h2 class="font-display text-2xl md:text-3xl font-bold text-primary">Who Needs Bulk Photo Geotagging?</h2>
             <p class="text-on-surface-variant text-base leading-relaxed">
-                High-volume metadata editing is essential across several fast-paced industries:
+                Batch metadata processing is a vital productivity multiplier across professional photography, drone surveying, and digital asset management:
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <h3 class="font-bold text-primary text-base flex items-center gap-2">
                         <span class="material-symbols-outlined text-secondary">real_estate_agent</span>
-                        Real Estate &amp; Commercial Photography
+                        Real Estate &amp; Commercial Galleries
                     </h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Geotag entire property galleries in one action. Ensure interior and exterior images carry consistent GPS tags required for portal syndication and MLS mapping.</p>
-                </div>
-                <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
-                    <h3 class="font-bold text-primary text-base flex items-center gap-2">
-                        <span class="material-symbols-outlined text-secondary">store</span>
-                        Multi-Location Local SEO Agencies
-                    </h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Quickly tag batch photos for franchise store locations, client job sites, and local business service areas to support regional asset organization.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Geotag entire residential or commercial property galleries in one action. Ensure interior, exterior, and floorplan photos carry unified GPS coordinates for MLS syndication and map search indexing.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <h3 class="font-bold text-primary text-base flex items-center gap-2">
                         <span class="material-symbols-outlined text-secondary">flight</span>
                         Drone Pilots &amp; UAV Survey Teams
                     </h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Assign spatial coordinates across aerial photo sets before importing into photogrammetry software like Pix4D, Agisoft Metashape, or QGIS.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Assign uniform geographic reference coordinates across aerial survey photo sets before importing into photogrammetry software like Pix4D, Agisoft Metashape, or QGIS.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
+                    <h3 class="font-bold text-primary text-base flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">store</span>
+                        Multi-Location Local SEO Agencies
+                    </h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Quickly tag batches of photos for corporate branches, franchise store locations, and client job sites to organize visual assets by city and region.</p>
                 </div>
                 <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
                     <h3 class="font-bold text-primary text-base flex items-center gap-2">
                         <span class="material-symbols-outlined text-secondary">construction</span>
                         Construction &amp; Engineering Audits
                     </h3>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">Maintain verifiable geo-stamped photo documentation for site progress reports, contractor verification, and environmental compliance audits.</p>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Maintain verifiable, location-stamped visual records for construction milestones, contractor safety compliance, and environmental field surveys.</p>
                 </div>
             </div>
         </div>
 
         <!-- Section 3: Privacy & Speed -->
         <div class="glass-panel p-8 rounded-3xl border border-outline-variant/30 text-center space-y-4">
-            <h2 class="font-display text-2xl font-bold text-primary">High-Speed Browser Processing</h2>
+            <h2 class="font-display text-2xl font-bold text-primary">Fast, Secure Browser-Side Processing</h2>
             <p class="text-on-surface-variant max-w-2xl mx-auto text-base leading-relaxed">
-                Our WebAssembly metadata engine processes your bulk uploads locally inside your browser. No files are stored on remote servers, providing total data privacy and zero upload bandwidth bottlenecking.
+                All batch image operations are executed directly inside your web browser. Your images are never transmitted to external cloud servers, ensuring full data privacy, zero upload delays, and no server bandwidth throttling.
             </p>
+        </div>
+
+        <!-- Section 4: Frequently Asked Questions (AEO Optimized) -->
+        <div class="space-y-6">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary bg-secondary/10 border border-secondary/20 rounded-full mb-2">
+                    <span class="material-symbols-outlined text-sm">help</span>
+                    FAQ
+                </span>
+                <h2 class="font-display text-2xl md:text-3xl font-bold text-primary">Frequently Asked Questions</h2>
+                <p class="text-on-surface-variant text-sm mt-1">Common questions about batch geotagging photos and managing large image collections.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
+                    <h3 class="font-bold text-primary text-base">How many photos can I geotag in a single bulk batch?</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">You can upload and batch-process up to 500 photos simultaneously per session directly in your browser without file size paywalls.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
+                    <h3 class="font-bold text-primary text-base">How do I download the batch of geotagged images?</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Once you enter your coordinate preset and click 'Process &amp; Download ZIP', all updated images are automatically compiled into a single organized ZIP archive and downloaded to your device.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
+                    <h3 class="font-bold text-primary text-base">Are my batch photo uploads sent to a cloud server?</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">No. All batch file reading, canvas rendering, EXIF GPS injection, and ZIP packaging occur 100% locally inside your web browser. No image files are transmitted to external servers.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border border-outline-variant/30 space-y-2">
+                    <h3 class="font-bold text-primary text-base">What image formats are supported for bulk geotagging?</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">The bulk geotagger supports JPG, JPEG, PNG, WebP, and TIFF image formats, applying consistent GPS coordinates and optional metadata across all files.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Cross-Linking & Next Steps -->
+        <div class="border-t border-outline-variant/30 pt-10">
+            <h2 class="font-display text-2xl font-bold text-primary mb-3">Explore Specialized Photo GPS Tools</h2>
+            <p class="text-on-surface-variant max-w-3xl mb-6">Need single-photo precision editing, camera EXIF analysis, or reverse photo map lookups? Check out our dedicated tools:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="/add-geotag" class="p-5 rounded-xl border border-outline-variant/30 bg-surface hover:border-secondary transition-all hover:shadow-sm">
+                    <div class="flex items-center gap-2 font-bold text-primary mb-1">
+                        <span class="material-symbols-outlined text-secondary text-lg">add_location_alt</span>
+                        <h4>Add Geotag to Single Photo</h4>
+                    </div>
+                    <p class="text-xs text-on-surface-variant">Inject GPS coordinates with interactive Leaflet map pin placement and custom EXIF tags.</p>
+                </a>
+
+                <a href="/exif-viewer" class="p-5 rounded-xl border border-outline-variant/30 bg-surface hover:border-secondary transition-all hover:shadow-sm">
+                    <div class="flex items-center gap-2 font-bold text-primary mb-1">
+                        <span class="material-symbols-outlined text-secondary text-lg">info</span>
+                        <h4>EXIF GPS Viewer</h4>
+                    </div>
+                    <p class="text-xs text-on-surface-variant">Inspect embedded camera model, shutter speed, ISO, timestamps, and GPS metadata.</p>
+                </a>
+
+                <a href="/image-location-finder" class="p-5 rounded-xl border border-outline-variant/30 bg-surface hover:border-secondary transition-all hover:shadow-sm">
+                    <div class="flex items-center gap-2 font-bold text-primary mb-1">
+                        <span class="material-symbols-outlined text-secondary text-lg">travel_explore</span>
+                        <h4>Photo Location Finder</h4>
+                    </div>
+                    <p class="text-xs text-on-surface-variant">Extract coordinates from existing photos and display the exact capture point on satellite maps.</p>
+                </a>
+            </div>
         </div>
     </article>
 </main>
